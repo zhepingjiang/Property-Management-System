@@ -19,3 +19,7 @@ spring:
   sql:
     init:
       mode: always
+
+pms:
+  jwt:
+    secret-key: gPHjUuCb0wjGAFBrq6UF/eo5+t2bhY3KwY0WxIY+7i8=
