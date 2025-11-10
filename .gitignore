@@ -1,0 +1,38 @@
+# ========================================
+# Root-level .gitignore
+# Applies to the entire project
+# ========================================
+
+# IDE and editor settings
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# System files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Build and temporary files that might appear at root
+node_modules/
+build/
+dist/
+out/
+target/
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Environment and configuration files
+.env
+.env.local
+.env.*.local
+docker-compose.override.yml
+
+# OS-specific metadata
+ehthumbs.db
+Icon?
+
