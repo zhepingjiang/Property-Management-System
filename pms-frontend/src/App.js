@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import LoginPage, {
+  ForgotPasswordModal,
+  CreateAccountModal,
+  UserProfile,
+} from "./components/LoginPage";
 
-function App() {
+const App = () => {
+  const [currentView, setCurrentView] = useState("login");
+  const [user, setUser] = useState(null);
+  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
+  const [isCreateAccountOpen, setIsCreateAccountOpen] = useState(false);
+
+  const handleLoginSuccess = (userData) => {
+    setUser(userData);
+    setCurrentView("profile");
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    setCurrentView("login");
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {currentView === "login" && (
+        <>
+          <LoginPage onLoginSuccess={handleLoginSuccess} />
+          <ForgotPasswordModal
+            isOpen={isForgotPasswordOpen}
+            onClose={() => setIsForgotPasswordOpen(false)}
+          />
+          <CreateAccountModal
+            isOpen={isCreateAccountOpen}
+            onClose={() => setIsCreateAccountOpen(false)}
+          />
+        </>
+      )}
+
+      {currentView === "profile" && user && (
+        <div>
+          <UserProfile user={user} />
+          <button onClick={handleLogout} className="logout-btn">
+            Logout
+          </button>
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default App;
