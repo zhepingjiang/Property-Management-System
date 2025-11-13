@@ -21,5 +21,7 @@ spring:
       mode: always
 
 pms:
+  gcs:
+    bucket: pms-zheping
   jwt:
     secret-key: gPHjUuCb0wjGAFBrq6UF/eo5+t2bhY3KwY0WxIY+7i8=

@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -60,15 +61,16 @@ public class AnnouncementEntity {
         if (this == o) return true;
         if (!(o instanceof AnnouncementEntity)) return false;
         AnnouncementEntity that = (AnnouncementEntity) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(title, that.title) &&
-                Objects.equals(content, that.content) &&
-                Objects.equals(createdBy, that.createdBy);
+        return Objects.equals(id, that.id)
+                && Objects.equals(title, that.title)
+                && Objects.equals(content, that.content)
+                && Objects.equals(createdBy, that.createdBy)
+                && Objects.equals(createdAt, that.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, content, createdBy);
+        return Objects.hash(id, title, content, createdBy, createdAt);
     }
 
     @Override
