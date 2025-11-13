@@ -1,38 +1,92 @@
+/* App.css */
 .App {
+  min-height: 100vh;
+  background: #f5f6fa;
+}
+
+.profile-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.navigation-buttons {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.2s ease;
+}
+
+.nav-btn:hover {
+  transform: translateY(-2px);
+}
+
+.faculty-placeholder {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+}
+
+.faculty-placeholder h1 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.faculty-placeholder p {
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+/* Enhanced Resident Dashboard Styles */
+.user-welcome {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e1e5e9;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.user-welcome h3 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.user-welcome p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.user-unit {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.25rem 0.5rem;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  margin: 0 0.5rem;
 }
 
-.App-link {
-  color: #61dafb;
+/* Card variations for stats */
+.balance-card {
+  border-left: 4px solid #28a745;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.events-card {
+  border-left: 4px solid #ffc107;
+}
+
+.survey-card {
+  border-left: 4px solid #17a2b8;
 }
