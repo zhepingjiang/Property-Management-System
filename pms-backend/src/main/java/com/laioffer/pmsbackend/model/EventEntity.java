@@ -21,7 +21,6 @@ public class EventEntity {
     @Column(length = 200, nullable = false)
     private String title;
 
-    @Lob
     @Column(columnDefinition = "text", nullable = false)
     private String content;
 
