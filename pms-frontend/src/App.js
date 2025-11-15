@@ -1,9 +1,15 @@
 import React, { useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
 import LoginPage, {
   ForgotPasswordModal,
   CreateAccountModal,
   UserProfile,
 } from "./components/LoginPage";
+
+import NewsletterDetailPage from "./components/newsletter/NewsletterDetailPage";
+import AmenityInfoPage from "./components/amenity/AmenityInfoPage";
+import AmenityReservationPage from "./components/amenity/AmenityReservationPage"; // <-- add this
 
 const App = () => {
   const [currentView, setCurrentView] = useState("login");
@@ -22,30 +28,58 @@ const App = () => {
   };
 
   return (
-    <div className="App">
-      {currentView === "login" && (
-        <>
-          <LoginPage onLoginSuccess={handleLoginSuccess} />
-          <ForgotPasswordModal
-            isOpen={isForgotPasswordOpen}
-            onClose={() => setIsForgotPasswordOpen(false)}
-          />
-          <CreateAccountModal
-            isOpen={isCreateAccountOpen}
-            onClose={() => setIsCreateAccountOpen(false)}
-          />
-        </>
-      )}
+    <BrowserRouter>
+      <Routes>
+        {/* Login Page */}
+        <Route
+          path="/login"
+          element={
+            <>
+              <LoginPage onLoginSuccess={handleLoginSuccess} />
 
-      {currentView === "profile" && user && (
-        <div>
-          <UserProfile user={user} />
-          <button onClick={handleLogout} className="logout-btn">
-            Logout
-          </button>
-        </div>
-      )}
-    </div>
+              <ForgotPasswordModal
+                isOpen={isForgotPasswordOpen}
+                onClose={() => setIsForgotPasswordOpen(false)}
+              />
+
+              <CreateAccountModal
+                isOpen={isCreateAccountOpen}
+                onClose={() => setIsCreateAccountOpen(false)}
+              />
+            </>
+          }
+        />
+
+        {/* User Profile */}
+        <Route
+          path="/profile"
+          element={
+            user ? (
+              <div>
+                <UserProfile user={user} />
+                <button onClick={handleLogout} className="logout-btn">
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+
+        {/* Newsletter detail page */}
+        <Route path="/newsletter/:id" element={<NewsletterDetailPage />} />
+
+        {/* Amenity info page */}
+        <Route path="/amenity/info" element={<AmenityInfoPage />} />
+
+        {/* Amenity reservation page */}
+        <Route path="/amenity/reserve" element={<AmenityReservationPage />} />
+
+        {/* Default redirect */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
