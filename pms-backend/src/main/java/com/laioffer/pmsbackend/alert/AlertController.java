@@ -1,8 +1,9 @@
-package com.laioffer.pmsbackend.alerts;
+package com.laioffer.pmsbackend.alert;
 
 import com.laioffer.pmsbackend.model.AlertDto;
 import com.laioffer.pmsbackend.model.AlertEntity;
 import com.laioffer.pmsbackend.security.annotations.TrusteeOnly;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +36,7 @@ public class AlertController {
 
     @TrusteeOnly
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     public AlertDto createAlert(
             @RequestParam("title") String title,
             @RequestParam("content") String content,
@@ -57,6 +59,7 @@ public class AlertController {
 
     @TrusteeOnly
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAlert(@PathVariable Long id) {
         alertService.deleteAlert(id);
     }

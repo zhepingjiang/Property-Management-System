@@ -1,4 +1,4 @@
-package com.laioffer.pmsbackend.alerts;
+package com.laioffer.pmsbackend.alert;
 
 import com.laioffer.pmsbackend.common.ResourceNotFoundException;
 import com.laioffer.pmsbackend.model.AlertEntity;
