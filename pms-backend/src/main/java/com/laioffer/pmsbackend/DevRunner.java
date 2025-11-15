@@ -1,15 +1,9 @@
 package com.laioffer.pmsbackend;
 
-import com.laioffer.pmsbackend.model.AlertEntity;
-import com.laioffer.pmsbackend.model.AnnouncementEntity;
-import com.laioffer.pmsbackend.model.PostEntity;
-import com.laioffer.pmsbackend.model.UserEntity;
+import com.laioffer.pmsbackend.model.*;
 import com.laioffer.pmsbackend.model.enums.PostStatus;
 import com.laioffer.pmsbackend.model.enums.UserRole;
-import com.laioffer.pmsbackend.repository.AlertRepository;
-import com.laioffer.pmsbackend.repository.AnnouncementRepository;
-import com.laioffer.pmsbackend.repository.PostRepository;
-import com.laioffer.pmsbackend.repository.UserRepository;
+import com.laioffer.pmsbackend.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -26,17 +20,26 @@ public class DevRunner implements ApplicationRunner {
     private final AlertRepository alertRepository;
     private final AnnouncementRepository announcementRepository;
     private final PostRepository postRepository;
+    private final NewsletterRepository newsletterRepository;
+    private final EventRepository eventRepository;
+    private final PolicyRepository policyRepository;
     private final UserRepository userRepository;
 
     public DevRunner(
             AlertRepository alertRepository,
             AnnouncementRepository announcementRepository,
             PostRepository postRepository,
+            NewsletterRepository newsletterRepository,
+            EventRepository eventRepository,
+            PolicyRepository policyRepository,
             UserRepository userRepository
     ) {
         this.alertRepository = alertRepository;
         this.announcementRepository = announcementRepository;
         this.postRepository = postRepository;
+        this.newsletterRepository = newsletterRepository;
+        this.eventRepository = eventRepository;
+        this.policyRepository = policyRepository;
         this.userRepository = userRepository;
     }
 
@@ -244,5 +247,105 @@ public class DevRunner implements ApplicationRunner {
                         null
                 )
         ));
+
+        newsletterRepository.saveAll(List.of(
+                new NewsletterEntity(
+                        null,
+                        "January Community Highlights",
+                        "Happy New Year! This month's newsletter covers renovation updates, "
+                                + "community event recaps, and upcoming maintenance schedules.",
+                        List.of("https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg"),
+                        10L,
+                        null
+                ),
+                new NewsletterEntity(
+                        null,
+                        "Spring Cleaning Tips for Condo Residents",
+                        "With warmer weather on the way, here are some simple spring-cleaning "
+                                + "ideas to keep your unit fresh and organized.",
+                        List.of("https://images.pexels.com/photos/3616764/pexels-photo-3616764.jpeg"),
+                        8L,
+                        null
+                ),
+                new NewsletterEntity(
+                        null,
+                        "Upcoming Summer Activities",
+                        "Our annual summer BBQ, rooftop social, and family pool events are "
+                                + "returning soon. Stay tuned for dates and sign-up information!",
+                        List.of("https://images.pexels.com/photos/2446393/pexels-photo-2446393.jpeg"),
+                        9L,
+                        null
+                )
+        ));
+
+        eventRepository.saveAll(List.of(
+                new EventEntity(
+                        null,
+                        "Community BBQ – July 14",
+                        "Join us for food, drinks, and music on the outdoor patio! "
+                                + "All residents are welcome.",
+                        List.of("https://images.pexels.com/photos/5638260/pexels-photo-5638260.jpeg"),
+                        8L,
+                        null
+                ),
+                new EventEntity(
+                        null,
+                        "Board Game Night – Friday 7 PM",
+                        "Bring your favorite board game or join one of our group tables. "
+                                + "Snacks will be provided!",
+                        List.of("https://images.pexels.com/photos/411207/pexels-photo-411207.jpeg"),
+                        8L,
+                        null
+                ),
+                new EventEntity(
+                        null,
+                        "Morning Yoga Session – Rooftop Deck",
+                        "A peaceful yoga class suitable for all skill levels. "
+                                + "Please bring your own mat.",
+                        List.of("https://images.pexels.com/photos/3823039/pexels-photo-3823039.jpeg"),
+                        9L,
+                        null
+                ),
+                new EventEntity(
+                        null,
+                        "Holiday Decoration Workshop",
+                        "Learn how to create beautiful holiday decorations using simple materials. "
+                                + "Great for families and kids!",
+                        List.of("https://images.pexels.com/photos/62687/pexels-photo-62687.jpeg"),
+                        9L,
+                        null
+                ),
+                new EventEntity(
+                        null,
+                        "Financial Literacy Seminar",
+                        "Join our guest speaker to learn budgeting strategies, credit basics, "
+                                + "and smart financial planning tips.",
+                        List.of("https://images.pexels.com/photos/3183165/pexels-photo-3183165.jpeg"),
+                        10L,
+                        null
+                )
+        ));
+
+        policyRepository.saveAll(List.of(
+                new PolicyEntity(
+                        null,
+                        "Noise Control Policy",
+                        "Quiet hours are enforced daily from 10:00 PM to 7:00 AM. "
+                                + "Residents are asked to keep music, appliances, and gatherings "
+                                + "at a reasonable volume to avoid disturbing neighbors.",
+                        9L,
+                        null
+                ),
+                new PolicyEntity(
+                        null,
+                        "Pet Ownership Guidelines",
+                        "All pets must be registered with the management office. "
+                                + "Leashes are required in common areas, and owners are responsible "
+                                + "for cleaning up after their pets.",
+                        8L,
+                        null
+                )
+        ));
+
     }
 }
