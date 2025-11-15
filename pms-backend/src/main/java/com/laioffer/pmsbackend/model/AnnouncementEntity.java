@@ -20,9 +20,11 @@ public class AnnouncementEntity {
     @Column(length = 200, nullable = false)
     private String title;
 
-    @Lob
     @Column(columnDefinition = "text", nullable = false)
     private String content;
+
+    @Column(name = "image_urls")
+    private List<String> imageUrls;
 
     @Column(name = "created_by", nullable = false)
     private Long createdBy;
@@ -41,10 +43,11 @@ public class AnnouncementEntity {
     public AnnouncementEntity() {
     }
 
-    public AnnouncementEntity(Long id, String title, String content, Long createdBy, Instant createdAt) {
+    public AnnouncementEntity(Long id, String title, String content, Long createdBy, List<String> imageUrls, Instant createdAt) {
         this.id = id;
         this.title = title;
         this.content = content;
+        this.imageUrls = imageUrls;
         this.createdBy = createdBy;
         this.createdAt = createdAt;
     }
@@ -52,6 +55,7 @@ public class AnnouncementEntity {
     public Long getId() { return id; }
     public String getTitle() { return title; }
     public String getContent() { return content; }
+    public List<String> getImageUrls() { return imageUrls; }
     public Long getCreatedBy() { return createdBy; }
     public Instant getCreatedAt() { return createdAt; }
     public UserEntity getCreator() { return creator; }

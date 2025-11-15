@@ -1,9 +1,14 @@
 package com.laioffer.pmsbackend;
 
 import com.laioffer.pmsbackend.model.AlertEntity;
+import com.laioffer.pmsbackend.model.AnnouncementEntity;
+import com.laioffer.pmsbackend.model.PostEntity;
 import com.laioffer.pmsbackend.model.UserEntity;
+import com.laioffer.pmsbackend.model.enums.PostStatus;
 import com.laioffer.pmsbackend.model.enums.UserRole;
 import com.laioffer.pmsbackend.repository.AlertRepository;
+import com.laioffer.pmsbackend.repository.AnnouncementRepository;
+import com.laioffer.pmsbackend.repository.PostRepository;
 import com.laioffer.pmsbackend.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +24,19 @@ public class DevRunner implements ApplicationRunner {
     static private final Logger logger = LoggerFactory.getLogger(DevRunner.class);
 
     private final AlertRepository alertRepository;
+    private final AnnouncementRepository announcementRepository;
+    private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    public DevRunner(AlertRepository alertRepository, UserRepository userRepository) {
+    public DevRunner(
+            AlertRepository alertRepository,
+            AnnouncementRepository announcementRepository,
+            PostRepository postRepository,
+            UserRepository userRepository
+    ) {
         this.alertRepository = alertRepository;
+        this.announcementRepository = announcementRepository;
+        this.postRepository = postRepository;
         this.userRepository = userRepository;
     }
 
@@ -63,7 +77,7 @@ public class DevRunner implements ApplicationRunner {
                         List.of(
                                 "https://images.pexels.com/photos/12997193/pexels-photo-12997193.jpeg"
                         ),
-                        7L,   // createdBy: trustee user id
+                        8L,
                         null  // createdAt handled by @CreationTimestamp
                 ),
                 new AlertEntity(
@@ -113,7 +127,120 @@ public class DevRunner implements ApplicationRunner {
                                 + "Repeated violations may result in fines in accordance with the community "
                                 + "bylaws. Thank you for helping us maintain a healthy environment for all residents.",
                         null,   // this one intentionally has no image
+                        8L,
+                        null
+                )
+        ));
+
+        announcementRepository.saveAll(List.of(
+                new AnnouncementEntity(
+                        null,
+                        "Monthly Community Meeting – March 28",
+                        "Our next community meeting will take place on Friday, March 28 at 6:00 PM in the lobby lounge. "
+                                + "Topics include spring maintenance updates and upcoming amenity improvements.",
+                        8L,
+                        List.of("https://images.pexels.com/photos/3184306/pexels-photo-3184306.jpeg"),
+                        null
+                ),
+                new AnnouncementEntity(
+                        null,
+                        "Package Room Upgrade Completed",
+                        "The package room renovation is officially finished! Residents may now pick up parcels using "
+                                + "the updated digital locker system. Instructions will be emailed tomorrow.",
+                        8L,
+                        List.of("https://images.pexels.com/photos/4483610/pexels-photo-4483610.jpeg"),
+                        null
+                ),
+                new AnnouncementEntity(
+                        null,
+                        "Spring Cleaning Week Starts Monday",
+                        "Building staff will conduct annual spring cleaning next week. Please keep hallways clear "
+                                + "and avoid leaving items outside your unit.",
+                        9L,
+                        null,   // this announcement has no image
+                        null
+                )
+        ));
+
+        postRepository.saveAll(List.of(
+                new PostEntity(
+                        null,
+                        1L,
+                        "Does anyone know when the gym will reopen?",
+                        PostStatus.ACTIVE,
+                        List.of("https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg"),
+                        null
+                ),
+                new PostEntity(
+                        null,
+                        2L,
+                        "Looking to rent a parking spot for April.",
+                        PostStatus.ACTIVE,
+                        null,
+                        null
+                ),
+                new PostEntity(
+                        null,
+                        3L,
+                        "Selling a lightly used dining table, DM for pics.",
+                        PostStatus.ACTIVE,
+                        List.of("https://images.pexels.com/photos/1866149/pexels-photo-1866149.jpeg"),
+                        null
+                ),
+                new PostEntity(
+                        null,
+                        4L,
+                        "Found a key near elevator B. Message me if it’s yours.",
+                        PostStatus.ACTIVE,
+                        null,
+                        null
+                ),
+                new PostEntity(
+                        null,
+                        5L,
+                        "Anyone interested in forming a morning running group?",
+                        PostStatus.ACTIVE,
+                        null,
+                        null
+                ),
+                new PostEntity(
+                        null,
+                        6L,
+                        "Leasing out my parking spot for 2 months. PM if interested.",
+                        PostStatus.ACTIVE,
+                        null,
+                        null
+                ),
+                new PostEntity(
+                        null,
                         7L,
+                        "Noise coming from 10th floor last night—anyone else hear it?",
+                        PostStatus.ACTIVE,
+                        null,
+                        null
+                ),
+                new PostEntity(
+                        null,
+                        8L,
+                        "Organizing a board game night this Saturday. All welcome!",
+                        PostStatus.ACTIVE,
+                        List.of("https://images.pexels.com/photos/411207/pexels-photo-411207.jpeg"),
+                        null
+                ),
+                new PostEntity(
+                        null,
+                        9L,
+                        "Looking for recommendations for a cleaning service.",
+                        PostStatus.ACTIVE,
+                        null,
+                        null
+                ),
+                new PostEntity(
+                        null,
+                        10L,
+                        "Lost a small black umbrella in the lobby. Please let me know if found.",
+                        PostStatus.ACTIVE,
+                        null,
                         null
                 )
         ));
