@@ -8,6 +8,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,13 +21,15 @@ public class PostEntity {
     @Column(name = "author_id", nullable = false)
     private Long authorId;
 
-    @Lob
     @Column(columnDefinition = "text", nullable = false)
     private String content;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 50, nullable = false)
     private PostStatus status;
+
+    @Column(name = "image_urls")
+    private List<String> imageUrls;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -42,11 +45,12 @@ public class PostEntity {
     public PostEntity() {
     }
 
-    public PostEntity(Long id, Long authorId, String content, PostStatus status, Instant createdAt) {
+    public PostEntity(Long id, Long authorId, String content, PostStatus status, List<String> imageUrls,Instant createdAt) {
         this.id = id;
         this.authorId = authorId;
         this.content = content;
         this.status = status;
+        this.imageUrls = imageUrls;
         this.createdAt = createdAt;
     }
 
@@ -54,6 +58,7 @@ public class PostEntity {
     public Long getAuthorId() { return authorId; }
     public String getContent() { return content; }
     public PostStatus getStatus() { return status; }
+    public List<String> getImageUrls() { return imageUrls; }
     public Instant getCreatedAt() { return createdAt; }
     public UserEntity getAuthor() { return author; }
 
