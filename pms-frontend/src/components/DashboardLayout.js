@@ -2,7 +2,7 @@ import React from "react";
 import { Layout, Typography, Row, Col, Card, Avatar } from "antd";
 import "../css/DashboardLayout.css";
 
-const { Header, Content } = Layout;
+const { Header, Content, Footer } = Layout;
 const { Title, Text } = Typography;
 
 export default function DashboardLayout() {
@@ -92,18 +92,21 @@ export default function DashboardLayout() {
           </Row>
 
           <Card hoverable className="mid-card" />
-
-          <Text type="secondary" className="info-text">
-            Address: xxxxx, xxxxx, xxxxxxx, xxxxxxx
-            <br />
-            Biz Service Office Hour: xxxxx - xxxxx
-          </Text>
-
-          <Text type="secondary" className="info-text">
-            © 2025 Privacy & Policy. View our Accessibility
-          </Text>
         </section>
       </Content>
+
+      {/* Footer */}
+      <Footer className="dashboard-footer">
+        <Text type="secondary" className="info-text">
+          Address: xxxxx, xxxxx, xxxxxxx, xxxxxxx
+          <br />
+          Biz Service Office Hour: xxxxx - xxxxx
+        </Text>
+
+        <Text type="secondary" className="info-text">
+          © 2025 Privacy & Policy. View our Accessibility
+        </Text>
+      </Footer>
     </Layout>
   );
 }
