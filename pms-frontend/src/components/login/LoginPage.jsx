@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../css/LoginPage.css";
-import { validateLogin } from "./validation";
+import { validateLogin } from "./Validation";
 import { fakeLogin } from "./authApi";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import CreateAccountModal from "./CreateAccountModal";

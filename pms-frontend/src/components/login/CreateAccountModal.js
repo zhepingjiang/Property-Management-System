@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { validateCreateAccount } from "./validation";
+import { validateCreateAccount } from "./Validation";
 import { fakeCreateAccount } from "./authApi";
 
 export default function CreateAccountModal({
