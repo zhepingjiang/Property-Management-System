@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import LoginPage, {
-  ForgotPasswordModal,
-  CreateAccountModal,
-  UserProfile,
-} from "./components/LoginPage";
-import ResidentDashboard from "./components/ResidentDashboard";
+
+import ForgotPasswordModal from "./components/login/ForgotPasswordModal";
+import CreateAccountModal from "./components/login/CreateAccountModal";
+import UserProfile from "./components/login/UserProfile";
+
+import LoginPage from "./components/login/LoginPage";
+import DashboardLayout from "./components/DashboardLayout";
 
 const App = () => {
   const [currentView, setCurrentView] = useState("login");
@@ -58,13 +59,7 @@ const App = () => {
       )}
 
       {/* Resident Dashboard View */}
-      {currentView === "resident-dashboard" && user && (
-        <ResidentDashboard
-          user={user}
-          onLogout={handleLogout}
-          onNavigate={handleNavigation}
-        />
-      )}
+      {currentView === "resident-dashboard" && user && <DashboardLayout />}
 
       {/* Profile View */}
       {currentView === "profile" && user && (
