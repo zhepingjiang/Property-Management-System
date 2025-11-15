@@ -32,8 +32,9 @@ public class AppConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         auth
-//                                .requestMatchers("/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                                .requestMatchers("/**").permitAll()
+//                                .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+
 //                                .requestMatchers("/bookings/**").hasAuthority("ROLE_GUEST")
 //                                .requestMatchers("/listings/search").hasAuthority("ROLE_GUEST")
 //                                .requestMatchers("/listings/**").hasAuthority("ROLE_HOST")
