@@ -1,9 +1,9 @@
-package com.laioffer.pmsbackend.alert;
+package com.laioffer.pmsbackend.event;
 
 import com.laioffer.pmsbackend.common.ResourceNotFoundException;
-import com.laioffer.pmsbackend.model.AlertDto;
-import com.laioffer.pmsbackend.model.AlertEntity;
-import com.laioffer.pmsbackend.repository.AlertRepository;
+import com.laioffer.pmsbackend.model.EventDto;
+import com.laioffer.pmsbackend.model.EventEntity;
+import com.laioffer.pmsbackend.repository.EventRepository;
 import com.laioffer.pmsbackend.storage.ImageStorageService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,40 +13,40 @@ import java.time.Instant;
 import java.util.List;
 
 @Service
-public class AlertService {
+public class EventService {
 
-    private final AlertRepository alertRepository;
+    private final EventRepository eventRepository;
     private final ImageStorageService imageStorageService;
 
-    public AlertService(AlertRepository alertRepository,
+    public EventService(EventRepository eventRepository,
                         ImageStorageService imageStorageService) {
-        this.alertRepository = alertRepository;
+        this.eventRepository = eventRepository;
         this.imageStorageService = imageStorageService;
     }
 
-    public List<AlertDto> getAllAlerts() {
-        return alertRepository.findAllByOrderByCreatedAtDesc()
+    public List<EventDto> getAllEvents() {
+        return eventRepository.findAllByOrderByCreatedAtDesc()
                 .stream()
-                .map(AlertDto::new)
+                .map(EventDto::new)
                 .toList();
     }
 
-    public AlertDto getAlertById(Long id) {
-        return alertRepository.findById(id)
-                .map(AlertDto::new)
+    public EventDto getNewestEvent() {
+        return eventRepository.findFirstByOrderByCreatedAtDesc()
+                .map(EventDto::new)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Alert not found: " + id));
+                        new ResourceNotFoundException("No events found"));
     }
 
-    public AlertDto getNewestAlert() {
-        return alertRepository.findFirstByOrderByCreatedAtDesc()
-                .map(AlertDto::new)
+    public EventDto getEventById(Long id) {
+        return eventRepository.findById(id)
+                .map(EventDto::new)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("No alerts found"));
+                        new ResourceNotFoundException("Event not found: " + id));
     }
 
     @Transactional
-    public AlertDto createAlert(
+    public EventDto createEvent(
             String title,
             String content,
             List<MultipartFile> images,
@@ -59,7 +59,7 @@ public class AlertService {
                 .map(imageStorageService::upload)
                 .toList();
 
-        AlertEntity entity = new AlertEntity(
+        EventEntity entity = new EventEntity(
                 null,
                 title,
                 content,
@@ -68,14 +68,14 @@ public class AlertService {
                 Instant.now()
         );
 
-        return new AlertDto(alertRepository.save(entity));
+        return new EventDto(eventRepository.save(entity));
     }
 
-    public void deleteAlert(Long id) {
-        alertRepository.findById(id)
+    public void deleteEvent(Long id) {
+        eventRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Alert not found: " + id));
+                        new ResourceNotFoundException("Event not found: " + id));
 
-        alertRepository.deleteById(id);
+        eventRepository.deleteById(id);
     }
 }
