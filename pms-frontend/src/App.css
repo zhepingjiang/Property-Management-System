@@ -1,92 +1,114 @@
-/* App.css */
-.App {
-  min-height: 100vh;
-  background: #f5f6fa;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "~antd/dist/antd.css";
 
-.profile-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-.navigation-buttons {
-  margin-top: 2rem;
-  display: flex;
-  gap: 1rem;
-}
-
-.nav-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: transform 0.2s ease;
-}
-
-.nav-btn:hover {
-  transform: translateY(-2px);
-}
-
-.faculty-placeholder {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin-top: 2rem;
-}
-
-.faculty-placeholder h1 {
-  color: #333;
-  margin-bottom: 1rem;
-}
-
-.faculty-placeholder p {
-  color: #666;
-  margin-bottom: 1rem;
-}
-
-/* Enhanced Resident Dashboard Styles */
-.user-welcome {
-  padding: 1.5rem;
-  border-bottom: 1px solid #e1e5e9;
-  text-align: center;
-}
-
-.user-welcome h3 {
-  margin: 0 0 0.5rem 0;
-  color: #333;
-}
-
-.user-welcome p {
+/* ===== Body / Global styles ===== */
+body {
   margin: 0;
-  color: #666;
-  font-size: 0.9rem;
+  font-family: "Cormorant Garamond", serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #f3ece2 0%, #e2d5c2 100%);
+  color: #5a4632;
+}
+
+/* ===== Code styling ===== */
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+  background: rgba(240, 240, 240, 0.4);
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+}
+
+/* ===== Buttons ===== */
+.nav-btn,
+button {
+  @apply px-6 py-3 rounded-xl font-semibold text-white transition-all duration-200;
+  background: linear-gradient(135deg, #b9965b 0%, #8e6f43 100%);
+}
+
+.nav-btn:hover,
+button:hover {
+  @apply transform -translate-y-1 shadow-hotelHover;
+}
+
+/* ===== Card styling ===== */
+.card,
+.profile-container,
+.faculty-placeholder,
+.box-card,
+.small-card,
+.small-card-wide,
+.mid-card,
+.link-card,
+.balance-card,
+.events-card,
+.survey-card {
+  @apply bg-cardBg rounded-xl shadow-hotel border border-[#b9965b]/30 p-4 transition-all duration-250 cursor-pointer;
+}
+
+.card:hover,
+.profile-container:hover,
+.faculty-placeholder:hover,
+.box-card:hover,
+.small-card:hover,
+.small-card-wide:hover,
+.mid-card:hover,
+.link-card:hover,
+.balance-card:hover,
+.events-card:hover,
+.survey-card:hover {
+  @apply transform -translate-y-1 shadow-hotelHover;
+}
+
+/* ===== Text / Headers ===== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #5a4632;
+  font-family: "Cormorant Garamond", serif;
+}
+
+p,
+span,
+label {
+  color: #7a6a55;
+}
+
+/* ===== User Welcome Section ===== */
+.user-welcome {
+  @apply text-center py-6 border-b border-[#b9965b]/30;
 }
 
 .user-unit {
-  background: rgba(255, 255, 255, 0.2);
-  padding: 0.25rem 0.5rem;
-  border-radius: 10px;
-  font-size: 0.8rem;
-  margin: 0 0.5rem;
+  @apply inline-block px-2 py-1 rounded-xl text-sm bg-[#b9965b]/15 text-[#5a4632] mx-1;
 }
 
-/* Card variations for stats */
+/* ===== Stat Cards ===== */
 .balance-card {
-  border-left: 4px solid #28a745;
+  border-left: 4px solid #b9965b;
 }
-
 .events-card {
-  border-left: 4px solid #ffc107;
+  border-left: 4px solid #d4a95d;
+}
+.survey-card {
+  border-left: 4px solid #8e6f43;
 }
 
-.survey-card {
-  border-left: 4px solid #17a2b8;
+/* ===== Footer ===== */
+.dashboard-footer {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.info-text {
+  color: #7a6a55;
+  font-weight: 600;
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
 }
