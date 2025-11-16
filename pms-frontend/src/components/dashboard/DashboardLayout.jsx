@@ -156,7 +156,7 @@ export default function DashboardLayout({ children, pageTitle, user }) {
       {/* Footer */}
       <Footer className="dashboard-footer hotel-footer">
         <Text className="info-text hotel-text-secondary">
-          Address: 123 Luxury St, City, Country
+          Address: ### abcded St, City, Country
           <br />
           Biz Service Office Hour: 9:00 AM - 6:00 PM
         </Text>
