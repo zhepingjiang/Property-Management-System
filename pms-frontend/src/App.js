@@ -69,14 +69,12 @@ const App = () => {
         />
 
         {/* Dashboard Page (still optional) */}
-        {/* <Route
+        <Route
           path="/dashboard"
           element={
             user ? <DashboardLayout /> : <Navigate to="/login" replace />
           }
-        /> */}
-
-        <Route path="/dashboard" element={<DashboardLayout />} />
+        />
 
         {/* Amenity Pages */}
         <Route path="/amenity/info" element={<AmenityInfoPage />} />
