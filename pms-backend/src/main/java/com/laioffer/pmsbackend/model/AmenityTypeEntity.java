@@ -20,7 +20,6 @@ public class AmenityTypeEntity {
     @Column(nullable = false)
     private String name;
 
-    @Lob
     @Column(columnDefinition = "text")
     private String description;
 

@@ -29,7 +29,6 @@ public class MaintenanceRequestEntity {
     @Column(name = "issue_type", length = 50, nullable = false)
     private String issueType;
 
-    @Lob
     @Column(columnDefinition = "text")
     private String description;
 
@@ -44,7 +43,6 @@ public class MaintenanceRequestEntity {
     @Column(name = "assigned_to")
     private Long assignedTo;
 
-    @Lob
     @Column(name = "image_url", columnDefinition = "text")
     private String imageUrl;
 

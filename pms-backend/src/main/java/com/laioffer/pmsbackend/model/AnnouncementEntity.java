@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,9 +20,11 @@ public class AnnouncementEntity {
     @Column(length = 200, nullable = false)
     private String title;
 
-    @Lob
     @Column(columnDefinition = "text", nullable = false)
     private String content;
+
+    @Column(name = "image_urls")
+    private List<String> imageUrls;
 
     @Column(name = "created_by", nullable = false)
     private Long createdBy;
@@ -40,10 +43,11 @@ public class AnnouncementEntity {
     public AnnouncementEntity() {
     }
 
-    public AnnouncementEntity(Long id, String title, String content, Long createdBy, Instant createdAt) {
+    public AnnouncementEntity(Long id, String title, String content, Long createdBy, List<String> imageUrls, Instant createdAt) {
         this.id = id;
         this.title = title;
         this.content = content;
+        this.imageUrls = imageUrls;
         this.createdBy = createdBy;
         this.createdAt = createdAt;
     }
@@ -51,6 +55,7 @@ public class AnnouncementEntity {
     public Long getId() { return id; }
     public String getTitle() { return title; }
     public String getContent() { return content; }
+    public List<String> getImageUrls() { return imageUrls; }
     public Long getCreatedBy() { return createdBy; }
     public Instant getCreatedAt() { return createdAt; }
     public UserEntity getCreator() { return creator; }
@@ -60,15 +65,16 @@ public class AnnouncementEntity {
         if (this == o) return true;
         if (!(o instanceof AnnouncementEntity)) return false;
         AnnouncementEntity that = (AnnouncementEntity) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(title, that.title) &&
-                Objects.equals(content, that.content) &&
-                Objects.equals(createdBy, that.createdBy);
+        return Objects.equals(id, that.id)
+                && Objects.equals(title, that.title)
+                && Objects.equals(content, that.content)
+                && Objects.equals(createdBy, that.createdBy)
+                && Objects.equals(createdAt, that.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, content, createdBy);
+        return Objects.hash(id, title, content, createdBy, createdAt);
     }
 
     @Override

@@ -1,5 +1,9 @@
 package com.laioffer.pmsbackend;
 
+import com.google.auth.Credentials;
+import com.google.auth.oauth2.ServiceAccountCredentials;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import com.laioffer.pmsbackend.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.io.IOException;
+
 @Configuration
 public class AppConfig {
 
@@ -28,6 +34,7 @@ public class AppConfig {
                         auth
                                 .requestMatchers("/**").permitAll()
 //                                .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+
 //                                .requestMatchers("/bookings/**").hasAuthority("ROLE_GUEST")
 //                                .requestMatchers("/listings/search").hasAuthority("ROLE_GUEST")
 //                                .requestMatchers("/listings/**").hasAuthority("ROLE_HOST")
@@ -60,4 +67,9 @@ public class AppConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public Storage storage() throws IOException {
+        Credentials credentials = ServiceAccountCredentials.fromStream(getClass().getClassLoader().getResourceAsStream("credentials.json"));
+        return StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+    }
 }
