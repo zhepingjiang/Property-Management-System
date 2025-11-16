@@ -7,10 +7,17 @@ import "../css/DashboardLayout.css";
 const { Header, Content, Footer } = Layout;
 const { Title, Text } = Typography;
 
-export default function DashboardLayout({ children, pageTitle }) {
+export default function DashboardLayout({ children, pageTitle, user }) {
   const navigate = useNavigate();
 
   const goTo = (path) => () => navigate(path);
+
+  const getInitials = (nameOrEmail) => {
+    if (!nameOrEmail) return "U";
+    const parts = nameOrEmail.trim().split(/\s+/);
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+    return (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
+  };
 
   return (
     <Layout className="dashboard-layout">
@@ -19,7 +26,7 @@ export default function DashboardLayout({ children, pageTitle }) {
         <div className="header-left">
           {/* Home button */}
           <Button
-            type="text"
+            type="link"
             icon={<HomeOutlined />}
             className="home-btn"
             onClick={goTo("/dashboard")}
@@ -40,16 +47,14 @@ export default function DashboardLayout({ children, pageTitle }) {
         </div>
 
         <div className="header-right">
-          <Text className="hotel-text-secondary">Resident name</Text>
-          <Avatar size={32} className="hotel-avatar">
-            1
-          </Avatar>
-          <Avatar size={32} className="hotel-avatar">
-            2
-          </Avatar>
-          <Avatar size={32} className="hotel-avatar">
-            3
-          </Avatar>
+          <div className="header-user" onClick={goTo("/profile")}>
+            <Text className="hotel-text-secondary">
+              {user?.name || user?.email || "Resident name"}
+            </Text>
+            <Avatar size={32} className="hotel-avatar">
+              {getInitials(user?.name || user?.email)}
+            </Avatar>
+          </div>
         </div>
       </Header>
 

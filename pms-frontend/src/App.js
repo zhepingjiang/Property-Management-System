@@ -62,9 +62,11 @@ const App = () => {
           path="/profile"
           element={
             user ? (
-              <div className="profile-container">
-                <UserProfile user={user} onLogout={handleLogout} />
-              </div>
+              <DashboardLayout pageTitle={"Profile"} user={user}>
+                <div className="profile-container">
+                  <UserProfile user={user} onLogout={handleLogout} />
+                </div>
+              </DashboardLayout>
             ) : (
               <Navigate to="/login" replace />
             )
@@ -76,7 +78,7 @@ const App = () => {
           path="/dashboard"
           element={
             user ? (
-              <DashboardLayout pageTitle={"Dashboard"} />
+              <DashboardLayout pageTitle={"Dashboard"} user={user} />
             ) : (
               <Navigate to="/login" replace />
             )
@@ -88,7 +90,7 @@ const App = () => {
           path="/amenity/info"
           element={
             user ? (
-              <DashboardLayout pageTitle={"Amenity / Details"}>
+              <DashboardLayout pageTitle={"Amenity / Details"} user={user}>
                 <AmenityInfoPage />
               </DashboardLayout>
             ) : (
@@ -100,7 +102,10 @@ const App = () => {
           path="/amenity/reserve"
           element={
             user ? (
-              <DashboardLayout pageTitle={"Reserve Amenity / Confirm"}>
+              <DashboardLayout
+                pageTitle={"Reserve Amenity / Confirm"}
+                user={user}
+              >
                 <AmenityReservationPage />
               </DashboardLayout>
             ) : (
@@ -114,7 +119,7 @@ const App = () => {
           path="/newsletter/:id"
           element={
             user ? (
-              <DashboardLayout pageTitle={"Newsletter / Detail"}>
+              <DashboardLayout pageTitle={"Newsletter / Detail"} user={user}>
                 <NewsletterDetailPage />
               </DashboardLayout>
             ) : (
