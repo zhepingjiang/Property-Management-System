@@ -5,7 +5,7 @@ import LoginPage from "./components/login/LoginPage";
 import ForgotPasswordModal from "./components/login/ForgotPasswordModal";
 import CreateAccountModal from "./components/login/CreateAccountModal";
 import UserProfile from "./components/login/UserProfile";
-import DashboardLayout from "./components/DashboardLayout";
+import DashboardLayout from "./components/dashboard/DashboardLayout";
 
 import NewsletterDetailPage from "./components/newsletter/NewsletterDetailPage";
 import AmenityInfoPage from "./components/amenity/AmenityInfoPage";

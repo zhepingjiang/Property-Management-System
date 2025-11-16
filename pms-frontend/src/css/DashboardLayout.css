@@ -20,6 +20,23 @@
   box-shadow: 0 10px 25px rgba(185, 150, 87, 0.2);
 }
 
+/* Sticky state: header becomes fixed at top when scrolling */
+.dashboard-header.is-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1200;
+  margin-bottom: 0;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 8px 22px rgba(142, 111, 67, 0.22);
+  transition: padding 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+/* When sticky, slightly reduce header content spacing to avoid overlap */
+.dashboard-header.is-sticky .header-title .hotel-page-title {
+  font-size: 1rem;
+}
+
 /* Left/Right header */
 .header-left {
   display: flex;
@@ -32,6 +49,21 @@
   display: flex;
   gap: 12px;
   align-items: center;
+}
+
+.header-notif {
+  display: flex;
+  align-items: center;
+  margin-right: 6px;
+}
+
+.notif-btn {
+  color: #5a4632;
+  font-size: 18px;
+}
+
+.notif-btn:hover {
+  color: #8e6f43;
 }
 .header-avatar {
   background-color: #e2d5c2;
@@ -84,6 +116,42 @@
 }
 .home-btn:hover {
   color: #8e6f43;
+}
+
+/* Header navigation styling */
+.header-nav {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.header-nav .nav-item {
+  color: #5a4632;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.12s ease;
+}
+
+.header-nav .nav-item:hover {
+  color: #8e6f43;
+  transform: translateY(-1px);
+}
+
+/* Active nav uses the dashboard accent gradient */
+.header-nav .nav-item.active,
+.header-nav .ant-btn-primary {
+  background: linear-gradient(135deg, #b9965b 0%, #8e6f43 100%);
+  color: #fff !important;
+  box-shadow: 0 8px 20px rgba(142, 111, 67, 0.18);
+  border: none;
+}
+
+/* Slight spacing on header right area */
+.header-right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
 /* Page content */
