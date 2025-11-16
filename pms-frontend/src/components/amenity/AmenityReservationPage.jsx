@@ -70,7 +70,6 @@ export default function AmenityReservationPage() {
     setError("");
 
     // TODO: Call backend create reservation API
-    console.log("Reserving:", selectedDate, selectedTime);
   };
 
   const isDayBooked = availableTimes.every((t) => t.booked);

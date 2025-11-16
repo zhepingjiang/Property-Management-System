@@ -17,7 +17,6 @@ const App = () => {
   const [isCreateAccountOpen, setIsCreateAccountOpen] = useState(false);
 
   const handleLoginSuccess = (userData) => {
-    console.log("Login successful:", userData);
     setUser(userData);
   };
 
