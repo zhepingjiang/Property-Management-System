@@ -1,0 +1,75 @@
+.amenity-layout {
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+
+.amenity-header {
+  background: #001529;
+  padding: 16px 24px;
+}
+
+.amenity-title {
+  margin: 0;
+  color: white;
+}
+
+.amenity-content-wrapper {
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.amenity-container {
+  max-width: 1000px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.amenity-image-card {
+  width: 100%;
+}
+
+.amenity-image {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.amenity-lower-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+}
+
+.amenity-info-card {
+  background: white;
+}
+
+.amenity-reserve-btn-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Reserve section */
+.amenity-reserve-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* center inside the right column */
+  justify-content: center;
+  gap: 8px;
+}
+
+.reserve-helper-text {
+  font-size: 14px;
+}
+
+.amenity-reserve-btn {
+  width: 120px; /* small-width button */
+  height: 36px;
+  font-size: 16px;
+  font-weight: 500;
+}

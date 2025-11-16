@@ -1,0 +1,116 @@
+/* Root layout */
+.newsletter-layout {
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+
+.newsletter-header {
+  background: #001529; /* dark navy, matches AntD theme */
+  padding: 16px 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.newsletter-title {
+  margin: 0;
+  color: #ffffff;
+}
+
+/* Page content */
+.newsletter-content-wrapper {
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.newsletter-container {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 0 auto;
+}
+
+/* ===================== */
+/*   IMAGE (TOP) AREA    */
+/* ===================== */
+
+/* Full-width section container */
+.newsletter-image-section {
+  width: 100%;
+  background: #ffffff;
+  display: flex;
+  justify-content: center; /* center the image inside */
+}
+
+.newsletter-image-card {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto; /* center the card itself */
+  background: #ffffff;
+}
+
+.newsletter-carousel {
+  width: 100%;
+}
+
+.newsletter-image-wrapper {
+  display: flex;
+  justify-content: center; /* center image in slide */
+  align-items: center;
+}
+
+.newsletter-image {
+  width: 100%; /* make image take full card width */
+  height: auto;
+  max-height: 380px; /* optional: limit height */
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* ===================== */
+/*   DESCRIPTION AREA    */
+/* ===================== */
+
+/* bottom section with left blank, middle text, right blank */
+.newsletter-lower-section {
+  display: flex;
+  gap: 16px;
+}
+
+/* left & right blank areas */
+.newsletter-side-placeholder {
+  flex: 1; /* take remaining space equally */
+}
+
+/* center text card */
+.newsletter-description-card {
+  flex: 0 1 70%; /* roughly 70% of the width */
+  max-width: 70%;
+  margin: 0 auto; /* keep it centered */
+  background: #ffffff;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.newsletter-description-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #333333;
+}
+
+/* Optional: on small screens, make it full width */
+@media (max-width: 768px) {
+  .newsletter-lower-section {
+    flex-direction: column;
+  }
+
+  .newsletter-side-placeholder {
+    display: none;
+  }
+
+  .newsletter-description-card {
+    max-width: 100%;
+    flex: 1 1 auto;
+  }
+}
