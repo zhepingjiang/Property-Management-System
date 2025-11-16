@@ -6,10 +6,12 @@
   justify-content: center;
   align-items: center;
 
-  /* Warm hotel gradient */
-  background: linear-gradient(135deg, #c6a977 0%, #8e6f43 100%);
+  /* Match dashboard background for a consistent app look */
+  background: linear-gradient(135deg, #f3ece2 0%, #e2d5c2 100%);
   font-family: "Cormorant Garamond", serif;
   padding: 1rem;
+  transition: background 420ms ease, opacity 380ms ease;
+  will-change: background, opacity;
 }
 
 /* Card */
