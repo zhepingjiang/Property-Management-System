@@ -168,7 +168,14 @@ export default function DashboardLayout({ children, pageTitle, user }) {
               <Row gutter={16}>
                 {[1, 2, 3, 4].map((i) => (
                   <Col xs={12} sm={6} key={i}>
-                    <Card hoverable className="link-card hotel-card">
+                    <Card
+                      hoverable
+                      className="link-card hotel-card"
+                      onClick={() =>
+                        window.open(`https://learning.laioffer.com/`, "_blank")
+                      }
+                      style={{ cursor: "pointer" }}
+                    >
                       Link {i}
                     </Card>
                   </Col>
