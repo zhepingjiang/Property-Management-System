@@ -1,0 +1,126 @@
+/* Global layout background */
+.dashboard-layout {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f3ece2 0%, #e2d5c2 100%);
+  font-family: "Cormorant Garamond", serif;
+  padding: 20px;
+  color: #5a4632;
+}
+
+/* clickable card helper: pointer + subtle hover accent */
+.clickable-card {
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.clickable-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(185, 150, 87, 0.25);
+}
+
+/* Page content */
+.dashboard-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+/* Newsletter banner */
+.newsletter-banner {
+  width: 100%;
+  min-height: 180px;
+  border-radius: 20px;
+  background: rgba(255, 253, 247, 0.9);
+  border: 1px solid rgba(185, 150, 87, 0.4);
+  box-shadow: 0 12px 30px rgba(185, 150, 87, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.newsletter-text {
+  max-width: 600px;
+  color: #5a4632;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+.newsletter-btn {
+  background: linear-gradient(135deg, #b9965b 0%, #8e6f43 100%);
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.4rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.newsletter-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(185, 150, 87, 0.4);
+}
+
+/* Sections */
+.section {
+  margin-top: 50px;
+}
+
+/* Cards */
+.box-card,
+.small-card,
+.small-card-wide,
+.mid-card,
+.link-card {
+  background: rgba(255, 253, 247, 0.9);
+  border-radius: 18px;
+  border: 1px solid rgba(185, 150, 87, 0.3);
+  box-shadow: 0 8px 20px rgba(185, 150, 87, 0.15);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+}
+.box-card:hover,
+.small-card:hover,
+.small-card-wide:hover,
+.mid-card:hover,
+.link-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(185, 150, 87, 0.25);
+}
+
+/* Card sizes */
+.box-card {
+  height: 180px;
+}
+.small-card-wide {
+  width: 100%;
+  height: 110px;
+  margin-top: 20px;
+}
+.small-row {
+  margin-top: 20px;
+  display: flex;
+  gap: 18px;
+}
+.small-card {
+  height: 70px;
+  flex: 1;
+}
+.link-card {
+  height: 50px;
+}
+.mid-card {
+  width: 100%;
+  max-width: 400px;
+  height: 70px;
+  margin-top: 24px;
+}
+
+/* Footer */
+.dashboard-footer {
+  text-align: center;
+  margin-top: 60px;
+}
+.info-text {
+  font-weight: 600;
+  color: #7a6a55;
+  margin: 4px 0;
+}

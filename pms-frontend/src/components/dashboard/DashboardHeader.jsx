@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Layout, Button, Typography, Avatar, Badge } from "antd";
+import "../../css/dashboard/DashboardHeader.css";
 import { HomeOutlined, BellOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -10,10 +11,7 @@ export default function DashboardHeader({ pageTitle, user }) {
   const [isSticky, setIsSticky] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => {
-      setIsSticky(window.scrollY > 20);
-    };
-
+    const onScroll = () => setIsSticky(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);

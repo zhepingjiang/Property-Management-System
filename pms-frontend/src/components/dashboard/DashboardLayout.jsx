@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout, Typography, Row, Col, Card } from "antd";
 import { useNavigate } from "react-router-dom";
-import "../../css/DashboardLayout.css";
+import "../../css/dashboard/DashboardLayout.css";
 import DashboardHeader from "./DashboardHeader";
 
 const { Content, Footer } = Layout;
