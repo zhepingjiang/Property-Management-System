@@ -1,19 +1,4 @@
-/* Root layout */
-.newsletter-layout {
-  background: #f5f7fa;
-  min-height: 100vh;
-}
-
-.newsletter-header {
-  background: #001529; /* dark navy, matches AntD theme */
-  padding: 16px 24px;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.newsletter-title {
-  margin: 0;
-  color: #ffffff;
-}
+/* Styles scoped to newsletter content only; layout/header are provided by DashboardLayout */
 
 /* Page content */
 .newsletter-content-wrapper {

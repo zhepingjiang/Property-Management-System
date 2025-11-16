@@ -1,18 +1,3 @@
-.amenity-layout {
-  background: #f5f7fa;
-  min-height: 100vh;
-}
-
-.amenity-header {
-  background: #001529;
-  padding: 16px 24px;
-}
-
-.amenity-title {
-  margin: 0;
-  color: white;
-}
-
 .amenity-content-wrapper {
   padding: 24px;
   display: flex;
@@ -44,17 +29,6 @@
   gap: 16px;
 }
 
-.amenity-info-card {
-  background: white;
-}
-
-.amenity-reserve-btn-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Reserve section */
 .amenity-reserve-section {
   display: flex;
   flex-direction: column;

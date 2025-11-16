@@ -28,28 +28,32 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Login Page */}
+        {/* Login Page - redirect to dashboard automatically if already logged in */}
         <Route
           path="/login"
           element={
-            <>
-              <LoginPage
-                onLoginSuccess={handleLoginSuccess}
-                onForgotPassword={() => setIsForgotPasswordOpen(true)}
-                onCreateAccount={() => setIsCreateAccountOpen(true)}
-              />
+            user ? (
+              <Navigate to="/dashboard" replace />
+            ) : (
+              <>
+                <LoginPage
+                  onLoginSuccess={handleLoginSuccess}
+                  onForgotPassword={() => setIsForgotPasswordOpen(true)}
+                  onCreateAccount={() => setIsCreateAccountOpen(true)}
+                />
 
-              <ForgotPasswordModal
-                isOpen={isForgotPasswordOpen}
-                onClose={() => setIsForgotPasswordOpen(false)}
-              />
+                <ForgotPasswordModal
+                  isOpen={isForgotPasswordOpen}
+                  onClose={() => setIsForgotPasswordOpen(false)}
+                />
 
-              <CreateAccountModal
-                isOpen={isCreateAccountOpen}
-                onClose={() => setIsCreateAccountOpen(false)}
-                onAccountCreated={handleLoginSuccess}
-              />
-            </>
+                <CreateAccountModal
+                  isOpen={isCreateAccountOpen}
+                  onClose={() => setIsCreateAccountOpen(false)}
+                  onAccountCreated={handleLoginSuccess}
+                />
+              </>
+            )
           }
         />
 
@@ -71,16 +75,53 @@ const App = () => {
         <Route
           path="/dashboard"
           element={
-            user ? <DashboardLayout /> : <Navigate to="/login" replace />
+            user ? (
+              <DashboardLayout pageTitle={"Dashboard"} />
+            ) : (
+              <Navigate to="/login" replace />
+            )
           }
         />
 
-        {/* Amenity Pages */}
-        <Route path="/amenity/info" element={<AmenityInfoPage />} />
-        <Route path="/amenity/reserve" element={<AmenityReservationPage />} />
+        {/* Amenity Pages (rendered inside DashboardLayout for consistent UI) */}
+        <Route
+          path="/amenity/info"
+          element={
+            user ? (
+              <DashboardLayout pageTitle={"Amenity / Details"}>
+                <AmenityInfoPage />
+              </DashboardLayout>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+        <Route
+          path="/amenity/reserve"
+          element={
+            user ? (
+              <DashboardLayout pageTitle={"Reserve Amenity / Confirm"}>
+                <AmenityReservationPage />
+              </DashboardLayout>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
 
         {/* Newsletter Page */}
-        <Route path="/newsletter/:id" element={<NewsletterDetailPage />} />
+        <Route
+          path="/newsletter/:id"
+          element={
+            user ? (
+              <DashboardLayout pageTitle={"Newsletter / Detail"}>
+                <NewsletterDetailPage />
+              </DashboardLayout>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
 
         {/* Default Route */}
         <Route path="/" element={<Navigate to="/login" replace />} />

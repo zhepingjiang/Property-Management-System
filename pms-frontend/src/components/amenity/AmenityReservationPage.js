@@ -1,18 +1,8 @@
 import React, { useState } from "react";
-import {
-  Layout,
-  Card,
-  Typography,
-  Button,
-  Calendar,
-  Alert,
-  Space,
-  Tag,
-} from "antd";
+import { Card, Typography, Button, Calendar, Alert, Space, Tag } from "antd";
 import "../../css/amenity/AmenityReservationPage.css";
 import dayjs from "dayjs";
 
-const { Header, Content } = Layout;
 const { Title, Text } = Typography;
 
 export default function AmenityReservationPage() {
@@ -86,111 +76,103 @@ export default function AmenityReservationPage() {
   const isDayBooked = availableTimes.every((t) => t.booked);
 
   return (
-    <Layout className="reserve-layout">
-      <Header className="reserve-header">
-        <Title level={3} className="reserve-title">
-          Reserve Amenity / Confirm
-        </Title>
-      </Header>
+    <div className="reserve-content-wrapper">
+      <div className="reserve-container">
+        {/* LEFT SIDE */}
+        <div className="reserve-left">
+          <Card className="reserve-pic-card">
+            <img
+              alt="amenity"
+              className="reserve-image"
+              src="https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1600"
+            />
+          </Card>
 
-      <Content className="reserve-content-wrapper">
-        <div className="reserve-container">
-          {/* LEFT SIDE */}
-          <div className="reserve-left">
-            <Card className="reserve-pic-card">
-              <img
-                alt="amenity"
-                className="reserve-image"
-                src="https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1600"
-              />
-            </Card>
+          <Card className="reserve-info-card">
+            <Title level={5}>Swimming Pool</Title>
+            <Text type="secondary" style={{ fontSize: "14px" }}>
+              Located on Floor 2, East Wing
+            </Text>
 
-            <Card className="reserve-info-card">
-              <Title level={5}>Swimming Pool</Title>
-              <Text type="secondary" style={{ fontSize: "14px" }}>
-                Located on Floor 2, East Wing
-              </Text>
+            <div className="reserve-time-box">
+              <Text strong>Date Selected:</Text>
+              <br />
+              {selectedDate ? (
+                <Text>{selectedDate}</Text>
+              ) : (
+                <Text type="secondary">No date selected</Text>
+              )}
+              <br />
+              <br />
 
-              <div className="reserve-time-box">
-                <Text strong>Date Selected:</Text>
-                <br />
-                {selectedDate ? (
-                  <Text>{selectedDate}</Text>
-                ) : (
-                  <Text type="secondary">No date selected</Text>
-                )}
-                <br />
-                <br />
+              <Text strong>Time Selected:</Text>
+              <br />
+              {selectedTime ? (
+                <Tag color="blue">{selectedTime}</Tag>
+              ) : (
+                <Text type="secondary">No time selected</Text>
+              )}
+            </div>
 
-                <Text strong>Time Selected:</Text>
-                <br />
-                {selectedTime ? (
-                  <Tag color="blue">{selectedTime}</Tag>
-                ) : (
-                  <Text type="secondary">No time selected</Text>
-                )}
-              </div>
+            {error && (
+              <Alert type="error" message={error} className="reserve-error" />
+            )}
 
-              {error && (
-                <Alert type="error" message={error} className="reserve-error" />
+            <Button
+              type="primary"
+              size="large"
+              onClick={handleConfirm}
+              className="reserve-confirm-btn"
+            >
+              Confirm Reservation
+            </Button>
+          </Card>
+        </div>
+
+        {/* RIGHT SIDE — CALENDAR + TIMES */}
+        <div className="reserve-right">
+          <Card className="reserve-calendar-card">
+            <Calendar
+              fullscreen={false}
+              onSelect={handleDateSelect}
+              disabledDate={(date) => date.isBefore(dayjs(), "day")}
+            />
+          </Card>
+
+          {/* TIME SLOT SECTION */}
+          {selectedDate && (
+            <Card className="reserve-time-card">
+              <Title level={5}>Select a Time</Title>
+
+              {isDayBooked && (
+                <Alert
+                  type="error"
+                  message="This amenity is fully booked for this day."
+                  style={{ marginBottom: 12 }}
+                />
               )}
 
-              <Button
-                type="primary"
-                size="large"
-                onClick={handleConfirm}
-                className="reserve-confirm-btn"
-              >
-                Confirm Reservation
-              </Button>
+              <Space wrap>
+                {availableTimes.map((t) => (
+                  <Button
+                    key={t.label}
+                    disabled={t.booked}
+                    type={selectedTime === t.label ? "primary" : "default"}
+                    onClick={() => {
+                      if (!t.booked) {
+                        setSelectedTime(t.label);
+                        setError("");
+                      }
+                    }}
+                  >
+                    {t.label}
+                  </Button>
+                ))}
+              </Space>
             </Card>
-          </div>
-
-          {/* RIGHT SIDE — CALENDAR + TIMES */}
-          <div className="reserve-right">
-            <Card className="reserve-calendar-card">
-              <Calendar
-                fullscreen={false}
-                onSelect={handleDateSelect}
-                disabledDate={(date) => date.isBefore(dayjs(), "day")}
-              />
-            </Card>
-
-            {/* TIME SLOT SECTION */}
-            {selectedDate && (
-              <Card className="reserve-time-card">
-                <Title level={5}>Select a Time</Title>
-
-                {isDayBooked && (
-                  <Alert
-                    type="error"
-                    message="This amenity is fully booked for this day."
-                    style={{ marginBottom: 12 }}
-                  />
-                )}
-
-                <Space wrap>
-                  {availableTimes.map((t) => (
-                    <Button
-                      key={t.label}
-                      disabled={t.booked}
-                      type={selectedTime === t.label ? "primary" : "default"}
-                      onClick={() => {
-                        if (!t.booked) {
-                          setSelectedTime(t.label);
-                          setError("");
-                        }
-                      }}
-                    >
-                      {t.label}
-                    </Button>
-                  ))}
-                </Space>
-              </Card>
-            )}
-          </div>
+          )}
         </div>
-      </Content>
-    </Layout>
+      </div>
+    </div>
   );
 }

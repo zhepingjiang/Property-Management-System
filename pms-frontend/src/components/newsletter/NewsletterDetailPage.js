@@ -1,8 +1,7 @@
 import React from "react";
-import { Layout, Typography, Carousel, Card } from "antd";
+import { Typography, Carousel, Card } from "antd";
 import "../../css/newsletter/NewsletterDetailPage.css";
 
-const { Header, Content } = Layout;
 const { Title, Paragraph } = Typography;
 
 export default function NewsletterDetailPage() {
@@ -18,87 +17,79 @@ export default function NewsletterDetailPage() {
   ];
 
   return (
-    <Layout className="newsletter-layout">
-      <Header className="newsletter-header">
-        <Title level={3} className="newsletter-title">
-          Newsletter / Detail
-        </Title>
-      </Header>
+    <div className="newsletter-content-wrapper">
+      <div className="newsletter-container">
+        {/* Image Section */}
+        <Card bordered className="newsletter-image-card">
+          <Carousel autoplay dots className="newsletter-carousel">
+            {placeholderImages.map((url, index) => (
+              <div key={index} className="newsletter-image-wrapper">
+                <img
+                  src={url}
+                  alt={`img-${index}`}
+                  className="newsletter-image"
+                />
+              </div>
+            ))}
+          </Carousel>
+        </Card>
 
-      <Content className="newsletter-content-wrapper">
-        <div className="newsletter-container">
-          {/* Image Section */}
-          <Card bordered className="newsletter-image-card">
-            <Carousel autoplay dots className="newsletter-carousel">
-              {placeholderImages.map((url, index) => (
-                <div key={index} className="newsletter-image-wrapper">
-                  <img
-                    src={url}
-                    alt={`img-${index}`}
-                    className="newsletter-image"
-                  />
-                </div>
-              ))}
-            </Carousel>
+        {/* Lower Section */}
+        <div className="newsletter-lower-section">
+          {/* Left blank area */}
+          <div className="newsletter-side-placeholder" />
+
+          {/* Description */}
+          <Card bordered className="newsletter-description-card">
+            <Paragraph className="newsletter-description-text">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+              faucibus, lorem et consequat ultrices, justo lorem pretium velit,
+              sed pretium diam nisl sed magna. Integer a orci non lorem placerat
+              sollicitudin. Fusce sed nisl dignissim, fermentum lacus sed,
+              gravida purus. Maecenas feugiat velit id dui rutrum, non accumsan
+              nunc fermentum. Duis tincidunt lacus vitae elit facilisis, vitae
+              tristique sapien imperdiet.
+              <br />
+              <br />
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+              faucibus, lorem et consequat ultrices, justo lorem pretium velit,
+              sed pretium diam nisl sed magna. Integer a orci non lorem placerat
+              sollicitudin. Fusce sed nisl dignissim, fermentum lacus sed,
+              gravida purus. Maecenas feugiat velit id dui rutrum, non accumsan
+              nunc fermentum. Duis tincidunt lacus vitae elit facilisis, vitae
+              tristique sapien imperdiet.
+              <br />
+              <br />
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+              faucibus, lorem et consequat ultrices, justo lorem pretium velit,
+              sed pretium diam nisl sed magna. Integer a orci non lorem placerat
+              sollicitudin. Fusce sed nisl dignissim, fermentum lacus sed,
+              gravida purus. Maecenas feugiat velit id dui rutrum, non accumsan
+              nunc fermentum. Duis tincidunt lacus vitae elit facilisis, vitae
+              tristique sapien imperdiet. Lorem ipsum dolor sit amet,
+              consectetur adipiscing elit. Donec faucibus, lorem et consequat
+              ultrices, justo lorem pretium velit, sed pretium diam nisl sed
+              magna. Integer a orci non lorem placerat sollicitudin. Fusce sed
+              nisl dignissim, fermentum lacus sed, gravida purus. Maecenas
+              feugiat velit id dui rutrum, non accumsan nunc fermentum. Duis
+              tincidunt lacus vitae elit facilisis, vitae tristique sapien
+              imperdiet.
+              <br />
+              <br />
+              (This is placeholder description text. Replace with newsletter
+              details from backend.)
+              <br />
+              <br />
+              Management Office
+              <br />
+              Nov.15, 2025
+            </Paragraph>
           </Card>
 
-          {/* Lower Section */}
-          <div className="newsletter-lower-section">
-            {/* Left blank area */}
-            <div className="newsletter-side-placeholder" />
-
-            {/* Description */}
-            <Card bordered className="newsletter-description-card">
-              <Paragraph className="newsletter-description-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                faucibus, lorem et consequat ultrices, justo lorem pretium
-                velit, sed pretium diam nisl sed magna. Integer a orci non lorem
-                placerat sollicitudin. Fusce sed nisl dignissim, fermentum lacus
-                sed, gravida purus. Maecenas feugiat velit id dui rutrum, non
-                accumsan nunc fermentum. Duis tincidunt lacus vitae elit
-                facilisis, vitae tristique sapien imperdiet.
-                <br />
-                <br />
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                faucibus, lorem et consequat ultrices, justo lorem pretium
-                velit, sed pretium diam nisl sed magna. Integer a orci non lorem
-                placerat sollicitudin. Fusce sed nisl dignissim, fermentum lacus
-                sed, gravida purus. Maecenas feugiat velit id dui rutrum, non
-                accumsan nunc fermentum. Duis tincidunt lacus vitae elit
-                facilisis, vitae tristique sapien imperdiet.
-                <br />
-                <br />
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                faucibus, lorem et consequat ultrices, justo lorem pretium
-                velit, sed pretium diam nisl sed magna. Integer a orci non lorem
-                placerat sollicitudin. Fusce sed nisl dignissim, fermentum lacus
-                sed, gravida purus. Maecenas feugiat velit id dui rutrum, non
-                accumsan nunc fermentum. Duis tincidunt lacus vitae elit
-                facilisis, vitae tristique sapien imperdiet. Lorem ipsum dolor
-                sit amet, consectetur adipiscing elit. Donec faucibus, lorem et
-                consequat ultrices, justo lorem pretium velit, sed pretium diam
-                nisl sed magna. Integer a orci non lorem placerat sollicitudin.
-                Fusce sed nisl dignissim, fermentum lacus sed, gravida purus.
-                Maecenas feugiat velit id dui rutrum, non accumsan nunc
-                fermentum. Duis tincidunt lacus vitae elit facilisis, vitae
-                tristique sapien imperdiet.
-                <br />
-                <br />
-                (This is placeholder description text. Replace with newsletter
-                details from backend.)
-                <br />
-                <br />
-                Management Office
-                <br />
-                Nov.15, 2025
-              </Paragraph>
-            </Card>
-
-            {/* Right blank area */}
-            <div className="newsletter-side-placeholder" />
-          </div>
+          {/* Right blank area */}
+          <div className="newsletter-side-placeholder" />
         </div>
-      </Content>
-    </Layout>
+      </div>
+    </div>
   );
 }

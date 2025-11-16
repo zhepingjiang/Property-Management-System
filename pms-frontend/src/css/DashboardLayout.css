@@ -40,6 +40,39 @@
   padding: 6px;
 }
 
+/* page title area centered in header */
+.header-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.hotel-page-title {
+  font-size: 1.15rem;
+  color: #5a4632;
+  font-weight: 700;
+}
+
+/* clickable card helper: pointer + subtle hover accent */
+.clickable-card {
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.clickable-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(185, 150, 87, 0.25);
+}
+
+/* home button in header */
+.home-btn {
+  color: #5a4632;
+  margin-right: 12px;
+  font-size: 1.05rem;
+}
+.home-btn:hover {
+  color: #8e6f43;
+}
+
 /* Page content */
 .dashboard-content {
   max-width: 1200px;
