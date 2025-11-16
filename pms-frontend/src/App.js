@@ -10,6 +10,7 @@ import DashboardLayout from "./components/DashboardLayout";
 import NewsletterDetailPage from "./components/newsletter/NewsletterDetailPage";
 import AmenityInfoPage from "./components/amenity/AmenityInfoPage";
 import AmenityReservationPage from "./components/amenity/AmenityReservationPage";
+import DiscussionPage from "./components/discussion/DiscussionPage";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -82,6 +83,8 @@ const App = () => {
         {/* Newsletter Page */}
         <Route path="/newsletter/:id" element={<NewsletterDetailPage />} />
 
+        {/* Discussion Board */}
+        <Route path="/discussion" element={<DiscussionPage />} />
         {/* Default Route */}
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
