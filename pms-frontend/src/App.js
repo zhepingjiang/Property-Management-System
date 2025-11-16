@@ -10,6 +10,8 @@ import DashboardLayout from "./components/dashboard/DashboardLayout";
 import NewsletterDetailPage from "./components/newsletter/NewsletterDetailPage";
 import AmenityInfoPage from "./components/amenity/AmenityInfoPage";
 import AmenityReservationPage from "./components/amenity/AmenityReservationPage";
+import DiscussionPage from "./components/discussion/DiscussionPage";
+import MaintenanceRequestsPage from "./components/maintenance/MaintenanceRequestsPage";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -126,6 +128,12 @@ const App = () => {
             )
           }
         />
+
+        {/* Discussion Board */}
+        <Route path="/discussion" element={<DiscussionPage />} />
+
+        {/* Maintenance Board */}
+        <Route path="/maintenance" element={<MaintenanceRequestsPage />} />
 
         {/* Default Route */}
         <Route path="/" element={<Navigate to="/login" replace />} />
