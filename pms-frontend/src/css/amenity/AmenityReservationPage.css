@@ -1,9 +1,15 @@
+/* Wrapper */
 .reserve-content-wrapper {
   padding: 24px;
   display: flex;
   justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f3ece2 0%, #e2d5c2 100%);
+  font-family: "Cormorant Garamond", serif;
+  color: #5a4632;
 }
 
+/* Container */
 .reserve-container {
   width: 100%;
   max-width: 1400px;
@@ -19,33 +25,57 @@
   gap: 16px;
 }
 
+/* Image card */
 .reserve-pic-card {
   padding: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .reserve-image {
   width: 100%;
   height: 200px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: 12px 12px 0 0;
 }
 
+/* Info card */
 .reserve-info-card {
   padding: 16px;
+  background: #fff8f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .reserve-time-box {
-  margin-top: 12px;
-  margin-bottom: 12px;
+  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .reserve-error {
   margin: 12px 0;
+  color: #b22222;
+  font-weight: 500;
 }
 
 .reserve-confirm-btn {
   width: 100%;
   margin-top: 12px;
+  background: #d9a066;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 12px 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reserve-confirm-btn:hover {
+  background: #c28c52;
 }
 
 /* RIGHT SIDE */
@@ -53,18 +83,41 @@
   width: 100%;
 }
 
+/* Calendar card */
 .reserve-calendar-card {
   padding: 16px;
+  background: #fff8f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+/* Time slots card */
 .reserve-time-card {
   margin-top: 16px;
   padding: 16px;
+  background: #fff8f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .reserve-time-card button {
   width: 160px;
   text-align: center;
+  background: #e2d5c2;
+  border: 1px solid #d2bfa5;
+  color: #5a4632;
+  border-radius: 8px;
+  padding: 8px 0;
+  cursor: pointer;
+  font-family: "Cormorant Garamond", serif;
+  transition: all 0.2s ease;
+}
+
+.reserve-time-card button:hover:not([disabled]) {
+  background: #d9c4a6;
 }
 
 .reserve-time-card button[disabled] {
