@@ -1,27 +1,17 @@
-/* Root layout */
-.newsletter-layout {
-  background: #f5f7fa;
-  min-height: 100vh;
-}
+/* NewsletterDetailPage.css */
 
-.newsletter-header {
-  background: #001529; /* dark navy, matches AntD theme */
-  padding: 16px 24px;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.newsletter-title {
-  margin: 0;
-  color: #ffffff;
-}
-
-/* Page content */
+/* Wrapper */
 .newsletter-content-wrapper {
-  padding: 24px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f3ece2 0%, #e2d5c2 100%);
+  font-family: "Cormorant Garamond", serif;
+  color: #5a4632;
+  padding: 0px;
   display: flex;
   justify-content: center;
 }
 
+/* Container */
 .newsletter-container {
   width: 100%;
   max-width: 1100px;
@@ -31,23 +21,80 @@
   margin: 0 auto;
 }
 
+/* Page grid when showing aside + main */
+.newsletter-page-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.newsletter-aside {
+  position: relative;
+}
+
+.newsletter-aside-title {
+  font-weight: 700;
+  color: #5a4632;
+  margin-bottom: 12px;
+}
+
+.newsletter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.newsletter-list-card {
+  background: rgba(255, 253, 247, 0.95);
+  border-radius: 12px;
+  border: 1px solid rgba(185, 150, 87, 0.25);
+  box-shadow: 0 8px 20px rgba(185, 150, 87, 0.12);
+  padding: 8px 10px;
+}
+
+.newsletter-list-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.newsletter-list-thumb {
+  width: 64px;
+  height: 48px;
+  border-radius: 8px;
+  background-image: linear-gradient(135deg, #e2d5c2 0%, #f3ece2 100%);
+  flex-shrink: 0;
+}
+
+.newsletter-list-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.newsletter-list-title {
+  font-weight: 600;
+  color: #5a4632;
+}
+
+.newsletter-list-date {
+  font-size: 12px;
+  color: #7a6a55;
+}
+
 /* ===================== */
 /*   IMAGE (TOP) AREA    */
 /* ===================== */
-
-/* Full-width section container */
-.newsletter-image-section {
-  width: 100%;
-  background: #ffffff;
-  display: flex;
-  justify-content: center; /* center the image inside */
-}
-
 .newsletter-image-card {
   width: 100%;
   max-width: 900px;
-  margin: 0 auto; /* center the card itself */
-  background: #ffffff;
+  margin: 0 auto;
+  background: rgba(255, 253, 247, 0.9);
+  border-radius: 18px;
+  border: 1px solid rgba(185, 150, 87, 0.4);
+  box-shadow: 0 12px 30px rgba(185, 150, 87, 0.2);
+  overflow: hidden;
 }
 
 .newsletter-carousel {
@@ -56,14 +103,14 @@
 
 .newsletter-image-wrapper {
   display: flex;
-  justify-content: center; /* center image in slide */
+  justify-content: center;
   align-items: center;
 }
 
 .newsletter-image {
-  width: 100%; /* make image take full card width */
+  width: 100%;
   height: auto;
-  max-height: 380px; /* optional: limit height */
+  max-height: 380px;
   object-fit: cover;
   border-radius: 4px;
 }
@@ -71,35 +118,42 @@
 /* ===================== */
 /*   DESCRIPTION AREA    */
 /* ===================== */
-
-/* bottom section with left blank, middle text, right blank */
 .newsletter-lower-section {
   display: flex;
   gap: 16px;
 }
 
-/* left & right blank areas */
+/* left & right blank areas for spacing */
 .newsletter-side-placeholder {
-  flex: 1; /* take remaining space equally */
+  flex: 1;
 }
 
 /* center text card */
 .newsletter-description-card {
-  flex: 0 1 70%; /* roughly 70% of the width */
+  flex: 0 1 70%;
   max-width: 70%;
-  margin: 0 auto; /* keep it centered */
-  background: #ffffff;
-  padding: 16px;
+  margin: 0 auto;
+  background: rgba(255, 253, 247, 0.9);
+  border-radius: 18px;
+  border: 1px solid rgba(185, 150, 87, 0.3);
+  box-shadow: 0 8px 20px rgba(185, 150, 87, 0.15);
+  padding: 20px;
   box-sizing: border-box;
 }
 
 .newsletter-description-text {
-  font-size: 15px;
+  font-size: 20px;
   line-height: 1.7;
-  color: #333333;
+  color: #5a4632;
 }
 
-/* Optional: on small screens, make it full width */
+/* Card hover effect consistent with dashboard */
+.newsletter-description-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(185, 150, 87, 0.25);
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .newsletter-lower-section {
     flex-direction: column;
@@ -112,5 +166,12 @@
   .newsletter-description-card {
     max-width: 100%;
     flex: 1 1 auto;
+  }
+  /* collapse grid to single column on smaller screens */
+  .newsletter-page-grid {
+    grid-template-columns: 1fr;
+  }
+  .newsletter-aside {
+    display: none;
   }
 }

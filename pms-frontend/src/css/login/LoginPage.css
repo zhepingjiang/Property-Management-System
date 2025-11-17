@@ -1,0 +1,183 @@
+/* ===== Luxury Hotel Style Login Page ===== */
+
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Match dashboard background for a consistent app look */
+  background: linear-gradient(135deg, #f3ece2 0%, #e2d5c2 100%);
+  font-family: "Cormorant Garamond", serif;
+  padding: 1rem;
+  transition: background 420ms ease, opacity 380ms ease;
+  will-change: background, opacity;
+}
+
+/* Card */
+.login-card {
+  background: #fffdf7;
+  padding: 3rem 2.5rem;
+  border-radius: 18px;
+
+  /* Luxury soft shadow */
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18);
+
+  /* Golden thin border */
+  border: 1px solid rgba(185, 150, 87, 0.4);
+
+  width: 100%;
+  max-width: 480px;
+}
+
+/* Header */
+.login-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.login-title {
+  color: #5a4632;
+  margin-bottom: 1rem;
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Subtitle text */
+.login-subtitle {
+  font-size: 1rem;
+  color: #8c7b6a;
+  margin-top: -10px;
+}
+
+/* Role selection */
+.role-selection {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.role-btn {
+  padding: 0.75rem 1.4rem;
+  border: 1px solid #d1c1a3;
+  background: #fffdf8;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #7a6a55;
+  transition: all 0.35s ease;
+}
+
+.role-btn.active {
+  background: #b9965b;
+  color: white;
+  border-color: #b9965b;
+  box-shadow: 0 5px 20px rgba(185, 150, 87, 0.4);
+}
+
+.role-btn:hover:not(.active) {
+  border-color: #b9965b;
+  color: #b9965b;
+}
+
+/* Result Section */
+.result-section {
+  background: #f9f4ec;
+  padding: 1rem;
+  border-radius: 12px;
+  border-left: 4px solid #b9965b;
+}
+
+.result-label {
+  color: #7a6a55;
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+}
+
+.role-display {
+  color: #5a4632;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+/* Form */
+.login-form {
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.4rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: #5a4632;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #e7dcc9;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: #fffdf8;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #b9965b;
+  box-shadow: 0 0 0 3px rgba(185, 150, 87, 0.25);
+}
+
+/* Button */
+.sign-in-btn {
+  width: 100%;
+  padding: 1rem;
+  background: #b9965b;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sign-in-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 18px rgba(185, 150, 87, 0.5);
+}
+
+/* Footer */
+.login-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e7dcc9;
+}
+
+.forgot-password,
+.create-account {
+  background: none;
+  border: none;
+  color: #b9965b;
+  text-decoration: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.forgot-password:hover:not(:disabled),
+.create-account:hover:not(:disabled) {
+  color: #8e6f43;
+  text-decoration: underline;
+}

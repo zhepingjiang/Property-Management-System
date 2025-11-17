@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../css/LoginPage.css";
+import "../../css/login/LoginPage.css";
 import { validateLogin } from "./Validation";
 import { fakeLogin } from "./authApi";
 import ForgotPasswordModal from "./ForgotPasswordModal";

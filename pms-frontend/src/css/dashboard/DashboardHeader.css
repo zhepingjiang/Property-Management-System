@@ -1,0 +1,134 @@
+/* Header styling separated from DashboardLayout.css */
+.dashboard-header {
+  background: rgba(255, 253, 247, 0.95);
+  border-radius: 18px;
+  padding: 1rem 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba(185, 150, 87, 0.4);
+  box-shadow: 0 10px 25px rgba(185, 150, 87, 0.2);
+}
+
+.dashboard-header.is-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1200;
+  margin-bottom: 0;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 8px 22px rgba(142, 111, 67, 0.22);
+  transition: padding 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.dashboard-header.is-sticky .header-title .hotel-page-title {
+  font-size: 1rem;
+}
+
+.header-left {
+  display: flex;
+  gap: 32px;
+  font-weight: 700;
+  color: #5a4632;
+  align-items: center;
+}
+.header-right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.header-notif {
+  display: flex;
+  align-items: center;
+  margin-right: 6px;
+}
+
+.notif-btn {
+  color: #5a4632;
+  font-size: 18px;
+}
+.notif-btn:hover {
+  color: #8e6f43;
+}
+.header-avatar {
+  background-color: #e2d5c2;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 6px;
+}
+
+/* legacy class used by some components */
+.hotel-avatar {
+  background-color: #e2d5c2;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 6px;
+  /* center text inside */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.header-user .hotel-text-secondary {
+  margin-right: 6px;
+  color: #5a4632;
+  font-weight: 600;
+}
+
+.header-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.hotel-page-title {
+  font-size: 1.15rem;
+  color: #5a4632;
+  font-weight: 700;
+}
+
+.home-btn {
+  color: #5a4632;
+  margin-right: 12px;
+  font-size: 1.05rem;
+}
+.home-btn:hover {
+  color: #8e6f43;
+}
+
+.header-nav {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.header-nav .nav-item {
+  color: #5a4632;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.12s ease;
+}
+
+.header-nav .nav-item:hover {
+  color: #8e6f43;
+  transform: translateY(-1px);
+}
+
+.header-nav .nav-item.active,
+.header-nav .ant-btn-primary {
+  background: linear-gradient(135deg, #b9965b 0%, #8e6f43 100%);
+  color: #fff !important;
+  box-shadow: 0 8px 20px rgba(142, 111, 67, 0.18);
+  border: none;
+}

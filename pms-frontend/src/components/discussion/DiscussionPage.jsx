@@ -7,12 +7,12 @@ import PostDetailModal from "./PostDetailModal";
 import CreatePostModal from "./CreatePostModal";
 
 import "../../css/discussion/DiscussionPage.css";
+import DashboardHeader from "../dashboard/DashboardHeader";
 
 export default function DiscussionPage() {
   const [selectedPost, setSelectedPost] = useState(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
 
-  // MORE sample posts (~10) for better waterfall effect
   const posts = [
     {
       id: 1,
@@ -34,7 +34,6 @@ export default function DiscussionPage() {
     {
       id: 3,
       title: "Package theft alert",
-      // images: ["https://picsum.photos/500/350"],
       images: [],
       content:
         "Saw someone suspicious near the mail room yesterday. Stay alert.",
@@ -52,7 +51,6 @@ export default function DiscussionPage() {
     {
       id: 5,
       title: "Lost key found near parking lot",
-      // images: ["https://picsum.photos/500/340"],
       images: [],
       content: "Found a key near the visitor parking area.",
       replies: ["That might be mine!"],
@@ -110,56 +108,60 @@ export default function DiscussionPage() {
   };
 
   return (
-    <div className="discussion-page-container">
-      {/* Modern Header */}
-      <h2 className="discussion-header">Community Posts</h2>
+    <div className="discussion-page-wrapper">
+      {/* Fixed Dashboard Header */}
+      <DashboardHeader pageTitle="Discussion" />
 
-      {/* Masonry Grid */}
-      <Masonry
-        breakpointCols={breakpointColumns}
-        className="masonry-grid"
-        columnClassName="masonry-grid-column"
-      >
-        {posts.map((post) => (
-          <Card
-            key={post.id}
-            className="discussion-card"
-            hoverable
-            onClick={() => setSelectedPost(post)}
-          >
-            {post.images.length > 0 ? (
-              <div className="discussion-img-wrapper">
-                <img src={post.images[0]} alt="" className="discussion-img" />
-                <div className="discussion-title-overlay">{post.title}</div>
-              </div>
-            ) : (
-              <div className="discussion-no-image-card">
-                <div className="discussion-title-text">{post.title}</div>
-              </div>
-            )}
-          </Card>
-        ))}
-      </Masonry>
+      {/* Page Content */}
+      <div className="discussion-page-container">
+        <h2 className="discussion-header">Community Posts</h2>
 
-      {/* Floating Add (+) Button */}
-      <Button
-        type="primary"
-        shape="circle"
-        icon={<PlusOutlined />}
-        className="discussion-create-btn"
-        onClick={() => setIsCreateOpen(true)}
-      />
+        <Masonry
+          breakpointCols={breakpointColumns}
+          className="masonry-grid"
+          columnClassName="masonry-grid-column"
+        >
+          {posts.map((post) => (
+            <Card
+              key={post.id}
+              className="discussion-card"
+              hoverable
+              onClick={() => setSelectedPost(post)}
+            >
+              {post.images.length > 0 ? (
+                <div className="discussion-img-wrapper">
+                  <img src={post.images[0]} alt="" className="discussion-img" />
+                  <div className="discussion-title-overlay">{post.title}</div>
+                </div>
+              ) : (
+                <div className="discussion-no-image-card">
+                  <div className="discussion-title-text">{post.title}</div>
+                </div>
+              )}
+            </Card>
+          ))}
+        </Masonry>
 
-      {selectedPost && (
-        <PostDetailModal
-          post={selectedPost}
-          onClose={() => setSelectedPost(null)}
+        {/* Floating Add (+) Button */}
+        <Button
+          type="primary"
+          shape="circle"
+          icon={<PlusOutlined />}
+          className="discussion-create-btn"
+          onClick={() => setIsCreateOpen(true)}
         />
-      )}
 
-      {isCreateOpen && (
-        <CreatePostModal onClose={() => setIsCreateOpen(false)} />
-      )}
+        {selectedPost && (
+          <PostDetailModal
+            post={selectedPost}
+            onClose={() => setSelectedPost(null)}
+          />
+        )}
+
+        {isCreateOpen && (
+          <CreatePostModal onClose={() => setIsCreateOpen(false)} />
+        )}
+      </div>
     </div>
   );
 }
