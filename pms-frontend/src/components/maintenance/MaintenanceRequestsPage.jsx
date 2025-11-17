@@ -16,7 +16,7 @@ import {
 import MaintenanceRequestDetailModal from "./MaintenanceRequestDetailModal";
 import MaintenanceRequestCreateModal from "./MaintenanceRequestCreateModal";
 
-import "../../css/maintenance/MaintenancePage.css";
+import "../../css/maintenance/MaintenanceRequestsPage.css";
 import DashboardHeader from "../dashboard/DashboardHeader";
 
 const { Title, Text } = Typography;

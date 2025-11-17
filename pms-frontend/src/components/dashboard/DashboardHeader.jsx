@@ -25,7 +25,6 @@ export default function DashboardHeader({ pageTitle, user }) {
     { key: "dashboard", label: "Dashboard", path: "/dashboard" },
     { key: "newsletter", label: "Newsletter", path: "/newsletter/1" },
     { key: "amenities", label: "Amenities", path: "/amenity/info" },
-    { key: "reserve", label: "Reserve", path: "/amenity/reserve" },
     { key: "policies", label: "Policies", path: "/policy" },
     { key: "discussion", label: "Discussion", path: "/discussion" },
     { key: "maintenance", label: "Maintenance", path: "/maintenance" },
