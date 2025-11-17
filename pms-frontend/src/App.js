@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./components/login/LoginPage";
 import ForgotPasswordModal from "./components/login/ForgotPasswordModal";
 import CreateAccountModal from "./components/login/CreateAccountModal";
-import UserProfile from "./components/login/UserProfile";
+import UserProfilePage from "./components/userprofile/UserProfilePage";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
 
 import NewsletterDetailPage from "./components/newsletter/NewsletterDetailPage";
@@ -64,9 +64,9 @@ const App = () => {
           path="/profile"
           element={
             user ? (
-              <DashboardLayout pageTitle={"Profile"} user={user}>
+              <DashboardLayout user={user}>
                 <div className="profile-container">
-                  <UserProfile user={user} onLogout={handleLogout} />
+                  <UserProfilePage user={user} onLogout={handleLogout} />
                 </div>
               </DashboardLayout>
             ) : (
