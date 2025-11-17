@@ -67,10 +67,6 @@ export default function DashboardHeader({ pageTitle, user }) {
         </nav>
       </div>
 
-      <div className="header-title">
-        <Text className="hotel-page-title">{pageTitle || "Dashboard"}</Text>
-      </div>
-
       <div className="header-right">
         <div className="header-notif">
           <Badge count={999} size="small">

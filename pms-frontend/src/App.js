@@ -80,7 +80,7 @@ const App = () => {
           path="/dashboard"
           element={
             user ? (
-              <DashboardLayout pageTitle={"Dashboard"} user={user} />
+              <DashboardLayout user={user} />
             ) : (
               <Navigate to="/login" replace />
             )
@@ -92,7 +92,7 @@ const App = () => {
           path="/amenity/info"
           element={
             user ? (
-              <DashboardLayout pageTitle={"Amenity / Details"} user={user}>
+              <DashboardLayout user={user}>
                 <AmenityInfoPage />
               </DashboardLayout>
             ) : (
@@ -104,10 +104,7 @@ const App = () => {
           path="/amenity/reserve"
           element={
             user ? (
-              <DashboardLayout
-                pageTitle={"Reserve Amenity / Confirm"}
-                user={user}
-              >
+              <DashboardLayout user={user}>
                 <AmenityReservationPage />
               </DashboardLayout>
             ) : (
@@ -121,7 +118,7 @@ const App = () => {
           path="/newsletter/:id"
           element={
             user ? (
-              <DashboardLayout pageTitle={"Newsletter / Detail"} user={user}>
+              <DashboardLayout user={user}>
                 <NewsletterDetailPage />
               </DashboardLayout>
             ) : (
@@ -135,7 +132,7 @@ const App = () => {
           path="/discussion"
           element={
             user ? (
-              <DashboardLayout pageTitle={"discussion"} user={user}>
+              <DashboardLayout user={user}>
                 <DiscussionPage />
               </DashboardLayout>
             ) : (
@@ -149,7 +146,7 @@ const App = () => {
           path="/policy"
           element={
             user ? (
-              <DashboardLayout pageTitle={"Policy"} user={user}>
+              <DashboardLayout user={user}>
                 <Policy />
               </DashboardLayout>
             ) : (
@@ -163,7 +160,7 @@ const App = () => {
           path="/maintenance"
           element={
             user ? (
-              <DashboardLayout pageTitle={"Maintenance Requests"} user={user}>
+              <DashboardLayout user={user}>
                 <MaintenanceRequestsPage />
               </DashboardLayout>
             ) : (
