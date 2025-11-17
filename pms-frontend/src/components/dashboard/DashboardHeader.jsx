@@ -28,7 +28,7 @@ export default function DashboardHeader({ pageTitle, user }) {
     { key: "reserve", label: "Reserve", path: "/amenity/reserve" },
     { key: "policies", label: "Policies", path: "/policies" },
     { key: "discussion", label: "Discussion", path: "/discussion" },
-    { key: "maintenance", label: "Maintenance", path: "/maintennance" },
+    { key: "maintenance", label: "Maintenance", path: "/maintenance" },
   ];
 
   const getInitials = (nameOrEmail) => {
