@@ -175,7 +175,6 @@ const MaintenanceRequestsPage = () => {
   return (
     <div className="maintenance-page">
       {/* Header */}
-      <DashboardHeader pageTitle="Maintenance Requests" />
       <div className="maintenance-header">
         <div className="maintenance-header-left">
           <Title level={3} className="maintenance-title">

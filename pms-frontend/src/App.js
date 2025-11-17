@@ -131,13 +131,46 @@ const App = () => {
         />
 
         {/* Discussion Board */}
-        <Route path="/discussion" element={<DiscussionPage />} />
+        <Route
+          path="/discussion"
+          element={
+            user ? (
+              <DashboardLayout pageTitle={"discussion"} user={user}>
+                <DiscussionPage />
+              </DashboardLayout>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
 
         {/* Policy Page */}
-        <Route path="/policy" element={<Policy />} />
+        <Route
+          path="/policy"
+          element={
+            user ? (
+              <DashboardLayout pageTitle={"Policy"} user={user}>
+                <Policy />
+              </DashboardLayout>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
 
         {/* Maintenance Board */}
-        <Route path="/maintenance" element={<MaintenanceRequestsPage />} />
+        <Route
+          path="/maintenance"
+          element={
+            user ? (
+              <DashboardLayout pageTitle={"Maintenance Requests"} user={user}>
+                <MaintenanceRequestsPage />
+              </DashboardLayout>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
 
         {/* Default Route */}
         <Route path="/" element={<Navigate to="/login" replace />} />
