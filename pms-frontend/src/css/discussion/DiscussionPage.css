@@ -1,18 +1,24 @@
-/* =============================== */
-/*  PAGE WRAPPER (matches dashboard) */
-/* =============================== */
-.discussion-page-container {
+/* Wrapper to account for fixed header */
+.discussion-page-wrapper {
   min-height: 100vh;
   background: linear-gradient(135deg, #f3ece2 0%, #e2d5c2 100%);
   font-family: "Cormorant Garamond", serif;
   color: #5a4632;
-  padding: 40px 20px;
-  max-width: 1300px;
-  margin: 0 auto;
+  padding-top: 1px; /* space for fixed header */
+  position: sticky;
 }
 
 /* =============================== */
-/*  HEADER                        */
+/*  PAGE CONTAINER                 */
+/* =============================== */
+.discussion-page-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* =============================== */
+/*  HEADER                         */
 /* =============================== */
 .discussion-header {
   font-size: 2rem;
@@ -23,7 +29,7 @@
 }
 
 /* =============================== */
-/*  MASONRY GRID                   */
+/*  MASONRY GRID                    */
 /* =============================== */
 .masonry-grid {
   display: flex;
@@ -35,7 +41,7 @@
 }
 
 /* =============================== */
-/*  POST CARD (matches dashboard cards) */
+/*  DISCUSSION CARD                 */
 /* =============================== */
 .discussion-card {
   background: rgba(255, 253, 247, 0.95);
@@ -54,7 +60,7 @@
 }
 
 /* =============================== */
-/*  CARD WITH IMAGE                */
+/*  CARD WITH IMAGE                 */
 /* =============================== */
 .discussion-img-wrapper {
   position: relative;
@@ -88,7 +94,7 @@
 }
 
 /* =============================== */
-/*  CARD WITHOUT IMAGE             */
+/*  CARD WITHOUT IMAGE              */
 /* =============================== */
 .discussion-no-image-card {
   height: 140px;
@@ -108,7 +114,7 @@
 }
 
 /* =============================== */
-/*  CREATE (+) BUTTON              */
+/*  CREATE (+) BUTTON               */
 /* =============================== */
 .discussion-create-btn {
   position: fixed;
@@ -134,7 +140,7 @@
 }
 
 /* =============================== */
-/*  RESPONSIVE                     */
+/*  RESPONSIVE                      */
 /* =============================== */
 @media (max-width: 600px) {
   .discussion-header {
@@ -154,6 +160,8 @@
     right: 22px;
   }
 }
+
+/* Ensure background fills page */
 body,
 html {
   margin: 0;
