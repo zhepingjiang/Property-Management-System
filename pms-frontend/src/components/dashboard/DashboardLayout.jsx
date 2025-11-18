@@ -8,6 +8,7 @@ import DashboardCurrentBalance from "./DashboardCurrentBalance";
 import DasboardAmenitiesReserve from "./DashboardAmenitiesReserve";
 import DashboardUserfulLinks from "./DashboardUsefulLinks";
 import DashboardNewsletter from "./DashboardNewsletter";
+import DashboardDiscussion from "./DashboardDiscussion";
 
 const { Content } = Layout;
 
@@ -31,11 +32,14 @@ export default function DashboardLayout({ children, pageTitle, user }) {
             {/* Current Balance */}
             <DashboardCurrentBalance />
 
-            {/* Trending Events */}
-            <DashboardTrendingEvents />
+            {/*discussion*/}
+            <DashboardDiscussion />
 
             {/* Amenities Reserve */}
             <DasboardAmenitiesReserve />
+
+            {/* Trending Events */}
+            <DashboardTrendingEvents />
 
             {/* Useful Links */}
             <DashboardUserfulLinks />
