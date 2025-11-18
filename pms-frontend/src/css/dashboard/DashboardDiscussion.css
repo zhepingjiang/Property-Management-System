@@ -1,0 +1,100 @@
+.discussion-section {
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+.discussion-title {
+  color: #5a4632;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+/* Horizontal scroll container */
+.discussion-row {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scroll-behavior: smooth;
+}
+
+.discussion-row::-webkit-scrollbar {
+  height: 8px;
+}
+
+.discussion-row::-webkit-scrollbar-thumb {
+  background: rgba(185, 150, 87, 0.5);
+  border-radius: 4px;
+}
+
+.discussion-row::-webkit-scrollbar-track {
+  background: rgba(255, 250, 243, 0.2);
+}
+
+/* Discussion card styling */
+.discussion-card {
+  background: #fffaf3;
+  border-radius: 20px;
+  border: 1px solid rgba(185, 150, 87, 0.3);
+  box-shadow: 0 8px 22px rgba(185, 150, 87, 0.18);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  min-width: 260px; /* Keeps all cards similar width */
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  padding: 16px;
+}
+
+.discussion-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(185, 150, 87, 0.25);
+  background: #fff3e0;
+}
+
+.discussion-icon {
+  font-size: 2rem;
+  color: #b9965b;
+  margin-right: 12px;
+}
+
+.discussion-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.discussion-title-card {
+  font-weight: 600;
+  color: #5a4632;
+  font-size: 1.1rem;
+}
+
+.discussion-last-msg {
+  font-size: 0.9rem;
+  color: #7a6a55;
+}
+
+.discussion-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.discussion-user {
+  font-size: 0.85rem;
+  color: #5a4632;
+}
+
+.discussion-btn {
+  background: #b9965b;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  align-self: flex-start;
+  transition: all 0.25s ease;
+}
+
+.discussion-btn:hover {
+  background: #8e6f43;
+  color: white;
+}

@@ -1,7 +1,7 @@
 // src/components/maintenance/MaintenanceRequestDetailModal.jsx
 import React, { useState, useEffect } from "react";
 import { Modal, Card, Typography, Input, Button } from "antd";
-import "../../css/maintenance/MaintenancePage.css";
+import "../../css/maintenance/MaintenanceRequestDetailModal.css";
 
 const { Title, Paragraph, Text } = Typography;
 const { TextArea } = Input;

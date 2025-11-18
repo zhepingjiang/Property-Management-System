@@ -1,0 +1,72 @@
+.amenities-section {
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+.amenities-title {
+  color: #5a4632;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+/* Grid layout for amenities */
+.amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+/* Amenity card */
+.amenity-card {
+  background: #fffaf3;
+  border-radius: 20px;
+  border: 1px solid rgba(185, 150, 87, 0.3);
+  box-shadow: 0 8px 22px rgba(185, 150, 87, 0.18);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  display: flex;
+  align-items: center;
+  padding: 16px;
+}
+
+.amenity-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(185, 150, 87, 0.25);
+  background: #fff3e0;
+}
+
+.amenity-icon {
+  font-size: 2.5rem;
+  color: #b9965b;
+  margin-right: 12px;
+}
+
+.amenity-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.amenity-title {
+  font-weight: 600;
+  color: #5a4632;
+  font-size: 1.1rem;
+}
+
+.amenity-desc {
+  color: #7a6a55;
+  font-size: 0.9rem;
+}
+
+.amenity-btn {
+  background: #b9965b;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  align-self: flex-start;
+  transition: all 0.25s ease;
+}
+
+.amenity-btn:hover {
+  background: #8e6f43;
+  color: white;
+}

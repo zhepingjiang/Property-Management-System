@@ -109,9 +109,6 @@ export default function DiscussionPage() {
 
   return (
     <div className="discussion-page-wrapper">
-      {/* Fixed Dashboard Header */}
-      <DashboardHeader pageTitle="Discussion" />
-
       {/* Page Content */}
       <div className="discussion-page-container">
         <h2 className="discussion-header">Community Posts</h2>

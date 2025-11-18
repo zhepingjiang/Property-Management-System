@@ -25,8 +25,7 @@ export default function DashboardHeader({ pageTitle, user }) {
     { key: "dashboard", label: "Dashboard", path: "/dashboard" },
     { key: "newsletter", label: "Newsletter", path: "/newsletter/1" },
     { key: "amenities", label: "Amenities", path: "/amenity/info" },
-    { key: "reserve", label: "Reserve", path: "/amenity/reserve" },
-    { key: "policies", label: "Policies", path: "/policies" },
+    { key: "policies", label: "Policies", path: "/policy" },
     { key: "discussion", label: "Discussion", path: "/discussion" },
     { key: "maintenance", label: "Maintenance", path: "/maintenance" },
   ];
@@ -65,10 +64,6 @@ export default function DashboardHeader({ pageTitle, user }) {
             </Button>
           ))}
         </nav>
-      </div>
-
-      <div className="header-title">
-        <Text className="hotel-page-title">{pageTitle || "Dashboard"}</Text>
       </div>
 
       <div className="header-right">

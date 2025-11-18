@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Card, Input, Upload, Button, Typography } from "antd";
 import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
-import "../../css/discussion/DiscussionPage.css";
+import "../../css/discussion/CreatePostModal.css";
 
 const { Title } = Typography;
 const { TextArea } = Input;

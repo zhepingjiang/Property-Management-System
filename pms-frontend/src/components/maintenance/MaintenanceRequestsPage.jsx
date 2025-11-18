@@ -16,7 +16,7 @@ import {
 import MaintenanceRequestDetailModal from "./MaintenanceRequestDetailModal";
 import MaintenanceRequestCreateModal from "./MaintenanceRequestCreateModal";
 
-import "../../css/maintenance/MaintenancePage.css";
+import "../../css/maintenance/MaintenanceRequestsPage.css";
 import DashboardHeader from "../dashboard/DashboardHeader";
 
 const { Title, Text } = Typography;
@@ -175,7 +175,6 @@ const MaintenanceRequestsPage = () => {
   return (
     <div className="maintenance-page">
       {/* Header */}
-      <DashboardHeader pageTitle="Maintenance Requests" />
       <div className="maintenance-header">
         <div className="maintenance-header-left">
           <Title level={3} className="maintenance-title">

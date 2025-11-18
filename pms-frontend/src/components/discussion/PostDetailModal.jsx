@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Card, Carousel, Typography, Input, Button } from "antd";
-import "../../css/discussion/DiscussionPage.css";
+import "../../css/discussion/PostDetailModal.css";
 
 const { Title, Paragraph } = Typography;
 const { TextArea } = Input;
@@ -9,7 +9,6 @@ const PostDetailModal = ({ post, onClose }) => {
   const [localReplies, setLocalReplies] = useState(post.replies || []);
   const [replyText, setReplyText] = useState("");
 
-  // If a different post is opened, sync replies
   useEffect(() => {
     setLocalReplies(post.replies || []);
     setReplyText("");
@@ -18,9 +17,6 @@ const PostDetailModal = ({ post, onClose }) => {
   const handleSendReply = () => {
     const trimmed = replyText.trim();
     if (!trimmed) return;
-
-    // For now, just update local state.
-    // Later you'll call BE API and then refresh replies.
     setLocalReplies((prev) => [...prev, trimmed]);
     setReplyText("");
   };
@@ -30,17 +26,22 @@ const PostDetailModal = ({ post, onClose }) => {
       open={true}
       footer={null}
       onCancel={onClose}
-      width={1100}
+      width={1000}
       className="discussion-post-modal"
+      bodyStyle={{ padding: 0 }}
     >
       <div className="post-modal-grid">
-        {/* LEFT: images + title + content */}
+        {/* LEFT: Images + Title + Content */}
         <Card className="post-left-card">
           {post.images && post.images.length > 0 && (
-            <Carousel className="post-carousel">
+            <Carousel className="post-carousel" autoplay>
               {post.images.map((img, idx) => (
                 <div key={idx}>
-                  <img src={img} alt="" className="post-carousel-img" />
+                  <img
+                    src={img}
+                    alt={`post-${idx}`}
+                    className="post-carousel-img"
+                  />
                 </div>
               ))}
             </Carousel>
@@ -53,7 +54,7 @@ const PostDetailModal = ({ post, onClose }) => {
           <Paragraph className="post-content">{post.content}</Paragraph>
         </Card>
 
-        {/* RIGHT: replies + input at bottom */}
+        {/* RIGHT: Replies + Input */}
         <Card className="post-right-card">
           <div className="replies-list">
             {localReplies.length === 0 ? (

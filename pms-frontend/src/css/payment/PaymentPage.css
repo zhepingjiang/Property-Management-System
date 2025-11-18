@@ -1,0 +1,131 @@
+.payment-page {
+  padding: 64px 48px;
+  font-family: "Cormorant Garamond", serif;
+  color: #5a4632;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.payment-title {
+  margin-top: -80px;
+  color: #5a4632;
+  font-weight: 700;
+  font-size: 2.5rem; /* Increased header */
+  text-align: center;
+}
+
+/* Card base style */
+.hotel-card {
+  background: #fffaf3;
+  border-radius: 22px;
+  border: 1px solid rgba(185, 150, 87, 0.3);
+  box-shadow: 0 10px 28px rgba(185, 150, 87, 0.18);
+  margin-bottom: 24px;
+  padding: 24px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hotel-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 36px rgba(185, 150, 87, 0.25);
+}
+
+/* Balance card */
+.balance-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #5a4632;
+  margin-bottom: 16px;
+}
+
+.balance-icon {
+  font-size: 2rem;
+  color: #b9965b;
+  animation: float 2s infinite ease-in-out;
+}
+
+/* Payment form */
+.payment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.payment-label {
+  font-weight: 600;
+  color: #5a4632;
+  font-size: 1.05rem;
+}
+
+.pay-btn {
+  background: linear-gradient(135deg, #b9965b 0%, #8e6f43 100%);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 12px 16px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+.pay-btn:hover,
+.pay-btn:focus {
+  background: linear-gradient(135deg, #8e6f43 0%, #b9965b 100%);
+  color: white;
+}
+
+/* Recent payments list */
+.recent-payments-title {
+  color: #5a4632;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.recent-payments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 70vh; /* Make scrollable */
+  overflow-y: auto; /* Scroll up & down */
+  overflow-x: hidden;
+  padding-right: 4px;
+}
+
+.recent-payment-row {
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(255, 253, 247, 0.95);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recent-payment-row:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(185, 150, 87, 0.15);
+}
+
+.recent-payment-amount {
+  font-weight: 700;
+  color: #5a4632;
+}
+
+.recent-payment-method {
+  color: #7a6a55;
+}
+
+/* Float animation for icon */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}

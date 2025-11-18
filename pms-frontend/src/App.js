@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./components/login/LoginPage";
 import ForgotPasswordModal from "./components/login/ForgotPasswordModal";
 import CreateAccountModal from "./components/login/CreateAccountModal";
-import UserProfile from "./components/login/UserProfile";
+import UserProfilePage from "./components/userprofile/UserProfilePage";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
 
 import NewsletterDetailPage from "./components/newsletter/NewsletterDetailPage";
@@ -12,6 +12,8 @@ import AmenityInfoPage from "./components/amenity/AmenityInfoPage";
 import AmenityReservationPage from "./components/amenity/AmenityReservationPage";
 import DiscussionPage from "./components/discussion/DiscussionPage";
 import MaintenanceRequestsPage from "./components/maintenance/MaintenanceRequestsPage";
+import Policy from "./components/policies/Policy";
+import PaymentPage from "./components/payment/PaymentPage";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -63,9 +65,9 @@ const App = () => {
           path="/profile"
           element={
             user ? (
-              <DashboardLayout pageTitle={"Profile"} user={user}>
+              <DashboardLayout user={user}>
                 <div className="profile-container">
-                  <UserProfile user={user} onLogout={handleLogout} />
+                  <UserProfilePage user={user} onLogout={handleLogout} />
                 </div>
               </DashboardLayout>
             ) : (
@@ -79,7 +81,7 @@ const App = () => {
           path="/dashboard"
           element={
             user ? (
-              <DashboardLayout pageTitle={"Dashboard"} user={user} />
+              <DashboardLayout user={user} />
             ) : (
               <Navigate to="/login" replace />
             )
@@ -91,7 +93,7 @@ const App = () => {
           path="/amenity/info"
           element={
             user ? (
-              <DashboardLayout pageTitle={"Amenity / Details"} user={user}>
+              <DashboardLayout user={user}>
                 <AmenityInfoPage />
               </DashboardLayout>
             ) : (
@@ -103,10 +105,7 @@ const App = () => {
           path="/amenity/reserve"
           element={
             user ? (
-              <DashboardLayout
-                pageTitle={"Reserve Amenity / Confirm"}
-                user={user}
-              >
+              <DashboardLayout user={user}>
                 <AmenityReservationPage />
               </DashboardLayout>
             ) : (
@@ -120,7 +119,7 @@ const App = () => {
           path="/newsletter/:id"
           element={
             user ? (
-              <DashboardLayout pageTitle={"Newsletter / Detail"} user={user}>
+              <DashboardLayout user={user}>
                 <NewsletterDetailPage />
               </DashboardLayout>
             ) : (
@@ -130,10 +129,60 @@ const App = () => {
         />
 
         {/* Discussion Board */}
-        <Route path="/discussion" element={<DiscussionPage />} />
+        <Route
+          path="/discussion"
+          element={
+            user ? (
+              <DashboardLayout user={user}>
+                <DiscussionPage />
+              </DashboardLayout>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+
+        {/* Policy Page */}
+        <Route
+          path="/policy"
+          element={
+            user ? (
+              <DashboardLayout user={user}>
+                <Policy />
+              </DashboardLayout>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
 
         {/* Maintenance Board */}
-        <Route path="/maintenance" element={<MaintenanceRequestsPage />} />
+        <Route
+          path="/maintenance"
+          element={
+            user ? (
+              <DashboardLayout user={user}>
+                <MaintenanceRequestsPage />
+              </DashboardLayout>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+
+        {/* Payment Page */}
+        <Route
+          path="/payment"
+          element={
+            user ? (
+              <DashboardLayout user={user}>
+                <PaymentPage />
+              </DashboardLayout>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
 
         {/* Default Route */}
         <Route path="/" element={<Navigate to="/login" replace />} />

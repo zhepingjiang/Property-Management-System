@@ -1,0 +1,10 @@
+/* Footer */
+.dashboard-footer {
+  text-align: center;
+  margin-top: 60px;
+}
+.info-text {
+  font-weight: 600;
+  color: #7a6a55;
+  margin: 4px 0;
+}

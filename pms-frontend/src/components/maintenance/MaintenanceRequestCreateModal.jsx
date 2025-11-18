@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Modal, Card, Typography, Input, Upload, Button, message } from "antd";
 import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
-import "../../css/maintenance/MaintenancePage.css";
+import "../../css/maintenance/MaintenanceRequestCreateModal.css";
 
 const { Title } = Typography;
 const { TextArea } = Input;

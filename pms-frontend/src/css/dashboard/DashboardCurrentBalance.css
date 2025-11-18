@@ -1,0 +1,82 @@
+.balance-section {
+  margin-top: 24px;
+  margin-bottom: 32px;
+}
+
+.balance-title {
+  color: #5a4632;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+/* Cards */
+.hotel-card {
+  background: #fffaf3;
+  border-radius: 20px;
+  border: 1px solid rgba(185, 150, 87, 0.3);
+  box-shadow: 0 8px 22px rgba(185, 150, 87, 0.18);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hotel-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(185, 150, 87, 0.25);
+}
+
+.clickable-card {
+  cursor: pointer;
+}
+
+/* Balance card */
+.balance-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.balance-card-label {
+  font-weight: 600;
+  color: #5a4632;
+}
+
+.balance-amount {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #5a4632;
+}
+
+.balance-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.balance-invoice {
+  color: #7a6a55;
+  font-size: 0.9rem;
+}
+
+/* Payment card */
+.payment-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.payment-card-label {
+  font-weight: 600;
+  color: #5a4632;
+}
+
+.payment-btn {
+  background: #b9965b;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  transition: all 0.25s ease;
+}
+
+.payment-btn:hover {
+  background: #8e6f43;
+  color: white;
+}
