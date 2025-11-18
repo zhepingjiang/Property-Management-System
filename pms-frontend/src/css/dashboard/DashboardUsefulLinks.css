@@ -1,0 +1,79 @@
+.useful-links-section {
+  padding: 24px;
+  font-family: "Cormorant Garamond", serif;
+  color: #5a4632;
+}
+
+.useful-links-title {
+  margin-bottom: 24px;
+  color: #5a4632;
+  font-weight: 700;
+}
+
+/* Links Row */
+.links-row {
+  margin-bottom: 24px;
+}
+
+/* Individual Link Card */
+.link-card {
+  background: #fff8f0;
+  border-radius: 16px;
+  border: 1px solid rgba(185, 150, 87, 0.3);
+  box-shadow: 0 6px 16px rgba(185, 150, 87, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+}
+
+.link-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(185, 150, 87, 0.25);
+}
+
+.link-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.link-card-title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #5a4632;
+}
+
+.link-card-sub {
+  font-size: 0.875rem;
+  color: #7a6a55;
+}
+
+/* Reserve Card */
+.reserve-card {
+  background: #fbe8d1;
+  border-radius: 16px;
+  border: 1px solid rgba(185, 150, 87, 0.3);
+  box-shadow: 0 6px 16px rgba(185, 150, 87, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.reserve-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(185, 150, 87, 0.25);
+}
+
+.reserve-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reserve-card-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #5a4632;
+}
+
+.reserve-card-sub {
+  font-size: 0.95rem;
+  color: #7a6a55;
+}

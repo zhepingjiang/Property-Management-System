@@ -26,7 +26,7 @@ code {
 .nav-btn,
 button {
   @apply px-6 py-3 rounded-xl font-semibold text-white transition-all duration-200;
-  background: linear-gradient(135deg, #b75bb9 0%, #8e6f43 100%);
+  background: linear-gradient(135deg, #b9965b 0%, #8e6f43 100%);
 }
 
 .nav-btn:hover,
