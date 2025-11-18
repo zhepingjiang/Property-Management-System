@@ -9,6 +9,7 @@ import DasboardAmenitiesReserve from "./DashboardAmenitiesReserve";
 import DashboardUserfulLinks from "./DashboardUsefulLinks";
 import DashboardNewsletter from "./DashboardNewsletter";
 import DashboardDiscussion from "./DashboardDiscussion";
+import DashboardMaintenance from "./DashboardMaintenance";
 
 const { Content } = Layout;
 
@@ -40,6 +41,9 @@ export default function DashboardLayout({ children, pageTitle, user }) {
 
             {/* Trending Events */}
             <DashboardTrendingEvents />
+
+            {/* Maintenance  */}
+            <DashboardMaintenance />
 
             {/* Useful Links */}
             <DashboardUserfulLinks />
