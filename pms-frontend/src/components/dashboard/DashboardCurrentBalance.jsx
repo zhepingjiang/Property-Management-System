@@ -11,7 +11,7 @@ export default function DashboardCurrentBalance() {
 
   // Animated balance state
   const [balance, setBalance] = useState(0);
-  const targetBalance = 1250;
+  const targetBalance = 999999;
 
   useEffect(() => {
     let start = null;

@@ -1,20 +1,10 @@
 import React from "react";
-import {
-  Layout,
-  Typography,
-  Row,
-  Col,
-  Card,
-  Button,
-  Avatar,
-  Space,
-  Tag,
-} from "antd";
+import { Typography, Card, Button, Avatar } from "antd";
 import { useNavigate } from "react-router-dom";
 import "../../css/dashboard/DashboardLayout.css";
+import "../../css/dashboard/DashboardTrendingEvents.css";
 
-const { Content, Footer } = Layout;
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 export default function DashboardTrendingEvents() {
   const navigate = useNavigate();
@@ -39,51 +29,77 @@ export default function DashboardTrendingEvents() {
       location: "Lobby",
       desc: "Local vendors & crafts.",
     },
+    {
+      title: "Wine Tasting",
+      date: "Dec 15",
+      location: "Club Lounge",
+      desc: "Sample local wines.",
+    },
+    {
+      title: "Art Workshop",
+      date: "Dec 20",
+      location: "Studio 1",
+      desc: "Paint & create together.",
+    },
+    {
+      title: "Movie Night",
+      date: "Dec 25",
+      location: "Screening Room",
+      desc: "Holiday classics.",
+    },
+    {
+      title: "New Year Gala",
+      date: "Dec 31",
+      location: "Ballroom",
+      desc: "Celebrate with neighbors.",
+    },
   ];
 
   return (
-    <section className="section">
-      <Title level={4} className="hotel-title">
-        Trending Events
-      </Title>
-      <Row gutter={16}>
+    <section className="trending-events-section">
+      <div className="trending-events-header">
+        <Title level={4} className="hotel-title">
+          Trending Events
+        </Title>
+        <Button className="trending-learn-more" onClick={goTo("/events")}>
+          Learn More
+        </Button>
+      </div>
+
+      <div className="trending-events-scroll">
         {trendingEvents.map((ev, i) => (
-          <Col xs={24} sm={8} key={i}>
-            <Card
-              hoverable
-              className="box-card hotel-card clickable-card"
-              onClick={goTo("/amenity/info")}
-            >
-              <div className="card-body" style={{ display: "flex", gap: 12 }}>
-                <Avatar size={52} style={{ backgroundColor: "#e2d5c2" }}>
-                  {ev.title.charAt(0)}
-                </Avatar>
-                <div style={{ flex: 1 }}>
-                  <div className="card-title">{ev.title}</div>
-                  <div className="card-sub">
-                    {ev.date} • {ev.location}
-                  </div>
-                  <div style={{ marginTop: 8, color: "#6b5a45" }}>
-                    {ev.desc}
-                  </div>
-                  <div style={{ marginTop: 10 }}>
-                    <Button
-                      size="small"
-                      type="primary"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        goTo("/events")();
-                      }}
-                    >
-                      View
-                    </Button>
-                  </div>
+          <Card
+            hoverable
+            key={i}
+            className="hotel-card trending-event-card clickable-card"
+            onClick={goTo("/amenity/info")}
+          >
+            <div className="event-card-body">
+              <Avatar size={52} style={{ backgroundColor: "#e2d5c2" }}>
+                {ev.title.charAt(0)}
+              </Avatar>
+              <div className="event-card-content">
+                <div className="card-title">{ev.title}</div>
+                <div className="card-sub">
+                  {ev.date} • {ev.location}
                 </div>
+                <div className="card-desc">{ev.desc}</div>
+                <Button
+                  size="small"
+                  type="primary"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goTo("/events")();
+                  }}
+                  className="event-view-btn"
+                >
+                  View
+                </Button>
               </div>
-            </Card>
-          </Col>
+            </div>
+          </Card>
         ))}
-      </Row>
+      </div>
     </section>
   );
 }

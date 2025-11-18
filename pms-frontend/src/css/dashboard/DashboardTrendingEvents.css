@@ -1,0 +1,86 @@
+.trending-events-section {
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+.trending-events-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.trending-learn-more {
+  background: #b9965b;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  transition: all 0.25s ease;
+}
+
+.trending-learn-more:hover {
+  background: #8e6f43;
+  color: white;
+}
+
+.trending-events-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding-bottom: 8px;
+  scroll-behavior: smooth;
+}
+
+.trending-events-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.trending-events-scroll::-webkit-scrollbar-thumb {
+  background: rgba(185, 150, 87, 0.5);
+  border-radius: 4px;
+}
+
+.trending-event-card {
+  min-width: 250px;
+  flex: 0 0 auto; /* prevent shrinking */
+  background: #fffaf3;
+  border-radius: 20px;
+  border: 1px solid rgba(185, 150, 87, 0.3);
+  box-shadow: 0 8px 22px rgba(185, 150, 87, 0.18);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.trending-event-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(185, 150, 87, 0.25);
+}
+
+.event-card-body {
+  display: flex;
+  gap: 12px;
+}
+
+.event-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-desc {
+  margin-top: 6px;
+  color: #6b5a45;
+}
+
+.event-view-btn {
+  margin-top: 8px;
+  background: #b9965b;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  transition: all 0.25s ease;
+}
+
+.event-view-btn:hover {
+  background: #8e6f43;
+  color: white;
+}
