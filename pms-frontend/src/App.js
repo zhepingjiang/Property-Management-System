@@ -13,6 +13,7 @@ import AmenityReservationPage from "./components/amenity/AmenityReservationPage"
 import DiscussionPage from "./components/discussion/DiscussionPage";
 import MaintenanceRequestsPage from "./components/maintenance/MaintenanceRequestsPage";
 import Policy from "./components/policies/Policy";
+import PaymentPage from "./components/payment/PaymentPage";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -162,6 +163,20 @@ const App = () => {
             user ? (
               <DashboardLayout user={user}>
                 <MaintenanceRequestsPage />
+              </DashboardLayout>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+
+        {/* Payment Page */}
+        <Route
+          path="/payment"
+          element={
+            user ? (
+              <DashboardLayout user={user}>
+                <PaymentPage />
               </DashboardLayout>
             ) : (
               <Navigate to="/login" replace />

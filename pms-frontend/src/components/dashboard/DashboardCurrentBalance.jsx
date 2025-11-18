@@ -1,57 +1,79 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, Row, Col, Card, Button, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
-import "../../css/dashboard/DashboardLayout.css";
+import "../../css/dashboard/DashboardCurrentBalance.css";
+
 const { Title } = Typography;
 
 export default function DashboardCurrentBalance() {
   const navigate = useNavigate();
   const goTo = (path) => () => navigate(path);
 
+  // Animated balance state
+  const [balance, setBalance] = useState(0);
+  const targetBalance = 1250;
+
+  useEffect(() => {
+    let start = null;
+
+    const animate = (timestamp) => {
+      if (!start) start = timestamp;
+      const progress = timestamp - start;
+      const duration = 1000; // 1 second animation
+      const current = Math.min(
+        Math.floor((progress / duration) * targetBalance),
+        targetBalance
+      );
+      setBalance(current);
+      if (progress < duration) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, []);
+
   return (
-    <section className="section">
-      <Title level={4} className="hotel-title">
+    <section className="balance-section">
+      <Title level={4} className="balance-title">
         Current Balance
       </Title>
+
       <Row gutter={16}>
         <Col xs={24} sm={16}>
           <Card
             hoverable
-            className="box-card hotel-card balance-card clickable-card"
-            onClick={goTo("/profile")}
+            className="balance-card hotel-card clickable-card"
+            onClick={goTo("/payment")}
           >
-            <div className="card-body">
-              <div className="card-title">Current Balance</div>
-              <div style={{ fontSize: "1.6rem", fontWeight: 700 }}>$1,250</div>
-              <div style={{ marginTop: 8 }}>
-                <Tag color="gold">Due Dec 05</Tag>
-                <span style={{ marginLeft: 8, color: "#7a6a55" }}>
-                  1 invoice pending
-                </span>
+            <div className="balance-card-body">
+              <div className="balance-amount">${balance.toLocaleString()}</div>
+              <div className="balance-meta">
+                <Tag color="#b9965b">Due Dec 05</Tag>
+                <span className="balance-invoice">1 invoice pending</span>
               </div>
             </div>
           </Card>
         </Col>
+
         <Col xs={24} sm={8}>
           <Card
             hoverable
-            className="box-card hotel-card events-card clickable-card"
-            onClick={goTo("/amenity/info")}
+            className="payment-card hotel-card clickable-card"
+            onClick={goTo("/payment")}
           >
-            <div className="card-body">
-              <div className="card-title">Notifications</div>
-              <div className="card-sub">3 new</div>
-              <div style={{ marginTop: 8 }}>
-                <Button
-                  size="small"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goTo("/notifications")();
-                  }}
-                >
-                  View
-                </Button>
-              </div>
+            <div className="payment-card-body">
+              <div className="payment-card-label">Make Payment</div>
+              <Button
+                className="payment-btn"
+                size="small"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goTo("/payment")();
+                }}
+              >
+                View
+              </Button>
             </div>
           </Card>
         </Col>
