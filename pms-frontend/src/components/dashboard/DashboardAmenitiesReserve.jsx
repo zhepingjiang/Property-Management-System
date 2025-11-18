@@ -1,80 +1,74 @@
 import React from "react";
-import { Layout, Typography, Row, Col, Card, Button } from "antd";
+import { Card, Typography, Button } from "antd";
+import { FaSwimmer, FaSun, FaDumbbell, FaSpa } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import "../../css/dashboard/DashboardLayout.css";
+import "../../css/dashboard/DashboardAmenitiesReserve.css";
+
 const { Title } = Typography;
 
 export default function DashboardAmenitiesReserve() {
   const navigate = useNavigate();
   const goTo = (path) => () => navigate(path);
 
+  const amenities = [
+    {
+      title: "Pool & Rooftop",
+      desc: "Swim, relax, and enjoy city views",
+      icon: <FaSwimmer />,
+      path: "/amenity/pool",
+    },
+    {
+      title: "Sun Lounge",
+      desc: "Soak up the sun in a comfortable lounge",
+      icon: <FaSun />,
+      path: "/amenity/sun-lounge",
+    },
+    {
+      title: "Gym",
+      desc: "Fully equipped gym for all levels",
+      icon: <FaDumbbell />,
+      path: "/amenity/gym",
+    },
+    {
+      title: "Spa & Wellness",
+      desc: "Relax with massages and wellness treatments",
+      icon: <FaSpa />,
+      path: "/amenity/spa",
+    },
+  ];
+
   return (
-    <section className="section">
-      <Title level={4} className="hotel-title">
+    <section className="amenities-section">
+      <Title level={4} className="amenities-title">
         Amenities Reserve
       </Title>
-      <Row gutter={16}>
-        <Col xs={24} sm={8}>
-          <Card hoverable className="box-card hotel-card survey-card">
-            <div className="card-body">
-              <div className="card-title">Quick Survey</div>
-              <div className="card-sub">Tell us about the new gym hours</div>
-              <div style={{ marginTop: 8 }}>
-                <Button
-                  size="small"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goTo("/survey/1")();
-                  }}
-                >
-                  Take Survey
-                </Button>
-              </div>
-            </div>
-          </Card>
-        </Col>
-        <Col xs={24} sm={16}>
-          <Card hoverable className="box-card hotel-card survey-card">
-            <div className="card-body">
-              <div className="card-title">Community Vote</div>
-              <div className="card-sub">Help choose holiday decorations</div>
-              <div style={{ marginTop: 8 }}>
-                <Button
-                  size="small"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goTo("/survey/2")();
-                  }}
-                >
-                  Vote Now
-                </Button>
-              </div>
-            </div>
-          </Card>
-        </Col>
-      </Row>
 
-      <Card
-        hoverable
-        className="small-card-wide hotel-card clickable-card"
-        onClick={goTo("/amenity/info")}
-      >
-        <div className="card-body">
-          <div className="card-title">Pool & Rooftop</div>
-          <div className="card-sub">Swim, relax, and enjoy city views</div>
-          <div style={{ marginTop: 8 }}>
-            <Button
-              size="small"
-              onClick={(e) => {
-                e.stopPropagation();
-                goTo("/amenity/info")();
-              }}
-            >
-              See Details
-            </Button>
-          </div>
-        </div>
-      </Card>
+      <div className="amenities-grid">
+        {amenities.map((am, i) => (
+          <Card
+            key={i}
+            hoverable
+            className="amenity-card hotel-card clickable-card"
+            onClick={goTo(am.path)}
+          >
+            <div className="amenity-icon">{am.icon}</div>
+            <div className="amenity-info">
+              <div className="amenity-title">{am.title}</div>
+              <div className="amenity-desc">{am.desc}</div>
+              <Button
+                className="amenity-btn"
+                size="small"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goTo(am.path)();
+                }}
+              >
+                Reserve
+              </Button>
+            </div>
+          </Card>
+        ))}
+      </div>
     </section>
   );
 }
