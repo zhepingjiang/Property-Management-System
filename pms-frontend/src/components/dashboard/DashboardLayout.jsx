@@ -28,11 +28,11 @@ export default function DashboardLayout({ children, pageTitle, user }) {
             {/* Newsletter Banner (click -> newsletter detail) */}
             <DashboardNewsletter />
 
-            {/* Trending Events */}
-            <DashboardTrendingEvents />
-
             {/* Current Balance */}
             <DashboardCurrentBalance />
+
+            {/* Trending Events */}
+            <DashboardTrendingEvents />
 
             {/* Amenities Reserve */}
             <DasboardAmenitiesReserve />
