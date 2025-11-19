@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "../../css/login/LoginPage.css";
 import { validateLogin } from "./Validation";
-import { fakeLogin } from "./authApi";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import CreateAccountModal from "./CreateAccountModal";
 import { login } from "./utils";
@@ -29,6 +28,7 @@ export default function LoginPage({ onLoginSuccess }) {
       const userData = {
         username: username,
         password: password,
+        role: role === "resident" ? "ROLE_RESIDENT" : "ROLE_TRUSTEE",
       };
       const response = await login(userData);
 
