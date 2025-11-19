@@ -20,11 +20,13 @@ const App = () => {
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
   const [isCreateAccountOpen, setIsCreateAccountOpen] = useState(false);
 
-  const handleLoginSuccess = (userData) => {
+  const handleLoginSuccess = (token, userData) => {
+    localStorage.setItem("authToken", token);
     setUser(userData);
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("authToken");
     setUser(null);
   };
 

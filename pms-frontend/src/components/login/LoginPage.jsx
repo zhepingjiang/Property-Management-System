@@ -4,9 +4,10 @@ import { validateLogin } from "./Validation";
 import { fakeLogin } from "./authApi";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import CreateAccountModal from "./CreateAccountModal";
+import { login } from "./utils";
 
 export default function LoginPage({ onLoginSuccess }) {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("resident");
   const [errors, setErrors] = useState({});
@@ -18,16 +19,21 @@ export default function LoginPage({ onLoginSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const validation = validateLogin(email, password);
+    const validation = validateLogin(username, password);
     if (!validation.ok) return setErrors(validation.errors);
 
     setErrors({});
     setLoading(true);
 
     try {
-      const userData = await fakeLogin(email, password, role);
-      onLoginSuccess?.(userData);
-      setEmail("");
+      const userData = {
+        username: username,
+        password: password,
+      };
+      const response = await login(userData);
+
+      onLoginSuccess?.(response.token, userData);
+      setUsername("");
       setPassword("");
     } catch (err) {
       setErrors({ submit: err.message });
@@ -67,17 +73,17 @@ export default function LoginPage({ onLoginSuccess }) {
         {/* Form */}
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
-            <label>Email</label>
+            <label>Username</label>
             <input
-              value={email}
+              value={username}
               onChange={(e) => {
-                setEmail(e.target.value);
+                setUsername(e.target.value);
                 setErrors({});
               }}
-              className={errors.email ? "error" : ""}
+              className={errors.username ? "error" : ""}
             />
-            {errors.email && (
-              <span className="error-message">{errors.email}</span>
+            {errors.username && (
+              <span className="error-message">{errors.username}</span>
             )}
           </div>
 
