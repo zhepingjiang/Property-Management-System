@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { validateCreateAccount } from "./Validation";
-import { fakeCreateAccount } from "./authApi";
+import { register } from "./utils";
+import { Modal, Form, Row, Col, Input, Select, Button } from "antd";
 
 export default function CreateAccountModal({
   isOpen,
@@ -8,9 +9,9 @@ export default function CreateAccountModal({
   onAccountCreated,
 }) {
   const [form, setForm] = useState({
-    name: "",
+    username: "",
     email: "",
-    role: "resident",
+    role: "ROLE_RESIDENT",
     password: "",
     confirmPassword: "",
   });
@@ -24,19 +25,23 @@ export default function CreateAccountModal({
     setErrors({});
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     const v = validateCreateAccount(form);
     if (!v.ok) return setErrors(v.errors);
 
     setLoading(true);
 
+    const requestBody = {
+      username: form.username,
+      password: form.password,
+      email: form.email,
+      role: form.role,
+    };
+
     try {
-      const user = await fakeCreateAccount(form);
-      onAccountCreated?.(user);
+      await register(requestBody);
       onClose();
-    } catch {
+    } catch (error) {
       setErrors({ submit: "Failed to create account" });
     }
 
@@ -44,60 +49,76 @@ export default function CreateAccountModal({
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h2>Create Account</h2>
+    <Modal
+      open={isOpen}
+      onCancel={onClose}
+      footer={null}
+      title="Create Account"
+      centered
+    >
+      <Form layout="vertical" onFinish={handleSubmit}>
+        <Row gutter={16}>
+          <Col span={12}>
+            <Form.Item label="Username" required>
+              <Input
+                name="username"
+                value={form.username}
+                onChange={handleChange}
+              />
+            </Form.Item>
+          </Col>
 
-        <form onSubmit={handleSubmit}>
-          <input
-            name="name"
-            placeholder="Full name"
-            value={form.name}
-            onChange={handleChange}
-          />
+          <Col span={12}>
+            <Form.Item label="Email" required>
+              <Input name="email" value={form.email} onChange={handleChange} />
+            </Form.Item>
+          </Col>
+        </Row>
 
-          <input
-            name="email"
-            placeholder="Email"
-            value={form.email}
-            onChange={handleChange}
-          />
+        <Row gutter={16}>
+          <Col span={12}>
+            <Form.Item label="Password" required>
+              <Input.Password
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+              />
+            </Form.Item>
+          </Col>
 
-          <select name="role" value={form.role} onChange={handleChange}>
-            <option value="resident">Resident</option>
-            <option value="faculty">Faculty</option>
-          </select>
+          <Col span={12}>
+            <Form.Item label="Confirm Password" required>
+              <Input.Password
+                name="confirmPassword"
+                value={form.confirmPassword}
+                onChange={handleChange}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
 
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={handleChange}
-          />
+        <Form.Item label="Role" required>
+          <Select
+            name="role"
+            value={form.role}
+            onChange={(val) => setForm({ ...form, role: val })}
+          >
+            <Select.Option value="ROLE_RESIDENT">Resident</Select.Option>
+            <Select.Option value="ROLE_TRUSTEE">Faculty</Select.Option>
+          </Select>
+        </Form.Item>
 
-          <input
-            name="confirmPassword"
-            type="password"
-            placeholder="Confirm password"
-            value={form.confirmPassword}
-            onChange={handleChange}
-          />
+        {errors.submit && (
+          <div style={{ color: "red", marginBottom: 12 }}>{errors.submit}</div>
+        )}
 
-          {errors.submit && (
-            <div className="error-message">{errors.submit}</div>
-          )}
-
-          <div className="modal-actions">
-            <button type="button" onClick={onClose}>
-              Cancel
-            </button>
-            <button disabled={loading}>
-              {loading ? "Creating..." : "Create Account"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+        <div style={{ display: "flex", justifyContent: "flex-end", gap: 12 }}>
+          <Button onClick={onClose}>Cancel</Button>
+          <Button type="primary" htmlType="submit" loading={loading}>
+            Create Account
+          </Button>
+        </div>
+      </Form>
+    </Modal>
   );
 }

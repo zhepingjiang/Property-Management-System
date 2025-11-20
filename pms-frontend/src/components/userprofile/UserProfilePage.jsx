@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import { Card, Input, Button, Upload, Avatar, Typography, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import DashboardHeader from "../dashboard/DashboardHeader";
 import "../../css/userprofile/UserProfilePage.css";
 
 const { Title, Text } = Typography;
 
+const ROLE_LABELS = {
+  ROLE_RESIDENT: "Resident",
+  ROLE_TRUSTEE: "Faculty",
+};
+
 export default function UserProfilePage({ user, onLogout }) {
   const [avatar, setAvatar] = useState(null);
   const [formData, setFormData] = useState({
-    name: user.name,
+    name: user.username,
     email: user.email,
     phone: user.phone || "",
     unit: user.unit || "",
@@ -115,7 +119,7 @@ export default function UserProfilePage({ user, onLogout }) {
 
           <div className="side-row">
             <Text className="side-label">Role:</Text>
-            <Text className="side-value">{formData.role}</Text>
+            <Text className="side-value">{ROLE_LABELS[formData.role]}</Text>
           </div>
 
           <div className="side-row">

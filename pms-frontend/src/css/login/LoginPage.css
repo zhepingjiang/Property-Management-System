@@ -181,3 +181,7 @@
   color: #8e6f43;
   text-decoration: underline;
 }
+
+.ant-spin-dot-item {
+  background-color: #c9a646 !important;
+}

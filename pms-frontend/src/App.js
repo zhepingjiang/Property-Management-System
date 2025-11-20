@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import LoginPage from "./components/login/LoginPage";
@@ -14,19 +14,58 @@ import DiscussionPage from "./components/discussion/DiscussionPage";
 import MaintenanceRequestsPage from "./components/maintenance/MaintenanceRequestsPage";
 import Policy from "./components/policies/Policy";
 import PaymentPage from "./components/payment/PaymentPage";
+import { Spin } from "antd";
 
 const App = () => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
   const [isCreateAccountOpen, setIsCreateAccountOpen] = useState(false);
 
-  const handleLoginSuccess = (userData) => {
+  const handleLoginSuccess = (token, userData) => {
+    localStorage.setItem("authToken", token);
+    localStorage.setItem("user", JSON.stringify(userData));
     setUser(userData);
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
     setUser(null);
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    const userJson = localStorage.getItem("user");
+
+    if (token && userJson) {
+      try {
+        setUser(JSON.parse(userJson));
+      } catch (err) {
+        console.error("Failed to parse stored user:", err);
+        localStorage.removeItem("user");
+      }
+    }
+
+    setLoading(false); // <-- MUST be outside the if block
+  }, []);
+
+  // Prevent flicker while loading user from storage
+  if (loading) {
+    return (
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#EDEDED",
+        }}
+      >
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
     <BrowserRouter>
