@@ -9,7 +9,7 @@ export const validateLogin = (username, password) => {
 
 export const validateCreateAccount = (form) => {
   const errors = {};
-  if (!form.username) errors.name = "Name required";
+  if (!form.username) errors.username = "Name required";
 
   if (!/\S+@\S+\.\S+/.test(form.email)) errors.email = "Invalid email";
 

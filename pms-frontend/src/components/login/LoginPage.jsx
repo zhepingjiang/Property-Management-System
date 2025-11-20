@@ -25,14 +25,18 @@ export default function LoginPage({ onLoginSuccess }) {
     setLoading(true);
 
     try {
-      const userData = {
-        username: username,
-        password: password,
+      const response = await login({
+        username,
+        password,
         role: role === "resident" ? "ROLE_RESIDENT" : "ROLE_TRUSTEE",
-      };
-      const response = await login(userData);
+      });
 
-      onLoginSuccess?.(response.token, userData);
+      // Never pass plaintext password outside LoginPage
+      onLoginSuccess?.(response.token, {
+        username,
+        role: role === "resident" ? "ROLE_RESIDENT" : "ROLE_TRUSTEE",
+      });
+
       setUsername("");
       setPassword("");
     } catch (err) {
