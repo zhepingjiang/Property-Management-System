@@ -1,6 +1,7 @@
 package com.laioffer.pmsbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.laioffer.pmsbackend.common.ListToJsonConverter;
 import com.laioffer.pmsbackend.model.enums.MaintenancePriority;
 import com.laioffer.pmsbackend.model.enums.MaintenanceStatus;
 import jakarta.persistence.*;
@@ -43,7 +44,8 @@ public class MaintenanceRequestEntity {
     @Column(name = "assigned_to")
     private Long assignedTo;
 
-    @Column(name = "image_url", columnDefinition = "text")
+    @Column(name = "image_url", columnDefinition = "jsonb")
+    @Convert(converter = ListToJsonConverter.class)
     private String imageUrl;
 
     @CreationTimestamp
