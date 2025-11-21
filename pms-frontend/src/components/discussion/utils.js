@@ -79,12 +79,11 @@ export const getPostsByAuthor = (authorId) => {
 /* ================================
    CREATE POST (multipart/form-data)
 ================================ */
-export const createPost = ({ authorId, content, images }) => {
+export const createPost = ({ content, images }) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/posts`;
 
   const formData = new FormData();
-  formData.append("authorId", authorId);
   formData.append("content", content);
 
   if (images && images.length > 0) {
@@ -169,12 +168,11 @@ export const getReplies = (postId) => {
 /* ================================
    CREATE A REPLY FOR A POST
 ================================ */
-export const createReply = ({ postId, authorId, content }) => {
+export const createReply = ({ postId, content }) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/posts/${postId}/replies`;
 
   const formData = new FormData();
-  formData.append("authorId", authorId);
   formData.append("content", content);
 
   return fetch(url, {
