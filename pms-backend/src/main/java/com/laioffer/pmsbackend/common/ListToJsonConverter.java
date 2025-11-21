@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
+import java.util.Collections;
 import java.util.List;
 
 @Converter
@@ -15,6 +16,11 @@ public class ListToJsonConverter implements AttributeConverter<List<String>, Str
     @Override
     public String convertToDatabaseColumn(List<String> attribute) {
         try {
+            // Return "[]" instead of null to ensure DB stores valid JSON
+            if (attribute == null) {
+                return "[]";
+            }
+
             return mapper.writeValueAsString(attribute);
         } catch (Exception e) {
             throw new RuntimeException("Failed to convert list to JSON", e);
@@ -24,6 +30,11 @@ public class ListToJsonConverter implements AttributeConverter<List<String>, Str
     @Override
     public List<String> convertToEntityAttribute(String dbData) {
         try {
+            // Guard against NULL or blank DB column
+            if (dbData == null || dbData.trim().isEmpty()) {
+                return List.of();
+            }
+
             return mapper.readValue(dbData, new TypeReference<List<String>>() {});
         } catch (Exception e) {
             throw new RuntimeException("Failed to convert JSON to list", e);
