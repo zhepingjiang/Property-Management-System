@@ -43,7 +43,6 @@ export const getRequestById = (id) => {
    CREATE REQUEST (multipart/form-data)
 ================================ */
 export const createRequest = ({
-  authorId,
   facility,
   issueType,
   description,
@@ -55,7 +54,6 @@ export const createRequest = ({
   const url = `${domain}/api/maintenance`;
 
   const formData = new FormData();
-  formData.append("authorId", authorId);
   formData.append("facility", facility);
   formData.append("issueType", issueType);
   formData.append("description", description);
@@ -69,7 +67,7 @@ export const createRequest = ({
   return fetch(url, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${authToken}`, // ❗ no content-type
+      Authorization: `Bearer ${authToken}`,
     },
     body: formData,
   }).then((response) => {
@@ -189,12 +187,11 @@ export const getRequestReplies = (requestId) => {
 /* ================================
    CREATE REPLY FOR A REQUEST
 ================================ */
-export const createRequestReply = ({ requestId, authorId, content }) => {
+export const createRequestReply = ({ requestId, content }) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/maintenance/${requestId}/replies`;
 
   const formData = new FormData();
-  formData.append("authorId", authorId);
   formData.append("content", content);
 
   return fetch(url, {

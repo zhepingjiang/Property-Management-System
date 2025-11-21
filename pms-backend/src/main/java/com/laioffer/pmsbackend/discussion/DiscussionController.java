@@ -48,11 +48,11 @@ public class DiscussionController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public void createPost(
-            @RequestParam Long authorId,
+            @AuthenticationPrincipal CustomUserDetails user,
             @RequestParam String content,
             @RequestParam(required = false) List<MultipartFile> images
     ) {
-        discussionService.createPost(authorId, content, images);
+        discussionService.createPost(user.getId(), content, images);
     }
 
     @TrusteeOnly
@@ -85,10 +85,10 @@ public class DiscussionController {
     @ResponseStatus(HttpStatus.CREATED)
     public ReplyDto createReply(
             @PathVariable Long id,
-            @RequestParam Long authorId,
+            @AuthenticationPrincipal CustomUserDetails user,
             @RequestParam String content
     ) {
-        return discussionService.createReplyForPost(id, authorId, content);
+        return discussionService.createReplyForPost(id, user.getId(), content);
     }
 
     @DeleteMapping("/replies/{replyId}")
