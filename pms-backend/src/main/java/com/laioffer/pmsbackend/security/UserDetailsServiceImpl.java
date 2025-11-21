@@ -1,10 +1,14 @@
 package com.laioffer.pmsbackend.security;
 
+import com.laioffer.pmsbackend.model.UserEntity;
 import com.laioffer.pmsbackend.repository.UserRepository;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -16,11 +20,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDetails userDetails = userRepository.findByUsername(username);
-        if (userDetails == null) {
-            throw new UsernameNotFoundException(String.format("User with username: %s cannot be found", username));
-        }
-        return userDetails;
+    public UserDetails loadUserByUsername(String username) {
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        return new CustomUserDetails(
+                user.getId(),
+                user.getUsername(),
+                user.getPassword(),
+                List.of(new SimpleGrantedAuthority(user.getRole().name()))
+        );
     }
 }

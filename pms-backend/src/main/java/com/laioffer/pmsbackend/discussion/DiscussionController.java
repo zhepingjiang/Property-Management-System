@@ -2,6 +2,7 @@ package com.laioffer.pmsbackend.discussion;
 import com.laioffer.pmsbackend.model.PostDto;
 import com.laioffer.pmsbackend.model.ReplyDto;
 import com.laioffer.pmsbackend.model.enums.PostStatus;
+import com.laioffer.pmsbackend.security.CustomUserDetails;
 import com.laioffer.pmsbackend.security.annotations.TrusteeOnly;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -94,12 +95,12 @@ public class DiscussionController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteReply(
             @PathVariable Long replyId,
-            @AuthenticationPrincipal String userId,
+            @AuthenticationPrincipal CustomUserDetails user,
             Authentication authentication
     ) {
         boolean isTrustee = authentication.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals(ROLE_TRUSTEE.name()));
 
-        discussionService.deleteReply(replyId, Long.valueOf(userId), isTrustee);
+        discussionService.deleteReply(replyId, user.getId(), isTrustee);
     }
 }

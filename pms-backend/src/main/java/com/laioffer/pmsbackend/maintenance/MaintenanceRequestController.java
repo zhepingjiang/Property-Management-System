@@ -4,6 +4,7 @@ import com.laioffer.pmsbackend.model.MaintenanceRequestDto;
 import com.laioffer.pmsbackend.model.ReplyDto;
 import com.laioffer.pmsbackend.model.enums.MaintenancePriority;
 import com.laioffer.pmsbackend.model.enums.MaintenanceStatus;
+import com.laioffer.pmsbackend.security.CustomUserDetails;
 import com.laioffer.pmsbackend.security.annotations.TrusteeOnly;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,8 +31,8 @@ public class MaintenanceRequestController {
        READ
     ========================== */
     @GetMapping
-    public List<MaintenanceRequestDto> getAllRequests(@AuthenticationPrincipal String userId) {
-        return service.getRequestsByAuthor(Long.valueOf(userId));
+    public List<MaintenanceRequestDto> getAllRequests(@AuthenticationPrincipal CustomUserDetails user) {
+        return service.getRequestsByAuthor(user.getId());
     }
 
     @GetMapping("/{id}")
@@ -45,7 +46,7 @@ public class MaintenanceRequestController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public void createRequest(
-            @AuthenticationPrincipal String authorId,
+            @AuthenticationPrincipal CustomUserDetails user,
             @RequestParam String facility,
             @RequestParam String issueType,
             @RequestParam String description,
@@ -53,7 +54,7 @@ public class MaintenanceRequestController {
             @RequestParam Long assignedTo,
             @RequestParam(required = false) List<MultipartFile> images
     ) {
-        service.createRequest(Long.valueOf(authorId), facility, issueType, description, priority, assignedTo, images);
+        service.createRequest(user.getId(), facility, issueType, description, priority, assignedTo, images);
     }
 
     /* ==========================
@@ -110,22 +111,22 @@ public class MaintenanceRequestController {
     @ResponseStatus(HttpStatus.CREATED)
     public ReplyDto createReply(
             @PathVariable Long id,
-            @AuthenticationPrincipal String authorId,
+            @AuthenticationPrincipal CustomUserDetails user,
             @RequestParam String content
     ) {
-        return service.createReply(id, Long.valueOf(authorId), content);
+        return service.createReply(id, user.getId(), content);
     }
 
     @DeleteMapping("/replies/{replyId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteReply(
             @PathVariable Long replyId,
-            @AuthenticationPrincipal String userId,
+            @AuthenticationPrincipal CustomUserDetails user,
             Authentication authentication
     ) {
         boolean isTrustee = authentication.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals(ROLE_TRUSTEE.name()));
 
-        service.deleteReply(replyId, Long.valueOf(userId), isTrustee);
+        service.deleteReply(replyId, user.getId(), isTrustee);
     }
 }

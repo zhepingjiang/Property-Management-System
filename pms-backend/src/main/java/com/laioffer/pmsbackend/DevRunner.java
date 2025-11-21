@@ -1,6 +1,8 @@
 package com.laioffer.pmsbackend;
 
 import com.laioffer.pmsbackend.model.*;
+import com.laioffer.pmsbackend.model.enums.MaintenancePriority;
+import com.laioffer.pmsbackend.model.enums.MaintenanceStatus;
 import com.laioffer.pmsbackend.model.enums.PostStatus;
 import com.laioffer.pmsbackend.model.enums.UserRole;
 import com.laioffer.pmsbackend.repository.*;
@@ -23,6 +25,8 @@ public class DevRunner implements ApplicationRunner {
     private final NewsletterRepository newsletterRepository;
     private final EventRepository eventRepository;
     private final PolicyRepository policyRepository;
+    private final ReplyRepository replyRepository;
+    private final MaintenanceRequestRepository maintenanceRequestRepository;
     private final UserRepository userRepository;
 
     public DevRunner(
@@ -32,6 +36,8 @@ public class DevRunner implements ApplicationRunner {
             NewsletterRepository newsletterRepository,
             EventRepository eventRepository,
             PolicyRepository policyRepository,
+            ReplyRepository replyRepository,
+            MaintenanceRequestRepository maintenanceRequestRepository,
             UserRepository userRepository
     ) {
         this.alertRepository = alertRepository;
@@ -40,6 +46,8 @@ public class DevRunner implements ApplicationRunner {
         this.newsletterRepository = newsletterRepository;
         this.eventRepository = eventRepository;
         this.policyRepository = policyRepository;
+        this.replyRepository = replyRepository;
+        this.maintenanceRequestRepository = maintenanceRequestRepository;
         this.userRepository = userRepository;
     }
 
@@ -248,6 +256,32 @@ public class DevRunner implements ApplicationRunner {
                 )
         ));
 
+        replyRepository.saveAll(List.of(
+                new ReplyEntity(null, 2L, "I heard maintenance said it should reopen next Monday!", 1L, null),
+                new ReplyEntity(null, 3L, "Thanks for asking, I was wondering too.", 1L, null),
+
+                new ReplyEntity(null, 4L, "Check with unit 23B, they rented out an extra spot before.", 2L, null),
+
+                new ReplyEntity(null, 1L, "Interested! Can you share dimensions?", 3L, null),
+
+                new ReplyEntity(null, 5L, "Might be mine! Is it a grey metal key with a blue tag?", 4L, null),
+
+                new ReplyEntity(null, 2L, "Count me in! Early mornings work great.", 5L, null),
+                new ReplyEntity(null, 6L, "Would love to join—what time are you planning?", 5L, null),
+
+                new ReplyEntity(null, 3L, "I’m interested. What’s the monthly rate?", 6L, null),
+
+                new ReplyEntity(null, 8L, "Yes, I heard it too. Sounded like construction around 11 PM.", 7L, null),
+                new ReplyEntity(null, 10L, "I think it came from the ventilation system.", 7L, null),
+
+                new ReplyEntity(null, 1L, "Fun idea! Which games are you planning?", 8L, null),
+                new ReplyEntity(null, 7L, "I can bring Catan and Azul.", 8L, null),
+
+                new ReplyEntity(null, 3L, "We used SparkClean last month — very good.", 9L, null),
+
+                new ReplyEntity(null, 6L, "Saw one near the mailboxes earlier today.", 10L, null)
+        ));
+
         newsletterRepository.saveAll(List.of(
                 new NewsletterEntity(
                         null,
@@ -347,5 +381,88 @@ public class DevRunner implements ApplicationRunner {
                 )
         ));
 
+        maintenanceRequestRepository.saveAll(List.of(
+                new MaintenanceRequestEntity(
+                        null,
+                        1L,
+                        "Gym",
+                        "Equipment",
+                        "The treadmill near the window stops after 5 minutes.",
+                        MaintenanceStatus.SUBMITTED,
+                        MaintenancePriority.HIGH,
+                        10L,
+                        List.of("https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg")
+                ),
+                new MaintenanceRequestEntity(
+                        null,
+                        2L,
+                        "Unit 305",
+                        "Heating",
+                        "No heat since yesterday evening.",
+                        MaintenanceStatus.IN_PROGRESS,
+                        MaintenancePriority.HIGH,
+                        9L,
+                        List.of("https://images.pexels.com/photos/19090/pexels-photo.jpg")
+                ),
+                new MaintenanceRequestEntity(
+                        null,
+                        3L,
+                        "Laundry Room",
+                        "Plumbing",
+                        "Water leaking around machine #3.",
+                        MaintenanceStatus.SUBMITTED,
+                        MaintenancePriority.MEDIUM,
+                        10L,
+                        null
+                ),
+                new MaintenanceRequestEntity(
+                        null,
+                        4L,
+                        "Garage",
+                        "Electrical",
+                        "Sensor not responding. Door won’t close properly.",
+                        MaintenanceStatus.IN_PROGRESS,
+                        MaintenancePriority.HIGH,
+                        10L,
+                        null
+                ),
+                new MaintenanceRequestEntity(
+                        null,
+                        5L,
+                        "Hallway 5F",
+                        "Lighting",
+                        "Light near elevator flickers constantly.",
+                        MaintenanceStatus.SUBMITTED,
+                        MaintenancePriority.LOW,
+                        null,
+                        null
+                ),
+                new MaintenanceRequestEntity(
+                        null,
+                        6L,
+                        "Swimming Pool",
+                        "Temperature",
+                        "Water temperature feels below normal.",
+                        MaintenanceStatus.RESOLVED,
+                        MaintenancePriority.MEDIUM,
+                        10L,
+                        List.of("https://images.pexels.com/photos/261327/pexels-photo-261327.jpeg")
+                )
+        ));
+
+        replyRepository.saveAll(List.of(
+                new ReplyEntity(null, 10L, "Thanks for reporting. Assigned to maintenance.", null, 1L),
+                new ReplyEntity(null, 3L, "Same treadmill stopped on me last week.", null, 1L),
+
+                new ReplyEntity(null, 9L, "Technician scheduled to visit today at 3 PM.", null, 2L),
+
+                new ReplyEntity(null, 10L, "We shut down Washer #3 temporarily.", null, 3L),
+
+                new ReplyEntity(null, 9L, "Sensor replaced. Monitoring stability.", null, 4L),
+
+                new ReplyEntity(null, 1L, "It got worse today—flickers every 5 seconds.", null, 5L),
+
+                new ReplyEntity(null, 8L, "Temperature restored to normal yesterday.", null, 6L)
+        ));
     }
 }

@@ -33,6 +33,10 @@ public class PostEntity {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
+    @Convert(converter = ListToJsonConverter.class)
+    @Column(name = "image_urls")
+    private List<String> imageUrls;
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<ReplyEntity> replies;
 
@@ -51,6 +55,7 @@ public class PostEntity {
         this.authorId = authorId;
         this.content = content;
         this.status = status;
+        this.imageUrls = imageUrls;
         this.createdAt = createdAt;
     }
 
@@ -59,6 +64,7 @@ public class PostEntity {
     public String getContent() { return content; }
     public PostStatus getStatus() { return status; }
     public Instant getCreatedAt() { return createdAt; }
+    public List<String> getImageUrls() { return imageUrls; }
     public List<ReplyEntity> getReplies() { return replies; }
     public UserEntity getAuthor() { return author; }
 
