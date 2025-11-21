@@ -7,21 +7,22 @@ import java.util.List;
 
 public record PostDto(
         Long id,
-        Long authorId,
+        UserDto author,
         String content,
-        List<String> imageUrls,
         PostStatus status,
-        Instant createdAt
+        Instant createdAt,
+        List<ReplyDto> replies
 ) {
-
     public PostDto(PostEntity entity) {
         this(
                 entity.getId(),
-                entity.getAuthorId(),
+                entity.getAuthor() != null ? new UserDto(entity.getAuthor()) : null,
                 entity.getContent(),
-                entity.getImageUrls(),
                 entity.getStatus(),
-                entity.getCreatedAt()
+                entity.getCreatedAt(),
+                entity.getReplies() == null
+                        ? null
+                        : entity.getReplies().stream().map(ReplyDto::new).toList()
         );
     }
 }

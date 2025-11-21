@@ -1,10 +1,14 @@
 package com.laioffer.pmsbackend.discussion;
 
+import com.laioffer.pmsbackend.common.DeleteResourceNotAllowedException;
 import com.laioffer.pmsbackend.common.ResourceNotFoundException;
 import com.laioffer.pmsbackend.model.PostDto;
 import com.laioffer.pmsbackend.model.PostEntity;
+import com.laioffer.pmsbackend.model.ReplyDto;
+import com.laioffer.pmsbackend.model.ReplyEntity;
 import com.laioffer.pmsbackend.model.enums.PostStatus;
 import com.laioffer.pmsbackend.repository.PostRepository;
+import com.laioffer.pmsbackend.repository.ReplyRepository;
 import com.laioffer.pmsbackend.storage.ImageStorageService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,9 +24,12 @@ public class DiscussionService {
 
     private final PostRepository postRepository;
 
-    public DiscussionService(ImageStorageService imageStorageService, PostRepository postRepository) {
+    private final ReplyRepository replyRepository;
+
+    public DiscussionService(ImageStorageService imageStorageService, PostRepository postRepository, ReplyRepository replyRepository) {
         this.imageStorageService = imageStorageService;
         this.postRepository = postRepository;
+        this.replyRepository = replyRepository;
     }
 
     public List<PostDto> getAllPosts() {
@@ -96,5 +103,47 @@ public class DiscussionService {
                         new ResourceNotFoundException("Post not found: " + id));
 
         postRepository.deleteById(id);
+    }
+
+    public List<ReplyDto> getRepliesForPost(Long postId) {
+        return replyRepository
+                .findAllByPostIdOrderByCreatedAtAsc(postId)
+                .stream()
+                .map(ReplyDto::new)
+                .toList();
+    }
+
+    @Transactional
+    public ReplyDto createReplyForPost(Long postId, Long authorId, String content) {
+
+        // Ensure post exists
+        PostEntity post = postRepository.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found: " + postId));
+
+        ReplyEntity reply = new ReplyEntity(
+                null,
+                authorId,
+                content,
+                postId,
+                null
+        );
+
+        ReplyEntity saved = replyRepository.save(reply);
+        return new ReplyDto(saved);
+    }
+
+    @Transactional
+    public void deleteReply(Long replyId, Long currentUserId, boolean isTrustee) {
+
+        ReplyEntity reply = replyRepository.findById(replyId)
+                .orElseThrow(() -> new ResourceNotFoundException("Reply not found: " + replyId));
+
+        boolean isAuthor = reply.getAuthorId().equals(currentUserId);
+
+        if (!isAuthor && !isTrustee) {
+            throw new DeleteResourceNotAllowedException("You do not have permission to delete this reply.");
+        }
+
+        replyRepository.delete(reply);
     }
 }

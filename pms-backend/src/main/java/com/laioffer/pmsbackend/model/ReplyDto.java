@@ -2,19 +2,17 @@ package com.laioffer.pmsbackend.model;
 
 import java.time.Instant;
 
-public record PolicyDto(
+public record ReplyDto(
         Long id,
-        String title,
+        UserDto author,
         String content,
-        UserDto creator,
         Instant createdAt
 ) {
-    public PolicyDto(PolicyEntity entity) {
+    public ReplyDto(ReplyEntity entity) {
         this(
                 entity.getId(),
-                entity.getTitle(),
+                entity.getAuthor() != null ? new  UserDto(entity.getAuthor()) : null,
                 entity.getContent(),
-                entity.getCreator() != null ? new UserDto(entity.getCreator()) : null,
                 entity.getCreatedAt()
         );
     }
