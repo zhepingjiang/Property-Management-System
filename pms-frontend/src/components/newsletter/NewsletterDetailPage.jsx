@@ -1,46 +1,78 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Typography, Carousel, Card } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "../../css/newsletter/NewsletterDetailPage.css";
+
+import {
+  getAllNewsletters,
+  getNewsletterById,
+  getNewestNewsletter,
+} from "./utils";
 
 const { Title, Paragraph } = Typography;
 
 export default function NewsletterDetailPage() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const [newsletter, setNewsletter] = useState(null);
+  const [allNewsletters, setAllNewsletters] = useState([]);
+
+  // placeholder only if BE has no images
   const placeholderImages = [
-    // Modern condo exterior
-    "https://images.pexels.com/photos/5472533/pexels-photo-5472533.jpeg?auto=compress&cs=tinysrgb&w=1200",
-
-    // Contemporary apartment complex with balconies
-    "https://images.pexels.com/photos/31656146/pexels-photo-31656146.jpeg?auto=compress&cs=tinysrgb&w=1200",
-
-    // Urban apartment buildings with greenery
-    "https://images.pexels.com/photos/34450811/pexels-photo-34450811.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "https://images.pexels.com/photos/5472533/pexels-photo-5472533.jpeg",
+    "https://images.pexels.com/photos/31656146/pexels-photo-31656146.jpeg",
+    "https://images.pexels.com/photos/34450811/pexels-photo-34450811.jpeg",
   ];
+
+  // load sidebar list
+  useEffect(() => {
+    getAllNewsletters().then(setAllNewsletters);
+  }, []);
+
+  // load main newsletter (newest OR by ID)
+  useEffect(() => {
+    if (id) {
+      getNewsletterById(id).then(setNewsletter);
+    } else {
+      getNewestNewsletter().then(setNewsletter);
+    }
+  }, [id]);
+
+  if (!newsletter) return <div>Loading...</div>;
+
+  const images =
+    newsletter.imageUrls && newsletter.imageUrls.length > 0
+      ? newsletter.imageUrls
+      : placeholderImages;
 
   return (
     <div className="newsletter-content-wrapper">
       <div className="newsletter-container">
-        {/* page grid: left list + main content */}
         <div className="newsletter-page-grid">
+          {/* ========== Sidebar ========== */}
           <aside className="newsletter-aside">
             <div className="newsletter-aside-title">Other Newsletters</div>
-            {/** sample list — replace with real data when available */}
+
             <div className="newsletter-list">
-              {[1, 2, 3, 4, 5].map((i) => (
+              {allNewsletters.map((item) => (
                 <Card
-                  key={i}
+                  key={item.id}
                   bordered
                   hoverable
                   className="newsletter-list-card"
+                  onClick={() => navigate(`/newsletter/${item.id}`)}
                 >
                   <div className="newsletter-list-item">
-                    <div className="newsletter-list-thumb" />
+                    <img
+                      src={item.imageUrls?.[0]}
+                      alt="thumb"
+                      className="newsletter-list-thumb"
+                    />
                     <div className="newsletter-list-meta">
-                      <div className="newsletter-list-title">
-                        Community Update #{i}
-                      </div>
+                      <div className="newsletter-list-title">{item.title}</div>
                       <div className="newsletter-list-date">
-                        Nov. {10 + i}, 2025
+                        {new Date(item.createdAt).toLocaleDateString()}
                       </div>
                     </div>
                   </div>
@@ -49,76 +81,37 @@ export default function NewsletterDetailPage() {
             </div>
           </aside>
 
+          {/* ========== Main Content ========== */}
           <main className="newsletter-main">
-            {/* Image Section */}
             <Card bordered className="newsletter-image-card">
               <Carousel autoplay dots className="newsletter-carousel">
-                {placeholderImages.map((url, index) => (
+                {images.map((url, index) => (
                   <div key={index} className="newsletter-image-wrapper">
-                    <img
-                      src={url}
-                      alt={`img-${index}`}
-                      className="newsletter-image"
-                    />
+                    <img src={url} alt={index} className="newsletter-image" />
                   </div>
                 ))}
               </Carousel>
             </Card>
 
-            {/* Lower Section */}
             <div className="newsletter-lower-section">
-              {/* Left blank area */}
-              <div className="newsletter-side-placeholder" />
-
-              {/* Description */}
               <Card bordered className="newsletter-description-card">
+                <Title level={3}>{newsletter.title}</Title>
                 <Paragraph className="newsletter-description-text">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                  faucibus, lorem et consequat ultrices, justo lorem pretium
-                  velit, sed pretium diam nisl sed magna. Integer a orci non
-                  lorem placerat sollicitudin. Fusce sed nisl dignissim,
-                  fermentum lacus sed, gravida purus. Maecenas feugiat velit id
-                  dui rutrum, non accumsan nunc fermentum. Duis tincidunt lacus
-                  vitae elit facilisis, vitae tristique sapien imperdiet.
-                  <br />
-                  <br />
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                  faucibus, lorem et consequat ultrices, justo lorem pretium
-                  velit, sed pretium diam nisl sed magna. Integer a orci non
-                  lorem placerat sollicitudin. Fusce sed nisl dignissim,
-                  fermentum lacus sed, gravida purus. Maecenas feugiat velit id
-                  dui rutrum, non accumsan nunc fermentum. Duis tincidunt lacus
-                  vitae elit facilisis, vitae tristique sapien imperdiet.
-                  <br />
-                  <br />
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                  faucibus, lorem et consequat ultrices, justo lorem pretium
-                  velit, sed pretium diam nisl sed magna. Integer a orci non
-                  lorem placerat sollicitudin. Fusce sed nisl dignissim,
-                  fermentum lacus sed, gravida purus. Maecenas feugiat velit id
-                  dui rutrum, non accumsan nunc fermentum. Duis tincidunt lacus
-                  vitae elit facilisis, vitae tristique sapien imperdiet. Lorem
-                  ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                  faucibus, lorem et consequat ultrices, justo lorem pretium
-                  velit, sed pretium diam nisl sed magna. Integer a orci non
-                  lorem placerat sollicitudin. Fusce sed nisl dignissim,
-                  fermentum lacus sed, gravida purus. Maecenas feugiat velit id
-                  dui rutrum, non accumsan nunc fermentum. Duis tincidunt lacus
-                  vitae elit facilisis, vitae tristique sapien imperdiet.
-                  <br />
-                  <br />
-                  (This is placeholder description text. Replace with newsletter
-                  details from backend.)
-                  <br />
-                  <br />
-                  Management Office
-                  <br />
-                  Nov.15, 2025
+                  {newsletter.content}
                 </Paragraph>
-              </Card>
 
-              {/* Right blank area */}
-              <div className="newsletter-side-placeholder" />
+                <div style={{ marginTop: "20px", opacity: 0.7 }}>
+                  <div>
+                    Created By:{" "}
+                    {newsletter.creator.username
+                      ? newsletter.creator.username
+                      : "Property Management Office"}
+                  </div>
+                  <div>
+                    {new Date(newsletter.createdAt).toLocaleDateString()}
+                  </div>
+                </div>
+              </Card>
             </div>
           </main>
         </div>

@@ -1,6 +1,7 @@
 package com.laioffer.pmsbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.laioffer.pmsbackend.common.ListToJsonConverter;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
@@ -24,6 +25,7 @@ public class AnnouncementEntity {
     private String content;
 
     @Column(name = "image_urls")
+    @Convert(converter = ListToJsonConverter.class)
     private List<String> imageUrls;
 
     @Column(name = "created_by", nullable = false)

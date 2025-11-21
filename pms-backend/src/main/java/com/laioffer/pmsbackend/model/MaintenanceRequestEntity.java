@@ -1,6 +1,7 @@
 package com.laioffer.pmsbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.laioffer.pmsbackend.common.ListToJsonConverter;
 import com.laioffer.pmsbackend.model.enums.MaintenancePriority;
 import com.laioffer.pmsbackend.model.enums.MaintenanceStatus;
 import jakarta.persistence.*;
@@ -43,8 +44,9 @@ public class MaintenanceRequestEntity {
     @Column(name = "assigned_to")
     private Long assignedTo;
 
-    @Column(name = "image_url", columnDefinition = "text")
-    private String imageUrl;
+    @Column(name = "image_urls")
+    @Convert(converter = ListToJsonConverter.class)
+    private String imageUrls;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -84,12 +86,12 @@ public class MaintenanceRequestEntity {
                 status == that.status &&
                 priority == that.priority &&
                 Objects.equals(assignedTo, that.assignedTo) &&
-                Objects.equals(imageUrl, that.imageUrl);
+                Objects.equals(imageUrls, that.imageUrls);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, facility, issueType, description, status, priority, assignedTo, imageUrl);
+        return Objects.hash(id, userId, facility, issueType, description, status, priority, assignedTo, imageUrls);
     }
 
     @Override
@@ -103,7 +105,7 @@ public class MaintenanceRequestEntity {
                 ", status=" + status +
                 ", priority=" + priority +
                 ", assignedTo=" + assignedTo +
-                ", imageUrl='" + imageUrl + '\'' +
+                ", imageUrl='" + imageUrls + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", user=" + user +

@@ -8,7 +8,7 @@ public record NewsletterDto(
         String title,
         String content,
         List<String> imageUrls,
-        Long createdBy,
+        UserDto creator,
         Instant createdAt
 ) {
 
@@ -18,7 +18,7 @@ public record NewsletterDto(
                 entity.getTitle(),
                 entity.getContent(),
                 entity.getImageUrls(),
-                entity.getCreatedBy(),
+                entity.getCreator() != null ? new UserDto(entity.getCreator()) : null,
                 entity.getCreatedAt()
         );
     }
