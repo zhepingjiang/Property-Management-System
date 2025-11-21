@@ -29,13 +29,16 @@ public class PostEntity {
     @Column(length = 50, nullable = false)
     private PostStatus status;
 
-    @Column(name = "image_urls")
-    @Convert(converter = ListToJsonConverter.class)
-    private List<String> imageUrls;
-
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
+
+    @Convert(converter = ListToJsonConverter.class)
+    @Column(name = "image_urls")
+    private List<String> imageUrls;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<ReplyEntity> replies;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -60,8 +63,9 @@ public class PostEntity {
     public Long getAuthorId() { return authorId; }
     public String getContent() { return content; }
     public PostStatus getStatus() { return status; }
-    public List<String> getImageUrls() { return imageUrls; }
     public Instant getCreatedAt() { return createdAt; }
+    public List<String> getImageUrls() { return imageUrls; }
+    public List<ReplyEntity> getReplies() { return replies; }
     public UserEntity getAuthor() { return author; }
 
     @Override
@@ -69,15 +73,12 @@ public class PostEntity {
         if (this == o) return true;
         if (!(o instanceof PostEntity)) return false;
         PostEntity that = (PostEntity) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(authorId, that.authorId) &&
-                Objects.equals(content, that.content) &&
-                status == that.status;
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, authorId, content, status);
+        return Objects.hash(id);
     }
 
     @Override
