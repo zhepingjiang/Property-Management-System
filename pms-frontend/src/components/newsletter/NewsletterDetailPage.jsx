@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Carousel, Card } from "antd";
+import { Typography, Carousel, Card, Spin } from "antd";
 import { useParams, useNavigate } from "react-router-dom";
 import "../../css/newsletter/NewsletterDetailPage.css";
 
@@ -8,6 +8,7 @@ import {
   getNewsletterById,
   getNewestNewsletter,
 } from "./utils";
+import ErrorState from "../error/ErrorState";
 
 const { Title, Paragraph } = Typography;
 
@@ -17,34 +18,74 @@ export default function NewsletterDetailPage() {
 
   const [newsletter, setNewsletter] = useState(null);
   const [allNewsletters, setAllNewsletters] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // placeholder only if BE has no images
+  // fallback if BE has no images
   const placeholderImages = [
     "https://images.pexels.com/photos/5472533/pexels-photo-5472533.jpeg",
     "https://images.pexels.com/photos/31656146/pexels-photo-31656146.jpeg",
     "https://images.pexels.com/photos/34450811/pexels-photo-34450811.jpeg",
   ];
 
-  // load sidebar list
+  // ============================
+  // Load sidebar list (safe)
+  // ============================
   useEffect(() => {
-    getAllNewsletters().then(setAllNewsletters);
+    const load = async () => {
+      const data = await getAllNewsletters();
+      if (data) setAllNewsletters(data);
+    };
+    load();
   }, []);
 
-  // load main newsletter (newest OR by ID)
+  // ============================
+  // Load main newsletter (safe)
+  // ============================
   useEffect(() => {
-    if (id) {
-      getNewsletterById(id).then(setNewsletter);
-    } else {
-      getNewestNewsletter().then(setNewsletter);
-    }
+    const load = async () => {
+      setLoading(true);
+      try {
+        const data = id
+          ? await getNewsletterById(id)
+          : await getNewestNewsletter();
+
+        if (data) setNewsletter(data);
+      } catch (e) {
+        console.error("Error loading newsletter:", e);
+      }
+      setLoading(false);
+    };
+
+    load();
   }, [id]);
 
-  if (!newsletter) return <div>Loading...</div>;
+  // ============================
+  // Render loading state
+  // ============================
+  if (loading) {
+    return (
+      <div style={{ textAlign: "center", padding: "40px" }}>
+        <Spin size="large" />
+      </div>
+    );
+  }
+
+  if (!loading && !newsletter) {
+    return (
+      <ErrorState
+        title="Newsletter not found"
+        message="Newsletters may be deleted or temporarily unavailable."
+      />
+    );
+  }
 
   const images =
     newsletter.imageUrls && newsletter.imageUrls.length > 0
       ? newsletter.imageUrls
       : placeholderImages;
+
+  const creatorName =
+    newsletter.creator?.username || "Property Management Office";
 
   return (
     <div className="newsletter-content-wrapper">
@@ -55,7 +96,7 @@ export default function NewsletterDetailPage() {
             <div className="newsletter-aside-title">Other Newsletters</div>
 
             <div className="newsletter-list">
-              {allNewsletters.map((item) => (
+              {(allNewsletters || []).map((item) => (
                 <Card
                   key={item.id}
                   bordered
@@ -65,7 +106,7 @@ export default function NewsletterDetailPage() {
                 >
                   <div className="newsletter-list-item">
                     <img
-                      src={item.imageUrls?.[0]}
+                      src={item.imageUrls?.[0] || placeholderImages[0]}
                       alt="thumb"
                       className="newsletter-list-thumb"
                     />
@@ -87,7 +128,14 @@ export default function NewsletterDetailPage() {
               <Carousel autoplay dots className="newsletter-carousel">
                 {images.map((url, index) => (
                   <div key={index} className="newsletter-image-wrapper">
-                    <img src={url} alt={index} className="newsletter-image" />
+                    <img
+                      src={url}
+                      alt={`img-${index}`}
+                      className="newsletter-image"
+                      onError={(e) => {
+                        e.target.src = placeholderImages[0];
+                      }}
+                    />
                   </div>
                 ))}
               </Carousel>
@@ -101,12 +149,7 @@ export default function NewsletterDetailPage() {
                 </Paragraph>
 
                 <div style={{ marginTop: "20px", opacity: 0.7 }}>
-                  <div>
-                    Created By:{" "}
-                    {newsletter.creator.username
-                      ? newsletter.creator.username
-                      : "Property Management Office"}
-                  </div>
+                  <div>Created By: {creatorName}</div>
                   <div>
                     {new Date(newsletter.createdAt).toLocaleDateString()}
                   </div>

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "../../css/login/LoginPage.css";
-import { validateLogin } from "./Validation";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import CreateAccountModal from "./CreateAccountModal";
 import { login } from "./utils";
+import { validateLogin } from "./validation";
 
 export default function LoginPage({ onLoginSuccess }) {
   const [username, setUsername] = useState("");

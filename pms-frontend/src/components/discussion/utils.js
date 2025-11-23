@@ -3,207 +3,192 @@ const domain = "http://localhost:8080";
 /* ================================
    GET ALL POSTS
 ================================ */
-export const getAllPosts = () => {
+export const getAllPosts = async () => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/posts`;
 
-  return fetch(url, {
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to get posts");
-    }
-    return response.json();
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${authToken}` },
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to get posts");
+  }
+
+  return response.json();
 };
 
 /* ================================
    GET NEWEST POST
 ================================ */
-export const getNewestPost = () => {
+export const getNewestPost = async () => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/posts/newest`;
 
-  return fetch(url, {
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to get newest post");
-    }
-    return response.json();
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${authToken}` },
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to get newest post");
+  }
+
+  return response.json();
 };
 
 /* ================================
    GET POST BY ID
 ================================ */
-export const getPostById = (id) => {
+export const getPostById = async (id) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/posts/${id}`;
 
-  return fetch(url, {
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to get post");
-    }
-    return response.json();
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${authToken}` },
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to get post");
+  }
+
+  return response.json();
 };
 
 /* ================================
    GET POSTS BY AUTHOR
 ================================ */
-export const getPostsByAuthor = (authorId) => {
+export const getPostsByAuthor = async (authorId) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/posts/author/${authorId}`;
 
-  return fetch(url, {
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to get author's posts");
-    }
-    return response.json();
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${authToken}` },
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to get author's posts");
+  }
+
+  return response.json();
 };
 
 /* ================================
    CREATE POST (multipart/form-data)
 ================================ */
-export const createPost = ({ content, images }) => {
+export const createPost = async ({ content, images }) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/posts`;
 
   const formData = new FormData();
   formData.append("content", content);
 
-  if (images && images.length > 0) {
+  if (images?.length > 0) {
     images.forEach((img) => formData.append("images", img));
   }
 
-  return fetch(url, {
+  const response = await fetch(url, {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${authToken}`, // ❗ NO Content-Type !!!
-    },
+    headers: { Authorization: `Bearer ${authToken}` }, // no Content-Type!
     body: formData,
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to create post");
-    }
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to create post");
+  }
 };
 
 /* ================================
-   UPDATE POST STATUS (TRUSTEE ONLY)
+   UPDATE POST STATUS
 ================================ */
-export const updatePostStatus = (id, status) => {
+export const updatePostStatus = async (id, status) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/posts/${id}/status`;
 
   const formData = new FormData();
-  formData.append("status", status); // Must match @RequestParam PostStatus status
+  formData.append("status", status);
 
-  return fetch(url, {
+  const response = await fetch(url, {
     method: "PATCH",
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-      // DO NOT set Content-Type for FormData
-    },
+    headers: { Authorization: `Bearer ${authToken}` },
     body: formData,
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to update post status");
-    }
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to update post status");
+  }
 };
 
 /* ================================
-   DELETE POST (TRUSTEE ONLY)
+   DELETE POST
 ================================ */
-export const deletePost = (id) => {
+export const deletePost = async (id) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/posts/${id}`;
 
-  return fetch(url, {
+  const response = await fetch(url, {
     method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to delete post");
-    }
+    headers: { Authorization: `Bearer ${authToken}` },
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to delete post");
+  }
 };
 
 /* ================================
-   GET ALL REPLIES FOR A POST
+   GET POST REPLIES
 ================================ */
-export const getReplies = (postId) => {
+export const getReplies = async (postId) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/posts/${postId}/replies`;
 
-  return fetch(url, {
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to get replies");
-    }
-    return response.json();
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${authToken}` },
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to get replies");
+  }
+
+  return response.json();
 };
 
 /* ================================
-   CREATE A REPLY FOR A POST
+   CREATE REPLY
 ================================ */
-export const createReply = ({ postId, content }) => {
+export const createReply = async ({ postId, content }) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/posts/${postId}/replies`;
 
   const formData = new FormData();
   formData.append("content", content);
 
-  return fetch(url, {
+  const response = await fetch(url, {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${authToken}`, // don't add Content-Type
-    },
+    headers: { Authorization: `Bearer ${authToken}` },
     body: formData,
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to create reply");
-    }
-    return response.json();
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to create reply");
+  }
+
+  return response.json();
 };
 
 /* ================================
-   DELETE A REPLY
+   DELETE REPLY
 ================================ */
-export const deleteReply = (replyId) => {
+export const deleteReply = async (replyId) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/posts/replies/${replyId}`;
 
-  return fetch(url, {
+  const response = await fetch(url, {
     method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to delete reply");
-    }
+    headers: { Authorization: `Bearer ${authToken}` },
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to delete reply");
+  }
 };

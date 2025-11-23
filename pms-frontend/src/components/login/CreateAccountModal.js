@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { validateCreateAccount } from "./Validation";
+import { validateCreateAccount } from "./validation";
 import { register } from "./utils";
 import { Modal, Form, Row, Col, Input, Select, Button } from "antd";
 

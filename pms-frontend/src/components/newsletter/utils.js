@@ -1,58 +1,91 @@
 const domain = "http://localhost:8080";
 
-// ========== GET ALL ==========
-export const getAllNewsletters = () => {
-  const authToken = localStorage.getItem("authToken");
-  const url = `${domain}/api/newsletters`;
-
-  return fetch(url, {
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to get newsletters");
-    }
-    return response.json();
-  });
+// ===== optional toast/snackbar helper =====
+const notifyError = (msg) => {
+  console.warn(msg);
+  // TODO: replace with:
+  // enqueueSnackbar(msg, { variant: "error" });
+  // or Toast.error(msg)
 };
 
-// ========== GET NEWEST ==========
-export const getNewestNewsletter = () => {
+// ================================
+// GET ALL NEWSLETTERS
+// ================================
+export const getAllNewsletters = async () => {
   const authToken = localStorage.getItem("authToken");
-  const url = `${domain}/api/newsletters/newest`;
 
-  return fetch(url, {
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to get newest newsletter");
+  try {
+    const response = await fetch(`${domain}/api/newsletters`, {
+      headers: { Authorization: `Bearer ${authToken}` },
+    });
+
+    if (!response.ok) {
+      notifyError("Failed to load newsletters");
+      return null;
     }
-    return response.json();
-  });
+
+    return await response.json();
+  } catch (err) {
+    notifyError("Network error while loading newsletters");
+    return null;
+  }
 };
 
-// ========== GET BY ID ==========
-export const getNewsletterById = (id) => {
+// ================================
+// GET NEWEST NEWSLETTER
+// ================================
+export const getNewestNewsletter = async () => {
   const authToken = localStorage.getItem("authToken");
-  const url = `${domain}/api/newsletters/${id}`;
 
-  return fetch(url, {
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to get newsletter");
+  try {
+    const response = await fetch(`${domain}/api/newsletters/newest`, {
+      headers: { Authorization: `Bearer ${authToken}` },
+    });
+
+    if (!response.ok) {
+      notifyError("Failed to load newest newsletter");
+      return null;
     }
-    return response.json();
-  });
+
+    return await response.json();
+  } catch (err) {
+    notifyError("Network error while loading newest newsletter");
+    return null;
+  }
 };
 
-// ========== CREATE (multipart/form-data) ==========
-export const createNewsletter = ({ title, content, images, createdBy }) => {
+// ================================
+// GET NEWSLETTER BY ID
+// ================================
+export const getNewsletterById = async (id) => {
+  const authToken = localStorage.getItem("authToken");
+
+  try {
+    const response = await fetch(`${domain}/api/newsletters/${id}`, {
+      headers: { Authorization: `Bearer ${authToken}` },
+    });
+
+    if (!response.ok) {
+      notifyError("Failed to load newsletter");
+      return null;
+    }
+
+    return await response.json();
+  } catch (err) {
+    notifyError("Network error while loading newsletter");
+    return null;
+  }
+};
+
+// ================================
+// CREATE NEWSLETTER (multipart/form-data)
+// ================================
+export const createNewsletter = async ({
+  title,
+  content,
+  images,
+  createdBy,
+}) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/newsletters`;
 
@@ -65,32 +98,45 @@ export const createNewsletter = ({ title, content, images, createdBy }) => {
     images.forEach((img) => formData.append("images", img));
   }
 
-  return fetch(url, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${authToken}`, // ❗千万不能加 Content-Type
-    },
-    body: formData,
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to create newsletter");
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${authToken}` },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      notifyError("Failed to create newsletter");
+      return false;
     }
-  });
+
+    return true;
+  } catch (err) {
+    notifyError("Network error while creating newsletter");
+    return false;
+  }
 };
 
-// ========== DELETE ==========
-export const deleteNewsletter = (id) => {
+// ================================
+// DELETE NEWSLETTER
+// ================================
+export const deleteNewsletter = async (id) => {
   const authToken = localStorage.getItem("authToken");
-  const url = `${domain}/api/newsletters/${id}`;
 
-  return fetch(url, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to delete newsletter");
+  try {
+    const response = await fetch(`${domain}/api/newsletters/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${authToken}` },
+    });
+
+    if (!response.ok) {
+      notifyError("Failed to delete newsletter");
+      return false;
     }
-  });
+
+    return true;
+  } catch (err) {
+    notifyError("Network error while deleting newsletter");
+    return false;
+  }
 };

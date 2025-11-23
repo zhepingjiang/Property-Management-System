@@ -2,47 +2,44 @@ const domain = "http://localhost:8080";
 
 /* ================================
    GET ALL MAINTENANCE REQUESTS
-   (Current User Only)
 ================================ */
-export const getAllRequests = () => {
+export const getAllRequests = async () => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/maintenance`;
 
-  return fetch(url, {
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to get maintenance requests");
-    }
-    return response.json();
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${authToken}` },
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to get maintenance requests");
+  }
+
+  return response.json();
 };
 
 /* ================================
    GET REQUEST BY ID
 ================================ */
-export const getRequestById = (id) => {
+export const getRequestById = async (id) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/maintenance/${id}`;
 
-  return fetch(url, {
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to get maintenance request");
-    }
-    return response.json();
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${authToken}` },
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to get maintenance request");
+  }
+
+  return response.json();
 };
 
 /* ================================
    CREATE REQUEST (multipart/form-data)
 ================================ */
-export const createRequest = ({
+export const createRequest = async ({
   facility,
   issueType,
   description,
@@ -60,169 +57,155 @@ export const createRequest = ({
   formData.append("priority", priority);
   formData.append("assignedTo", assignedTo);
 
-  if (images && images.length > 0) {
+  if (images?.length > 0) {
     images.forEach((img) => formData.append("images", img));
   }
 
-  return fetch(url, {
+  const response = await fetch(url, {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
+    headers: { Authorization: `Bearer ${authToken}` },
     body: formData,
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to create maintenance request");
-    }
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to create maintenance request");
+  }
 };
 
 /* ================================
-   UPDATE STATUS (TRUSTEE)
+   UPDATE STATUS
 ================================ */
-export const updateRequestStatus = (id, status) => {
+export const updateRequestStatus = async (id, status) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/maintenance/${id}/status`;
 
   const formData = new FormData();
   formData.append("status", status);
 
-  return fetch(url, {
+  const response = await fetch(url, {
     method: "PATCH",
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
+    headers: { Authorization: `Bearer ${authToken}` },
     body: formData,
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to update maintenance status");
-    }
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to update maintenance status");
+  }
 };
 
 /* ================================
-   UPDATE PRIORITY (TRUSTEE)
+   UPDATE PRIORITY
 ================================ */
-export const updateRequestPriority = (id, priority) => {
+export const updateRequestPriority = async (id, priority) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/maintenance/${id}/priority`;
 
   const formData = new FormData();
   formData.append("priority", priority);
 
-  return fetch(url, {
+  const response = await fetch(url, {
     method: "PATCH",
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
+    headers: { Authorization: `Bearer ${authToken}` },
     body: formData,
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to update maintenance priority");
-    }
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to update maintenance priority");
+  }
 };
 
 /* ================================
-   UPDATE ASSIGNED TO (TRUSTEE)
+   UPDATE ASSIGNED TO
 ================================ */
-export const updateRequestAssignedTo = (id, assignedTo) => {
+export const updateRequestAssignedTo = async (id, assignedTo) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/maintenance/${id}/assign`;
 
   const formData = new FormData();
   formData.append("assignedTo", assignedTo);
 
-  return fetch(url, {
+  const response = await fetch(url, {
     method: "PATCH",
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
+    headers: { Authorization: `Bearer ${authToken}` },
     body: formData,
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to update assigned user");
-    }
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to update assigned user");
+  }
 };
 
 /* ================================
-   DELETE REQUEST (TRUSTEE)
+   DELETE REQUEST
 ================================ */
-export const deleteRequest = (id) => {
+export const deleteRequest = async (id) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/maintenance/${id}`;
 
-  return fetch(url, {
+  const response = await fetch(url, {
     method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to delete maintenance request");
-    }
+    headers: { Authorization: `Bearer ${authToken}` },
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to delete maintenance request");
+  }
 };
 
 /* ================================
-   GET ALL REPLIES FOR A REQUEST
+   GET REPLIES
 ================================ */
-export const getRequestReplies = (requestId) => {
+export const getRequestReplies = async (requestId) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/maintenance/${requestId}/replies`;
 
-  return fetch(url, {
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to get replies");
-    }
-    return response.json();
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${authToken}` },
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to get replies");
+  }
+
+  return response.json();
 };
 
 /* ================================
-   CREATE REPLY FOR A REQUEST
+   CREATE REPLY
 ================================ */
-export const createRequestReply = ({ requestId, content }) => {
+export const createRequestReply = async ({ requestId, content }) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/maintenance/${requestId}/replies`;
 
   const formData = new FormData();
   formData.append("content", content);
 
-  return fetch(url, {
+  const response = await fetch(url, {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
+    headers: { Authorization: `Bearer ${authToken}` },
     body: formData,
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to create reply");
-    }
-    return response.json();
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to create reply");
+  }
+
+  return response.json();
 };
 
 /* ================================
-   DELETE A REPLY
+   DELETE REPLY
 ================================ */
-export const deleteRequestReply = (replyId) => {
+export const deleteRequestReply = async (replyId) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/maintenance/replies/${replyId}`;
 
-  return fetch(url, {
+  const response = await fetch(url, {
     method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to delete reply");
-    }
+    headers: { Authorization: `Bearer ${authToken}` },
   });
+
+  if (response.status >= 300) {
+    throw Error("Fail to delete reply");
+  }
 };
