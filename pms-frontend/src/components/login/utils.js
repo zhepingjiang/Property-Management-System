@@ -17,7 +17,12 @@ export const login = async (credential) => {
 
     if (!response.ok) {
       console.error("Login failed:", response.status);
-      return null;
+      const msg =
+        response.status === 401
+          ? "Invalid username or password."
+          : `Login failed: ${response.status}`;
+
+      throw new Error(msg);
     }
 
     return await response.json();
