@@ -1,10 +1,7 @@
 package com.laioffer.pmsbackend;
 
 import com.laioffer.pmsbackend.model.*;
-import com.laioffer.pmsbackend.model.enums.MaintenancePriority;
-import com.laioffer.pmsbackend.model.enums.MaintenanceStatus;
-import com.laioffer.pmsbackend.model.enums.PostStatus;
-import com.laioffer.pmsbackend.model.enums.UserRole;
+import com.laioffer.pmsbackend.model.enums.*;
 import com.laioffer.pmsbackend.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +9,8 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 @Component
@@ -27,6 +26,9 @@ public class DevRunner implements ApplicationRunner {
     private final PolicyRepository policyRepository;
     private final ReplyRepository replyRepository;
     private final MaintenanceRequestRepository maintenanceRequestRepository;
+    private final AmenityTypeRepository amenityTypeRepository;
+    private final AmenityUnitRepository amenityUnitRepository;
+    private final AmenityBookingRepository amenityBookingRepository;
     private final UserRepository userRepository;
 
     public DevRunner(
@@ -38,6 +40,9 @@ public class DevRunner implements ApplicationRunner {
             PolicyRepository policyRepository,
             ReplyRepository replyRepository,
             MaintenanceRequestRepository maintenanceRequestRepository,
+            AmenityTypeRepository amenityTypeRepository,
+            AmenityUnitRepository amenityUnitRepository,
+            AmenityBookingRepository amenityBookingRepository,
             UserRepository userRepository
     ) {
         this.alertRepository = alertRepository;
@@ -48,6 +53,9 @@ public class DevRunner implements ApplicationRunner {
         this.policyRepository = policyRepository;
         this.replyRepository = replyRepository;
         this.maintenanceRequestRepository = maintenanceRequestRepository;
+        this.amenityTypeRepository = amenityTypeRepository;
+        this.amenityUnitRepository = amenityUnitRepository;
+        this.amenityBookingRepository = amenityBookingRepository;
         this.userRepository = userRepository;
     }
 
@@ -463,6 +471,170 @@ public class DevRunner implements ApplicationRunner {
                 new ReplyEntity(null, 1L, "It got worse today—flickers every 5 seconds.", null, 5L),
 
                 new ReplyEntity(null, 8L, "Temperature restored to normal yesterday.", null, 6L)
+        ));
+
+        /* Amenity Bookings Sample Data */
+        List<AmenityTypeEntity> types = amenityTypeRepository.saveAll(List.of(
+                new AmenityTypeEntity(null, "BBQ", "Outdoor barbecue grill", Duration.ofHours(1), true, null),
+                new AmenityTypeEntity(null, "Billiards Table", "Games room pool table", Duration.ofHours(1), true, null),
+//                new AmenityTypeEntity(null, "Guest Suite", "Furnished suite for visitors", Duration.ofDays(1), true, null),
+                new AmenityTypeEntity(null, "Party Room", "Large room for private events", Duration.ofHours(1), true, null),
+                new AmenityTypeEntity(null, "Service Elevator", "Elevator for moving items or deliveries", Duration.ofHours(1), true, null),
+                new AmenityTypeEntity(null, "Theatre Room", "Mini-theatre for screenings", Duration.ofHours(1), true, null),
+                new AmenityTypeEntity(null, "Swimming Pool", "Indoor recreational swimming pool", Duration.ofHours(1), true, null)
+        ));
+
+        Long BBQ = types.get(0).getId();
+        Long BILLIARDS = types.get(1).getId();
+//        Long GUEST_SUITE = types.get(2).getId();
+        Long PARTY_ROOM = types.get(2).getId();
+        Long SERVICE_ELEVATOR = types.get(3).getId();
+        Long THEATRE = types.get(4).getId();
+        Long SWIMMING_POOL = types.get(5).getId();
+
+        List<AmenityUnitEntity> units = amenityUnitRepository.saveAll(List.of(
+                // BBQ units
+                new AmenityUnitEntity(null, BBQ, "BBQ #1", 1, "Roof Deck Area A", true, null),
+                new AmenityUnitEntity(null, BBQ, "BBQ #2", 1, "Roof Deck Area B", true, null),
+                new AmenityUnitEntity(null, BBQ, "BBQ #3", 1, "Garden Level Patio", true, null),
+
+                // Billiards
+                new AmenityUnitEntity(null, BILLIARDS, "Billiards Table #1", 1, "Games Room", true, null),
+
+//                // Guest Suites
+//                new AmenityUnitEntity(null, GUEST_SUITE, "Guest Suite #1", 1, "Floor 2 - Suite A", true, null),
+//                new AmenityUnitEntity(null, GUEST_SUITE, "Guest Suite #2", 1, "Floor 2 - Suite B", true, null),
+//                new AmenityUnitEntity(null, GUEST_SUITE, "Guest Suite #3", 1, "Floor 2 - Suite C", true, null),
+
+                // Party Room
+                new AmenityUnitEntity(null, PARTY_ROOM, "Party Room #1", 1, "Ground Floor Event Hall", true, null),
+
+                // Service Elevators
+                new AmenityUnitEntity(null, SERVICE_ELEVATOR, "Service Elevator #1", 1, "North Wing", true, null),
+                new AmenityUnitEntity(null, SERVICE_ELEVATOR, "Service Elevator #2", 1, "South Wing", true, null),
+
+                // Theatre Room
+                new AmenityUnitEntity(null, THEATRE, "Theatre Room #1", 1, "Basement Level", true, null),
+
+                // Swimming Pool
+                new AmenityUnitEntity(null, SWIMMING_POOL, "Swimming Pool #1", 8, "Recreation Floor", true, null)
+        ));
+
+        Long BBQ1 = units.get(0).getId();
+        Long BBQ2 = units.get(1).getId();
+        Long BBQ3 = units.get(2).getId();
+
+        Long BILLIARDS1 = units.get(3).getId();
+
+//        Long GS1 = units.get(4).getId();
+//        Long GS2 = units.get(5).getId();
+//        Long GS3 = units.get(6).getId();
+
+        Long PARTY = units.get(4).getId();
+
+        Long SE1 = units.get(5).getId();
+        Long SE2 = units.get(6).getId();
+
+        Long THEATRE1 = units.get(7).getId();
+
+        Long POOL = units.get(8).getId();
+
+        amenityBookingRepository.saveAll(List.of(
+                // Future booking — ACTIVE
+                new AmenityBookingEntity(
+                        null,
+                        BBQ1,
+                        1L,
+                        1,
+                        Instant.parse("2025-12-10T16:00:00Z"),
+                        Instant.parse("2025-12-10T18:00:00Z"),
+                        AmenityBookingStatus.ACTIVE,
+                        null
+                ),
+
+                // Future booking — ACTIVE
+                new AmenityBookingEntity(
+                        null,
+                        BBQ2,
+                        2L,
+                        2,
+                        Instant.parse("2025-12-15T12:00:00Z"),
+                        Instant.parse("2025-12-15T14:00:00Z"),
+                        AmenityBookingStatus.ACTIVE,
+                        null
+                ),
+
+                // FUTURE booking — PARTY ROOM — trustee booking
+                new AmenityBookingEntity(
+                        null,
+                        PARTY,
+                        10L,  // trustee
+                        1,
+                        Instant.parse("2025-12-20T17:00:00Z"),
+                        Instant.parse("2025-12-20T22:00:00Z"),
+                        AmenityBookingStatus.ACTIVE,
+                        null
+                ),
+
+                // Future booking — Swimming Pool — ACTIVE
+                new AmenityBookingEntity(
+                        null,
+                        POOL,
+                        5L,
+                        4,
+                        Instant.parse("2025-12-18T10:00:00Z"),
+                        Instant.parse("2025-12-18T12:00:00Z"),
+                        AmenityBookingStatus.ACTIVE,
+                        null
+                ),
+
+                // Future booking — ACTIVE
+                new AmenityBookingEntity(
+                        null,
+                        THEATRE1,
+                        7L,
+                        1,
+                        Instant.parse("2025-12-30T18:00:00Z"),
+                        Instant.parse("2025-12-30T21:00:00Z"),
+                        AmenityBookingStatus.ACTIVE,
+                        null
+                ),
+
+                // Future booking — ACTIVE
+                new AmenityBookingEntity(
+                        null,
+                        SE1,
+                        8L,
+                        1,
+                        Instant.parse("2025-12-08T09:00:00Z"),
+                        Instant.parse("2025-12-08T10:00:00Z"),
+                        AmenityBookingStatus.ACTIVE,
+                        null
+                ),
+
+                // Old booking — EXPIRED
+                new AmenityBookingEntity(
+                        null,
+                        BBQ3,
+                        3L,
+                        1,
+                        Instant.parse("2025-03-10T16:00:00Z"),
+                        Instant.parse("2025-03-10T17:00:00Z"),
+                        AmenityBookingStatus.EXPIRED,
+                        null
+                ),
+
+                // Old booking — CANCELLED
+                new AmenityBookingEntity(
+                        null,
+                        POOL,
+                        4L,
+                        2,
+                        Instant.parse("2025-03-05T14:00:00Z"),
+                        Instant.parse("2025-03-05T15:30:00Z"),
+                        AmenityBookingStatus.CANCELLED,
+                        null
+                )
         ));
     }
 }

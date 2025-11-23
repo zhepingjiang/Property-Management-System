@@ -8,13 +8,13 @@ import java.util.List;
 
 public record MaintenanceRequestDto(
         Long id,
-        Long userId,
+        UserDto author,
         String facility,
         String issueType,
         String description,
         MaintenanceStatus status,
         MaintenancePriority priority,
-        Long assignedTo,
+        UserDto assignedUser,
         List<String> imageUrl,
         Instant createdAt,
         Instant updatedAt,
@@ -23,13 +23,13 @@ public record MaintenanceRequestDto(
     public MaintenanceRequestDto(MaintenanceRequestEntity entity) {
         this(
                 entity.getId(),
-                entity.getAuthorId(),
+                entity.getAuthor() != null ? new UserDto(entity.getAuthor()) : null,
                 entity.getFacility(),
                 entity.getIssueType(),
                 entity.getDescription(),
                 entity.getStatus(),
                 entity.getPriority(),
-                entity.getAssignedTo(),
+                entity.getAssignedUser() != null ? new UserDto(entity.getAssignedUser()) : null,
                 entity.getImageUrls(),
                 entity.getCreatedAt(),
                 entity.getUpdatedAt(),
