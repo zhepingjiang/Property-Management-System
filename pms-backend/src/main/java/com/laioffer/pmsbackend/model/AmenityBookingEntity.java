@@ -57,8 +57,14 @@ public class AmenityBookingEntity {
 
     public AmenityBookingEntity() {}
 
-    public AmenityBookingEntity(Long id, Long unitId, Long userId, Integer guestCount, Instant startTime,
-                                Instant endTime, AmenityBookingStatus status, Instant createdAt) {
+    public AmenityBookingEntity(Long id,
+                                Long unitId,
+                                Long userId,
+                                Integer guestCount,
+                                Instant startTime,
+                                Instant endTime,
+                                AmenityBookingStatus status,
+                                Instant createdAt) {
         this.id = id;
         this.unitId = unitId;
         this.userId = userId;

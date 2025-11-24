@@ -24,7 +24,7 @@ public class AmenityTypeEntity {
     private String description;
 
     @JdbcTypeCode(SqlTypes.DURATION)
-    @Column(name = "max_booking_duration", columnDefinition = "interval")
+    @Column(name = "max_booking_duration")
     private Duration maxBookingDuration;
 
     @Column(name = "is_active", nullable = false)
@@ -37,7 +37,10 @@ public class AmenityTypeEntity {
     public AmenityTypeEntity() {
     }
 
-    public AmenityTypeEntity(Long id, String name, String description, Duration maxBookingDuration,
+    public AmenityTypeEntity(Long id,
+                             String name,
+                             String description,
+                             Duration maxBookingDuration,
                              Boolean isActive, Instant createdAt) {
         this.id = id;
         this.name = name;

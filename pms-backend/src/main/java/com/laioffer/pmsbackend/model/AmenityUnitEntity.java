@@ -26,6 +26,9 @@ public class AmenityUnitEntity {
     @Column
     private Integer capacity;
 
+    @Column(length = 255)
+    private String address;
+
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
@@ -43,11 +46,20 @@ public class AmenityUnitEntity {
     public AmenityUnitEntity() {
     }
 
-    public AmenityUnitEntity(Long id, Long typeId, String label, Integer capacity, Boolean isActive, Instant createdAt) {
+    public AmenityUnitEntity(
+            Long id,
+            Long typeId,
+            String label,
+            Integer capacity,
+            String address,
+            Boolean isActive,
+            Instant createdAt
+    ) {
         this.id = id;
         this.typeId = typeId;
         this.label = label;
         this.capacity = capacity;
+        this.address = address;
         this.isActive = isActive;
         this.createdAt = createdAt;
     }
@@ -56,6 +68,7 @@ public class AmenityUnitEntity {
     public Long getTypeId() { return typeId; }
     public String getLabel() { return label; }
     public Integer getCapacity() { return capacity; }
+    public String getAddress() { return address; }
     public Boolean getIsActive() { return isActive; }
     public Instant getCreatedAt() { return createdAt; }
     public AmenityTypeEntity getType() { return type; }
@@ -84,6 +97,7 @@ public class AmenityUnitEntity {
                 ", typeId=" + typeId +
                 ", label='" + label + '\'' +
                 ", capacity=" + capacity +
+                ", address='" + address + '\'' +
                 ", isActive=" + isActive +
                 ", createdAt=" + createdAt +
                 ", type=" + type +

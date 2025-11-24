@@ -1,33 +1,60 @@
 const domain = "http://localhost:8080";
 
-export const login = (credential) => {
-  const loginUrl = `${domain}/auth/login`;
-  return fetch(loginUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(credential),
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to log in");
+/* ================================
+   LOGIN
+================================ */
+export const login = async (credential) => {
+  try {
+    const loginUrl = `${domain}/auth/login`;
+
+    const response = await fetch(loginUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(credential),
+    });
+
+    if (!response.ok) {
+      console.error("Login failed:", response.status);
+      const msg =
+        response.status === 401
+          ? "Invalid username or password."
+          : `Login failed: ${response.status}`;
+
+      throw new Error(msg);
     }
 
-    return response.json();
-  });
+    return await response.json();
+  } catch (err) {
+    console.error("Network error during login:", err);
+    return null;
+  }
 };
 
-export const register = (credential) => {
-  const registerUrl = `${domain}/auth/register`;
-  return fetch(registerUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(credential),
-  }).then((response) => {
-    if (response.status >= 300) {
-      throw Error("Fail to register");
+/* ================================
+   REGISTER
+================================ */
+export const register = async (credential) => {
+  try {
+    const registerUrl = `${domain}/auth/register`;
+
+    const response = await fetch(registerUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(credential),
+    });
+
+    if (!response.ok) {
+      console.error("Registration failed:", response.status);
+      return null;
     }
-  });
+
+    return true; // success
+  } catch (err) {
+    console.error("Network error during registration:", err);
+    return null;
+  }
 };
