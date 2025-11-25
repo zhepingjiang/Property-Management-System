@@ -9,32 +9,43 @@ import java.util.List;
 public record MaintenanceRequestDto(
         Long id,
         UserDto author,
-        String facility,
-        String issueType,
+        String title,
+        String property,
+        String unit,
+        String category, // displayName format
         String description,
         MaintenanceStatus status,
         MaintenancePriority priority,
         UserDto assignedUser,
-        List<String> imageUrl,
+        List<String> imageUrls,
         Instant createdAt,
         Instant updatedAt,
         List<ReplyDto> replies
 ) {
+
     public MaintenanceRequestDto(MaintenanceRequestEntity entity) {
         this(
                 entity.getId(),
                 entity.getAuthor() != null ? new UserDto(entity.getAuthor()) : null,
-                entity.getFacility(),
-                entity.getIssueType(),
+
+                entity.getTitle(),
+                entity.getProperty(),
+                entity.getUnit(),
+                entity.getCategory() != null
+                        ? entity.getCategory().getDisplayName()   // frontend needs displayName
+                        : null,
+
                 entity.getDescription(),
                 entity.getStatus(),
                 entity.getPriority(),
                 entity.getAssignedUser() != null ? new UserDto(entity.getAssignedUser()) : null,
+
                 entity.getImageUrls(),
                 entity.getCreatedAt(),
                 entity.getUpdatedAt(),
+
                 entity.getReplies() == null
-                        ? null
+                        ? List.of()
                         : entity.getReplies().stream().map(ReplyDto::new).toList()
         );
     }

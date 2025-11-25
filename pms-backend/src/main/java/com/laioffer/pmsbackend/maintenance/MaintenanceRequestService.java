@@ -3,6 +3,7 @@ package com.laioffer.pmsbackend.maintenance;
 import com.laioffer.pmsbackend.common.DeleteResourceNotAllowedException;
 import com.laioffer.pmsbackend.common.ResourceNotFoundException;
 import com.laioffer.pmsbackend.model.*;
+import com.laioffer.pmsbackend.model.enums.MaintenanceCategory;
 import com.laioffer.pmsbackend.model.enums.MaintenancePriority;
 import com.laioffer.pmsbackend.model.enums.MaintenanceStatus;
 import com.laioffer.pmsbackend.repository.MaintenanceRequestRepository;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -50,30 +53,43 @@ public class MaintenanceRequestService {
     @Transactional
     public void createRequest(
             Long authorId,
-            String facility,
-            String issueType,
+            String title,
+            String property,
+            String unit,
+            String categoryDisplayName,
             String description,
             MaintenancePriority priority,
             Long assignedTo,
             List<MultipartFile> images
     ) {
-        List<String> uploaded = images == null
+        // Convert frontend category → enum
+        MaintenanceCategory category = Arrays.stream(MaintenanceCategory.values())
+                .filter(c -> c.getDisplayName().equalsIgnoreCase(categoryDisplayName))
+                .findFirst()
+                .orElse(MaintenanceCategory.OTHER);
+
+        // Upload images
+        List<String> uploaded = (images == null)
                 ? List.of()
                 : images.stream()
                 .filter(img -> !img.isEmpty())
                 .map(imageStorageService::upload)
                 .toList();
 
+        // Build new request entity
         MaintenanceRequestEntity req = new MaintenanceRequestEntity(
                 null,
                 authorId,
-                facility,
-                issueType,
+                title,
+                property,
+                unit,
+                category,
                 description,
                 MaintenanceStatus.SUBMITTED,
                 priority,
                 assignedTo,
-                uploaded
+                uploaded,
+                null
         );
 
         maintenanceRepository.save(req);

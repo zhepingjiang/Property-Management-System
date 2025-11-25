@@ -1,6 +1,6 @@
 // src/components/maintenance/MaintenanceRequestsPage.jsx
-import React, { useState } from "react";
-import { Button, Card, Tag, Typography } from "antd";
+import React, { useState, useEffect } from "react";
+import { Button, Card, Tag, Typography, Spin } from "antd";
 import {
   ToolOutlined,
   BulbOutlined,
@@ -13,80 +13,14 @@ import {
   QuestionCircleOutlined,
 } from "@ant-design/icons";
 
+import { getAllRequests, createRequest as apiCreateRequest } from "./utils"; // adjust path if needed
+
 import MaintenanceRequestDetailModal from "./MaintenanceRequestDetailModal";
 import MaintenanceRequestCreateModal from "./MaintenanceRequestCreateModal";
 
 import "../../css/maintenance/MaintenanceRequestsPage.css";
-import DashboardHeader from "../dashboard/DashboardHeader";
 
 const { Title, Text } = Typography;
-
-const initialRequests = [
-  {
-    id: "MR-1001",
-    title: "Oven not heating properly",
-    description: "The oven in Unit 1205 doesn't reach the set temperature.",
-    status: "NEW",
-    property: "Fairview",
-    unit: "Unit 1205",
-    category: "Appliances",
-    conversations: [
-      {
-        author: "Resident",
-        message: "Noticed this issue last night, tried twice.",
-        timestamp: "2025-11-10 19:30",
-      },
-    ],
-  },
-  {
-    id: "MR-1002",
-    title: "No power in bedroom outlets",
-    description:
-      "All outlets in the master bedroom stopped working, lights still fine.",
-    status: "IN_PROGRESS",
-    property: "Fairview",
-    unit: "Unit 803",
-    category: "Electrical",
-    conversations: [
-      {
-        author: "Trustee",
-        message: "Electrician scheduled for tomorrow 2–4 PM.",
-        timestamp: "2025-11-11 09:15",
-      },
-    ],
-  },
-  {
-    id: "MR-1003",
-    title: "Water leak near kitchen sink",
-    description: "Cabinet under sink is damp, slow leak from pipe.",
-    status: "IN_PROGRESS",
-    property: "Fairview",
-    unit: "Unit 316",
-    category: "Plumbing",
-    conversations: [],
-  },
-  {
-    id: "MR-1004",
-    title: "Window seal broken in living room",
-    description: "Strong draft from large window, seems the seal is damaged.",
-    status: "RESOLVED",
-    property: "Maison",
-    unit: "Unit 507",
-    category: "House Exterior",
-    conversations: [
-      {
-        author: "Trustee",
-        message: "Seal replaced on 2025-11-05.",
-        timestamp: "2025-11-05 15:40",
-      },
-      {
-        author: "Resident",
-        message: "Feels much better now, thank you!",
-        timestamp: "2025-11-06 10:05",
-      },
-    ],
-  },
-];
 
 const maintenanceCategories = [
   {
@@ -137,11 +71,31 @@ const maintenanceCategories = [
 ];
 
 const MaintenanceRequestsPage = () => {
-  const [requests, setRequests] = useState(initialRequests);
+  const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState("board"); // "board" | "category"
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+
+  /* ================================
+     LOAD REQUESTS FROM BACKEND
+  ================================= */
+  const loadRequests = async () => {
+    try {
+      setLoading(true);
+      const data = await getAllRequests(); // backend returns MaintenanceRequestDto[]
+      setRequests(data);
+    } catch (err) {
+      console.error("Failed to load maintenance requests:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadRequests();
+  }, []);
 
   const openBoard = () => {
     setViewMode("board");
@@ -157,20 +111,30 @@ const MaintenanceRequestsPage = () => {
     setIsCreateOpen(true);
   };
 
-  const handleCreateSubmit = (newRequestData) => {
-    const newRequest = {
-      id: `MR-${1000 + requests.length + 1}`,
-      status: "NEW",
-      conversations: [],
-      ...newRequestData,
-    };
-    setRequests((prev) => [newRequest, ...prev]);
+  /* ================================
+     CREATE REQUEST (REAL DB CALL)
+  ================================= */
+  const handleCreateSubmit = async (formValues) => {
+    try {
+      await apiCreateRequest(formValues);
+      await loadRequests(); // refresh list
+    } catch (err) {
+      console.error("Create request failed:", err);
+    }
+
     setIsCreateOpen(false);
     openBoard();
   };
 
-  const byStatus = (status) =>
-    requests.filter((r) => r.status === status.toUpperCase());
+  const byStatus = (status) => requests.filter((r) => r.status === status);
+
+  if (loading) {
+    return (
+      <div className="maintenance-loading">
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
     <div className="maintenance-page">
@@ -186,6 +150,7 @@ const MaintenanceRequestsPage = () => {
             </Text>
           )}
         </div>
+
         <div className="maintenance-header-right">
           {viewMode === "category" && (
             <Button
@@ -196,6 +161,7 @@ const MaintenanceRequestsPage = () => {
               Back to Requests
             </Button>
           )}
+
           <Button
             type="primary"
             className="maintenance-header-btn"
@@ -206,97 +172,136 @@ const MaintenanceRequestsPage = () => {
         </div>
       </div>
 
+      {/* =============================== */}
+      {/*  BOARD MODE */}
+      {/* =============================== */}
       {viewMode === "board" && (
         <div className="maintenance-board">
-          {/* New */}
+          {/* ===================== */}
+          {/* NEW */}
+          {/* ===================== */}
           <div className="status-column">
             <div className="status-column-header">
               <Text className="status-column-title">New</Text>
-              <Tag color="blue">{byStatus("NEW").length}</Tag>
+              <Tag color="blue">{byStatus("SUBMITTED").length}</Tag>
             </div>
-            {byStatus("NEW").map((req) => (
-              <Card
-                key={req.id}
-                className="request-card"
-                onClick={() => setSelectedRequest(req)}
-                hoverable
-              >
-                <div className="request-card-title">{req.title}</div>
-                <div className="request-card-meta">
-                  <Text type="secondary">
-                    {req.property}, {req.unit}
-                  </Text>
+
+            <div className="status-column-body">
+              {byStatus("SUBMITTED").length === 0 ? (
+                <div className="empty-placeholder">
+                  No submitted maintenance requests yet
                 </div>
-                <div className="request-card-footer">
-                  <Tag>{req.category}</Tag>
-                  <Button size="small" type="link">
-                    Details
-                  </Button>
-                </div>
-              </Card>
-            ))}
+              ) : (
+                byStatus("SUBMITTED").map((req) => (
+                  <Card
+                    key={req.id}
+                    className="request-card"
+                    onClick={() => setSelectedRequest(req)}
+                    hoverable
+                  >
+                    <div className="request-card-title">{req.title}</div>
+                    <div className="request-card-meta">
+                      <Text type="secondary">
+                        {req.property}, {req.unit}
+                      </Text>
+                    </div>
+                    <div className="request-card-footer">
+                      <Tag>{req.category}</Tag>
+                      <Button size="small" type="link">
+                        Details
+                      </Button>
+                    </div>
+                  </Card>
+                ))
+              )}
+            </div>
           </div>
 
-          {/* In Progress */}
+          {/* ===================== */}
+          {/* IN PROGRESS */}
+          {/* ===================== */}
           <div className="status-column">
             <div className="status-column-header">
               <Text className="status-column-title">In Progress</Text>
               <Tag color="gold">{byStatus("IN_PROGRESS").length}</Tag>
             </div>
-            {byStatus("IN_PROGRESS").map((req) => (
-              <Card
-                key={req.id}
-                className="request-card"
-                onClick={() => setSelectedRequest(req)}
-                hoverable
-              >
-                <div className="request-card-title">{req.title}</div>
-                <div className="request-card-meta">
-                  <Text type="secondary">
-                    {req.property}, {req.unit}
-                  </Text>
+
+            <div className="status-column-body">
+              {byStatus("IN_PROGRESS").length === 0 ? (
+                <div className="empty-placeholder">
+                  No in progress maintenance requests yet
                 </div>
-                <div className="request-card-footer">
-                  <Tag color="gold">{req.category}</Tag>
-                  <Button size="small" type="link">
-                    Details
-                  </Button>
-                </div>
-              </Card>
-            ))}
+              ) : (
+                byStatus("IN_PROGRESS").map((req) => (
+                  <Card
+                    key={req.id}
+                    className="request-card"
+                    onClick={() => setSelectedRequest(req)}
+                    hoverable
+                  >
+                    <div className="request-card-title">{req.title}</div>
+                    <div className="request-card-meta">
+                      <Text type="secondary">
+                        {req.property}, {req.unit}
+                      </Text>
+                    </div>
+                    <div className="request-card-footer">
+                      <Tag color="gold">{req.category}</Tag>
+                      <Button size="small" type="link">
+                        Details
+                      </Button>
+                    </div>
+                  </Card>
+                ))
+              )}
+            </div>
           </div>
 
-          {/* Resolved */}
+          {/* ===================== */}
+          {/* RESOLVED */}
+          {/* ===================== */}
           <div className="status-column">
             <div className="status-column-header">
               <Text className="status-column-title">Resolved</Text>
               <Tag color="green">{byStatus("RESOLVED").length}</Tag>
             </div>
-            {byStatus("RESOLVED").map((req) => (
-              <Card
-                key={req.id}
-                className="request-card"
-                onClick={() => setSelectedRequest(req)}
-                hoverable
-              >
-                <div className="request-card-title">{req.title}</div>
-                <div className="request-card-meta">
-                  <Text type="secondary">
-                    {req.property}, {req.unit}
-                  </Text>
+
+            <div className="status-column-body">
+              {byStatus("RESOLVED").length === 0 ? (
+                <div className="empty-placeholder">
+                  No Resolved maintenance requests yet
                 </div>
-                <div className="request-card-footer">
-                  <Tag color="green">{req.category}</Tag>
-                  <Button size="small" type="link">
-                    Details
-                  </Button>
-                </div>
-              </Card>
-            ))}
+              ) : (
+                byStatus("RESOLVED").map((req) => (
+                  <Card
+                    key={req.id}
+                    className="request-card"
+                    onClick={() => setSelectedRequest(req)}
+                    hoverable
+                  >
+                    <div className="request-card-title">{req.title}</div>
+                    <div className="request-card-meta">
+                      <Text type="secondary">
+                        {req.property}, {req.unit}
+                      </Text>
+                    </div>
+                    <div className="request-card-footer">
+                      <Tag color="green">{req.category}</Tag>
+                      <Button size="small" type="link">
+                        Details
+                      </Button>
+                    </div>
+                  </Card>
+                ))
+              )}
+            </div>
           </div>
         </div>
       )}
 
+      {/* =============================== */}
+      {/* CATEGORY PICK MODE */}
+      {/* =============================== */}
       {viewMode === "category" && (
         <div className="maintenance-category-grid">
           {maintenanceCategories.map((cat) => (
@@ -316,6 +321,7 @@ const MaintenanceRequestsPage = () => {
         </div>
       )}
 
+      {/* Details Modal */}
       {selectedRequest && (
         <MaintenanceRequestDetailModal
           request={selectedRequest}
@@ -323,6 +329,7 @@ const MaintenanceRequestsPage = () => {
         />
       )}
 
+      {/* Create Modal */}
       {isCreateOpen && selectedCategory && (
         <MaintenanceRequestCreateModal
           category={selectedCategory}

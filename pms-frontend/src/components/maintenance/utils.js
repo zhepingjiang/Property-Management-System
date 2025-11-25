@@ -39,9 +39,14 @@ export const getRequestById = async (id) => {
 /* ================================
    CREATE REQUEST (multipart/form-data)
 ================================ */
+/* ================================
+   CREATE REQUEST (multipart/form-data)
+================================ */
 export const createRequest = async ({
-  facility,
-  issueType,
+  title,
+  property,
+  unit,
+  category,
   description,
   priority,
   assignedTo,
@@ -51,11 +56,16 @@ export const createRequest = async ({
   const url = `${domain}/api/maintenance`;
 
   const formData = new FormData();
-  formData.append("facility", facility);
-  formData.append("issueType", issueType);
+  formData.append("title", title);
+  formData.append("property", property);
+  formData.append("unit", unit);
+  formData.append("category", category); // must match displayName
   formData.append("description", description);
   formData.append("priority", priority);
-  formData.append("assignedTo", assignedTo);
+
+  if (assignedTo !== undefined && assignedTo !== null) {
+    formData.append("assignedTo", assignedTo);
+  }
 
   if (images?.length > 0) {
     images.forEach((img) => formData.append("images", img));
@@ -67,11 +77,10 @@ export const createRequest = async ({
     body: formData,
   });
 
-  if (response.status >= 300) {
+  if (!response.ok) {
     throw Error("Fail to create maintenance request");
   }
 };
-
 /* ================================
    UPDATE STATUS
 ================================ */

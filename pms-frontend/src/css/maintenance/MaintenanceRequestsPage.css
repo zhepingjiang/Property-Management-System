@@ -54,6 +54,12 @@
 .maintenance-header-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 28px rgba(185, 150, 87, 0.25);
+  color: white;
+  background: linear-gradient(135deg, #caa86a 0%, #9c7a4c 100%);
+}
+
+.maintenance-header-btn:focus {
+  background: linear-gradient(135deg, #caa86a 0%, #9c7a4c 100%);
 }
 
 /* =============================== */
@@ -61,16 +67,21 @@
 /* =============================== */
 .maintenance-board {
   display: flex;
-  gap: 16px;
+  justify-content: space-between; /* Ensures equal spacing */
+  gap: 24px;
   margin-top: 16px;
 }
 
 .status-column {
-  flex: 1;
+  width: 320px; /* fixed column width */
+  flex: 0 0 320px; /* prevent shrinking or growing */
+  align-self: flex-start; /* 👈 override any stretch from parent */
   background: rgba(255, 253, 247, 0.95);
   border-radius: 18px;
   padding: 16px;
   box-shadow: 0 6px 18px rgba(185, 150, 87, 0.12);
+  display: flex;
+  flex-direction: column;
 }
 
 .status-column-header {
@@ -86,6 +97,26 @@
   font-size: 1.1rem;
 }
 
+.empty-placeholder {
+  padding: 20px;
+  width: 85%;
+  max-width: 260px;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #8e6f43;
+  background: rgba(250, 244, 236, 0.7);
+  border-radius: 14px;
+  border: 1px dashed rgba(185, 150, 87, 0.35);
+}
+
+.status-column-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 130px;
+}
+
 /* =============================== */
 /*  Request Cards */
 /* =============================== */
@@ -97,8 +128,12 @@
   box-shadow: 0 6px 16px rgba(185, 150, 87, 0.1);
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
 
+  /* 🔥 Fix the width */
+  width: 100%;
+  min-width: 280px; /* ensures the card stays wide and readable */
+  box-sizing: border-box;
+}
 .request-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 24px rgba(185, 150, 87, 0.18);
@@ -172,6 +207,7 @@
 
   .maintenance-board {
     flex-direction: column;
+    align-items: flex-start; /* ⭐ FIX: prevents vertical stretching */
   }
 
   .maintenance-category-grid {
