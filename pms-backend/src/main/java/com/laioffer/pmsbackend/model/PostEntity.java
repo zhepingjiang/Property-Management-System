@@ -15,6 +15,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "posts")
 public class PostEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,9 +34,10 @@ public class PostEntity {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
+    // ====== Revision 1: changed field name to 'images' for consistency with frontend ======
     @Convert(converter = ListToJsonConverter.class)
     @Column(name = "image_urls")
-    private List<String> imageUrls;
+    private List<String> images;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<ReplyEntity> replies;
@@ -47,24 +49,25 @@ public class PostEntity {
     @JsonIgnore
     private UserEntity author;
 
-    public PostEntity() {
-    }
+    public PostEntity() {}
 
-    public PostEntity(Long id, Long authorId, String content, PostStatus status, List<String> imageUrls,Instant createdAt) {
+    public PostEntity(Long id, Long authorId, String content, PostStatus status, List<String> images, Instant createdAt) {
         this.id = id;
         this.authorId = authorId;
         this.content = content;
         this.status = status;
-        this.imageUrls = imageUrls;
+        this.images = images;
         this.createdAt = createdAt;
     }
+
+    // ====== Revision 2: added getImages() for frontend compatibility ======
+    public List<String> getImages() { return images; }
 
     public Long getId() { return id; }
     public Long getAuthorId() { return authorId; }
     public String getContent() { return content; }
     public PostStatus getStatus() { return status; }
     public Instant getCreatedAt() { return createdAt; }
-    public List<String> getImageUrls() { return imageUrls; }
     public List<ReplyEntity> getReplies() { return replies; }
     public UserEntity getAuthor() { return author; }
 
@@ -77,9 +80,7 @@ public class PostEntity {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+    public int hashCode() { return Objects.hash(id); }
 
     @Override
     public String toString() {

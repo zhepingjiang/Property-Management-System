@@ -11,8 +11,8 @@ export const getAllPosts = async () => {
     headers: { Authorization: `Bearer ${authToken}` },
   });
 
-  if (response.status >= 300) {
-    throw Error("Fail to get posts");
+  if (!response.ok) {
+    throw new Error("Failed to get posts");
   }
 
   return response.json();
@@ -29,8 +29,8 @@ export const getNewestPost = async () => {
     headers: { Authorization: `Bearer ${authToken}` },
   });
 
-  if (response.status >= 300) {
-    throw Error("Fail to get newest post");
+  if (!response.ok) {
+    throw new Error("Failed to get newest post");
   }
 
   return response.json();
@@ -47,8 +47,8 @@ export const getPostById = async (id) => {
     headers: { Authorization: `Bearer ${authToken}` },
   });
 
-  if (response.status >= 300) {
-    throw Error("Fail to get post");
+  if (!response.ok) {
+    throw new Error("Failed to get post");
   }
 
   return response.json();
@@ -65,8 +65,8 @@ export const getPostsByAuthor = async (authorId) => {
     headers: { Authorization: `Bearer ${authToken}` },
   });
 
-  if (response.status >= 300) {
-    throw Error("Fail to get author's posts");
+  if (!response.ok) {
+    throw new Error("Failed to get author's posts");
   }
 
   return response.json();
@@ -88,12 +88,12 @@ export const createPost = async ({ content, images }) => {
 
   const response = await fetch(url, {
     method: "POST",
-    headers: { Authorization: `Bearer ${authToken}` }, // no Content-Type!
+    headers: { Authorization: `Bearer ${authToken}` }, // Do NOT set Content-Type manually for FormData
     body: formData,
   });
 
-  if (response.status >= 300) {
-    throw Error("Fail to create post");
+  if (!response.ok) {
+    throw new Error("Failed to create post");
   }
 };
 
@@ -113,8 +113,8 @@ export const updatePostStatus = async (id, status) => {
     body: formData,
   });
 
-  if (response.status >= 300) {
-    throw Error("Fail to update post status");
+  if (!response.ok) {
+    throw new Error("Failed to update post status");
   }
 };
 
@@ -130,8 +130,8 @@ export const deletePost = async (id) => {
     headers: { Authorization: `Bearer ${authToken}` },
   });
 
-  if (response.status >= 300) {
-    throw Error("Fail to delete post");
+  if (!response.ok) {
+    throw new Error("Failed to delete post");
   }
 };
 
@@ -146,8 +146,8 @@ export const getReplies = async (postId) => {
     headers: { Authorization: `Bearer ${authToken}` },
   });
 
-  if (response.status >= 300) {
-    throw Error("Fail to get replies");
+  if (!response.ok) {
+    throw new Error("Failed to get replies");
   }
 
   return response.json();
@@ -169,8 +169,8 @@ export const createReply = async ({ postId, content }) => {
     body: formData,
   });
 
-  if (response.status >= 300) {
-    throw Error("Fail to create reply");
+  if (!response.ok) {
+    throw new Error("Failed to create reply");
   }
 
   return response.json();
@@ -188,7 +188,7 @@ export const deleteReply = async (replyId) => {
     headers: { Authorization: `Bearer ${authToken}` },
   });
 
-  if (response.status >= 300) {
-    throw Error("Fail to delete reply");
+  if (!response.ok) {
+    throw new Error("Failed to delete reply");
   }
 };

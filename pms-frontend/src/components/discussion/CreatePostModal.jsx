@@ -1,28 +1,47 @@
 import React, { useState } from "react";
-import { Modal, Card, Input, Upload, Button, Typography } from "antd";
+import { Modal, Card, Input, Upload, Button, Typography, message } from "antd";
 import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
+import { createPost } from "./utils";
 import "../../css/discussion/CreatePostModal.css";
 
 const { Title } = Typography;
 const { TextArea } = Input;
 
-export default function CreatePostModal({ onClose }) {
+export default function CreatePostModal({ onClose, onCreated }) {
   const [files, setFiles] = useState([]);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleUpload = ({ file, onSuccess }) => {
-    setTimeout(() => {
-      onSuccess("ok");
-    }, 500);
+    setTimeout(() => onSuccess("ok"), 500);
   };
 
   const handleChange = ({ fileList }) => {
-    if (fileList.length <= 3) {
-      setFiles(fileList);
-    }
+    if (fileList.length <= 3) setFiles(fileList);
   };
 
-  const removeFile = (file) => {
-    setFiles(files.filter((f) => f.uid !== file.uid));
+  const removeFile = (file) =>
+    setFiles((prev) => prev.filter((f) => f.uid !== file.uid));
+
+  const handleCreatePost = async () => {
+    if (!title.trim() && !content.trim()) {
+      message.warning("Post must have a title or content.");
+      return;
+    }
+
+    const images = files.map((f) => f.originFileObj);
+    setLoading(true);
+    try {
+      await createPost({ content: `${title}\n${content}`, images });
+      message.success("Post created!");
+      onClose();
+      onCreated?.();
+    } catch (err) {
+      console.error(err);
+      message.error("Failed to create post");
+    }
+    setLoading(false);
   };
 
   return (
@@ -37,18 +56,20 @@ export default function CreatePostModal({ onClose }) {
         <Title level={4} className="create-post-title">
           Create a Post
         </Title>
-
-        {/* Post title */}
-        <Input placeholder="Post title" className="create-post-input" />
-
-        {/* Post description */}
+        <Input
+          placeholder="Post title"
+          className="create-post-input"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
         <TextArea
           placeholder="Post description"
           className="create-post-input"
           autoSize={{ minRows: 4 }}
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
         />
 
-        {/* Drag-drop uploader */}
         <Upload.Dragger
           name="files"
           customRequest={handleUpload}
@@ -64,7 +85,6 @@ export default function CreatePostModal({ onClose }) {
           <p>Click or drag files here (max 3 images)</p>
         </Upload.Dragger>
 
-        {/* File list */}
         {files.map((f) => (
           <div key={f.uid} className="uploaded-file-row">
             <span>{f.name}</span>
@@ -75,7 +95,14 @@ export default function CreatePostModal({ onClose }) {
           </div>
         ))}
 
-        <Button type="primary" size="large" block className="create-post-btn">
+        <Button
+          type="primary"
+          size="large"
+          block
+          className="create-post-btn"
+          onClick={handleCreatePost}
+          loading={loading}
+        >
           Create Post
         </Button>
       </Card>
