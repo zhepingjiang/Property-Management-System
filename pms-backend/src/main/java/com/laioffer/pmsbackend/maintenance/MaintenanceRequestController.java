@@ -47,14 +47,26 @@ public class MaintenanceRequestController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createRequest(
             @AuthenticationPrincipal CustomUserDetails user,
-            @RequestParam String facility,
-            @RequestParam String issueType,
+            @RequestParam String title,
+            @RequestParam String property,
+            @RequestParam String unit,
+            @RequestParam String category,
             @RequestParam String description,
             @RequestParam MaintenancePriority priority,
-            @RequestParam Long assignedTo,
+            @RequestParam(required = false) Long assignedTo,
             @RequestParam(required = false) List<MultipartFile> images
     ) {
-        service.createRequest(user.getId(), facility, issueType, description, priority, assignedTo, images);
+        service.createRequest(
+                user.getId(),
+                title,
+                property,
+                unit,
+                category,
+                description,
+                priority,
+                assignedTo,
+                images
+        );
     }
 
     /* ==========================
