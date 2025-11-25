@@ -49,7 +49,7 @@ export default function DashboardAmenitiesReserve() {
             key={i}
             hoverable
             className="amenity-card hotel-card clickable-card"
-            onClick={goTo("/amenity/info")}
+            onClick={goTo("/amenity/home")}
           >
             <div className="amenity-icon">{am.icon}</div>
             <div className="amenity-info">
@@ -60,7 +60,7 @@ export default function DashboardAmenitiesReserve() {
                 size="small"
                 onClick={(e) => {
                   e.stopPropagation();
-                  goTo("/amenity/info")();
+                  goTo("/amenity/home")();
                 }}
               >
                 Reserve

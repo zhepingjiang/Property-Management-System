@@ -8,6 +8,7 @@ import UserProfilePage from "./components/userprofile/UserProfilePage";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
 
 import NewsletterDetailPage from "./components/newsletter/NewsletterDetailPage";
+import AmenityHomePage from "./components/amenity/AmenityHomePage";
 import AmenityInfoPage from "./components/amenity/AmenityInfoPage";
 import AmenityReservationPage from "./components/amenity/AmenityReservationPage";
 import DiscussionPage from "./components/discussion/DiscussionPage";
@@ -129,11 +130,11 @@ const App = () => {
 
         {/* Amenity Pages (rendered inside DashboardLayout for consistent UI) */}
         <Route
-          path="/amenity/info"
+          path="/amenity/home"
           element={
             user ? (
               <DashboardLayout user={user}>
-                <AmenityInfoPage />
+                <AmenityHomePage />
               </DashboardLayout>
             ) : (
               <Navigate to="/login" replace />
@@ -141,7 +142,7 @@ const App = () => {
           }
         />
         <Route
-          path="/amenity/reserve"
+          path="/amenity/reserve/:unit_id"
           element={
             user ? (
               <DashboardLayout user={user}>

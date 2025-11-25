@@ -475,13 +475,13 @@ public class DevRunner implements ApplicationRunner {
 
         /* Amenity Bookings Sample Data */
         List<AmenityTypeEntity> types = amenityTypeRepository.saveAll(List.of(
-                new AmenityTypeEntity(null, "BBQ", "Outdoor barbecue grill", Duration.ofHours(1), true, null),
-                new AmenityTypeEntity(null, "Billiards Table", "Games room pool table", Duration.ofHours(1), true, null),
+                new AmenityTypeEntity(null, "BBQ", "Outdoor barbecue grill", Duration.ofHours(1), List.of("https://images.squarespace-cdn.com/content/v1/588f58d329687f771619ca24/1583177092358-T5O3NS5VIN9VHVFNZCNQ/landscape-design-outdoor-kitchen-fire-feature-seating-pergolas.jpg"), true, null),
+                new AmenityTypeEntity(null, "Billiards Table", "Games room pool table", Duration.ofHours(1), List.of("https://cdn11.bigcommerce.com/s-y01lg6enax/images/stencil/1280x1280/products/1918/7297/La_Condo_Pool_Table_Canada_Billard_2_1__50317.1752174375.jpg?c=1"), true, null),
 //                new AmenityTypeEntity(null, "Guest Suite", "Furnished suite for visitors", Duration.ofDays(1), true, null),
-                new AmenityTypeEntity(null, "Party Room", "Large room for private events", Duration.ofHours(1), true, null),
-                new AmenityTypeEntity(null, "Service Elevator", "Elevator for moving items or deliveries", Duration.ofHours(1), true, null),
-                new AmenityTypeEntity(null, "Theatre Room", "Mini-theatre for screenings", Duration.ofHours(1), true, null),
-                new AmenityTypeEntity(null, "Swimming Pool", "Indoor recreational swimming pool", Duration.ofHours(1), true, null)
+                new AmenityTypeEntity(null, "Party Room", "Large room for private events", Duration.ofHours(1), List.of("https://www.tagvenue.com/resize/97/2b/fit-900-600%3B65797-wavy-barbershop-room.jpeg"), true, null),
+                new AmenityTypeEntity(null, "Service Elevator", "Elevator for moving items or deliveries", Duration.ofHours(1), List.of("https://westernelevator.com/wp-content/uploads/2023/04/elevator-cabin-1.jpg"), true, null),
+                new AmenityTypeEntity(null, "Theatre Room", "Mini-theatre for screenings", Duration.ofHours(1), List.of("https://thumbs.cityrealty.com/assets/smart/1004x/webp/0/08/08104a92c20ec88d07ea3a2acb5c1c9045482c51/screening-room.jpg"), true, null),
+                new AmenityTypeEntity(null, "Swimming Pool", "Indoor recreational swimming pool", Duration.ofHours(1), List.of("https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1600"), true, null)
         ));
 
         Long BBQ = types.get(0).getId();
@@ -494,12 +494,12 @@ public class DevRunner implements ApplicationRunner {
 
         List<AmenityUnitEntity> units = amenityUnitRepository.saveAll(List.of(
                 // BBQ units
-                new AmenityUnitEntity(null, BBQ, "BBQ #1", 1, "Roof Deck Area A", true, null),
-                new AmenityUnitEntity(null, BBQ, "BBQ #2", 1, "Roof Deck Area B", true, null),
-                new AmenityUnitEntity(null, BBQ, "BBQ #3", 1, "Garden Level Patio", true, null),
+                new AmenityUnitEntity(null, BBQ, "BBQ A", 1, "Roof Deck Area A", true, null),
+                new AmenityUnitEntity(null, BBQ, "BBQ B", 1, "Roof Deck Area B", true, null),
+                new AmenityUnitEntity(null, BBQ, "BBQ C", 1, "Garden Level Patio", true, null),
 
                 // Billiards
-                new AmenityUnitEntity(null, BILLIARDS, "Billiards Table #1", 1, "Games Room", true, null),
+                new AmenityUnitEntity(null, BILLIARDS, "Billiards Table", 1, "Games Room", true, null),
 
 //                // Guest Suites
 //                new AmenityUnitEntity(null, GUEST_SUITE, "Guest Suite #1", 1, "Floor 2 - Suite A", true, null),
@@ -507,17 +507,17 @@ public class DevRunner implements ApplicationRunner {
 //                new AmenityUnitEntity(null, GUEST_SUITE, "Guest Suite #3", 1, "Floor 2 - Suite C", true, null),
 
                 // Party Room
-                new AmenityUnitEntity(null, PARTY_ROOM, "Party Room #1", 1, "Ground Floor Event Hall", true, null),
+                new AmenityUnitEntity(null, PARTY_ROOM, "Party Room", 1, "Ground Floor Event Hall", true, null),
 
                 // Service Elevators
-                new AmenityUnitEntity(null, SERVICE_ELEVATOR, "Service Elevator #1", 1, "North Wing", true, null),
-                new AmenityUnitEntity(null, SERVICE_ELEVATOR, "Service Elevator #2", 1, "South Wing", true, null),
+                new AmenityUnitEntity(null, SERVICE_ELEVATOR, "Service Elevator A", 1, "North Wing", true, null),
+                new AmenityUnitEntity(null, SERVICE_ELEVATOR, "Service Elevator B", 1, "South Wing", true, null),
 
                 // Theatre Room
-                new AmenityUnitEntity(null, THEATRE, "Theatre Room #1", 1, "Basement Level", true, null),
+                new AmenityUnitEntity(null, THEATRE, "Theatre Room", 1, "Basement Level", true, null),
 
                 // Swimming Pool
-                new AmenityUnitEntity(null, SWIMMING_POOL, "Swimming Pool #1", 8, "Recreation Floor", true, null)
+                new AmenityUnitEntity(null, SWIMMING_POOL, "Swimming Pool", 8, "Recreation Floor", true, null)
         ));
 
         Long BBQ1 = units.get(0).getId();
@@ -546,8 +546,8 @@ public class DevRunner implements ApplicationRunner {
                         BBQ1,
                         1L,
                         1,
-                        Instant.parse("2025-12-10T16:00:00Z"),
-                        Instant.parse("2025-12-10T18:00:00Z"),
+                        Instant.parse("2025-12-10T21:00:00Z"), // 16:00 Toronto
+                        Instant.parse("2025-12-10T23:00:00Z"), // 18:00 Toronto
                         AmenityBookingStatus.ACTIVE,
                         null
                 ),
@@ -558,56 +558,56 @@ public class DevRunner implements ApplicationRunner {
                         BBQ2,
                         2L,
                         2,
-                        Instant.parse("2025-12-15T12:00:00Z"),
-                        Instant.parse("2025-12-15T14:00:00Z"),
+                        Instant.parse("2025-12-15T17:00:00Z"), // 12:00 Toronto
+                        Instant.parse("2025-12-15T19:00:00Z"), // 14:00 Toronto
                         AmenityBookingStatus.ACTIVE,
                         null
                 ),
 
-                // FUTURE booking — PARTY ROOM — trustee booking
+                // PARTY ROOM — trustee booking
                 new AmenityBookingEntity(
                         null,
                         PARTY,
-                        10L,  // trustee
+                        10L,
                         1,
-                        Instant.parse("2025-12-20T17:00:00Z"),
-                        Instant.parse("2025-12-20T22:00:00Z"),
+                        Instant.parse("2025-12-20T22:00:00Z"), // 17:00 Toronto
+                        Instant.parse("2025-12-21T03:00:00Z"), // 22:00 Toronto
                         AmenityBookingStatus.ACTIVE,
                         null
                 ),
 
-                // Future booking — Swimming Pool — ACTIVE
+                // Swimming Pool — ACTIVE
                 new AmenityBookingEntity(
                         null,
                         POOL,
                         5L,
                         4,
-                        Instant.parse("2025-12-18T10:00:00Z"),
-                        Instant.parse("2025-12-18T12:00:00Z"),
+                        Instant.parse("2025-12-18T15:00:00Z"), // 10:00 Toronto
+                        Instant.parse("2025-12-18T17:00:00Z"), // 12:00 Toronto
                         AmenityBookingStatus.ACTIVE,
                         null
                 ),
 
-                // Future booking — ACTIVE
+                // Theatre — ACTIVE
                 new AmenityBookingEntity(
                         null,
                         THEATRE1,
                         7L,
                         1,
-                        Instant.parse("2025-12-30T18:00:00Z"),
-                        Instant.parse("2025-12-30T21:00:00Z"),
+                        Instant.parse("2025-12-30T23:00:00Z"), // 18:00 Toronto
+                        Instant.parse("2025-12-31T02:00:00Z"), // 21:00 Toronto
                         AmenityBookingStatus.ACTIVE,
                         null
                 ),
 
-                // Future booking — ACTIVE
+                // SE1 — ACTIVE
                 new AmenityBookingEntity(
                         null,
                         SE1,
                         8L,
                         1,
-                        Instant.parse("2025-12-08T09:00:00Z"),
-                        Instant.parse("2025-12-08T10:00:00Z"),
+                        Instant.parse("2025-12-08T14:00:00Z"), // 09:00 Toronto
+                        Instant.parse("2025-12-08T15:00:00Z"), // 10:00 Toronto
                         AmenityBookingStatus.ACTIVE,
                         null
                 ),
@@ -618,8 +618,8 @@ public class DevRunner implements ApplicationRunner {
                         BBQ3,
                         3L,
                         1,
-                        Instant.parse("2025-03-10T16:00:00Z"),
-                        Instant.parse("2025-03-10T17:00:00Z"),
+                        Instant.parse("2025-03-10T21:00:00Z"), // 16:00 Toronto
+                        Instant.parse("2025-03-10T22:00:00Z"), // 17:00 Toronto
                         AmenityBookingStatus.EXPIRED,
                         null
                 ),
@@ -630,11 +630,12 @@ public class DevRunner implements ApplicationRunner {
                         POOL,
                         4L,
                         2,
-                        Instant.parse("2025-03-05T14:00:00Z"),
-                        Instant.parse("2025-03-05T15:30:00Z"),
+                        Instant.parse("2025-03-05T19:00:00Z"), // 14:00 Toronto
+                        Instant.parse("2025-03-05T20:30:00Z"), // 15:30 Toronto
                         AmenityBookingStatus.CANCELLED,
                         null
                 )
         ));
+
     }
 }

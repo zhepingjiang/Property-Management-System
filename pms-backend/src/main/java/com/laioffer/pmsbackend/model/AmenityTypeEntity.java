@@ -1,5 +1,6 @@
 package com.laioffer.pmsbackend.model;
 
+import com.laioffer.pmsbackend.common.ListToJsonConverter;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -7,6 +8,7 @@ import org.hibernate.type.SqlTypes;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -27,6 +29,10 @@ public class AmenityTypeEntity {
     @Column(name = "max_booking_duration")
     private Duration maxBookingDuration;
 
+    @Column(name = "image_urls")
+    @Convert(converter = ListToJsonConverter.class)
+    private List<String> imageUrls;
+
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
@@ -37,15 +43,19 @@ public class AmenityTypeEntity {
     public AmenityTypeEntity() {
     }
 
-    public AmenityTypeEntity(Long id,
-                             String name,
-                             String description,
-                             Duration maxBookingDuration,
-                             Boolean isActive, Instant createdAt) {
+    public AmenityTypeEntity
+            (Long id,
+             String name,
+             String description,
+             Duration maxBookingDuration,
+             List<String> imageUrls,
+             Boolean isActive,
+             Instant createdAt) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.maxBookingDuration = maxBookingDuration;
+        this.imageUrls = imageUrls;
         this.isActive = isActive;
         this.createdAt = createdAt;
     }
@@ -54,6 +64,7 @@ public class AmenityTypeEntity {
     public String getName() { return name; }
     public String getDescription() { return description; }
     public Duration getMaxBookingDuration() { return maxBookingDuration; }
+    public List<String> getImageUrls() { return imageUrls; }
     public Boolean getIsActive() { return isActive; }
     public Instant getCreatedAt() { return createdAt; }
 

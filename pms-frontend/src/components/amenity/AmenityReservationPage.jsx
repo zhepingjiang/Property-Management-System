@@ -1,21 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Typography, Button, Calendar, Alert, Space, Tag } from "antd";
 import "../../css/amenity/AmenityReservationPage.css";
 import dayjs from "dayjs";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getBookingsForUnit, createBooking } from "./utils";
 
 const { Title, Text } = Typography;
 
 export default function AmenityReservationPage() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Extract unit + type passed from AmenityHomePage
+  const { unit, type } = location.state || {};
+
+  // If user goes directly without selecting
+  useEffect(() => {
+    if (!unit || !type) {
+      navigate("/amenity/home");
+    }
+  }, [unit, type, navigate]);
+
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [error, setError] = useState("");
-  const [availableTimes, setAvailableTimes] = useState([]); // time blocks for selected date
+  const [availableTimes, setAvailableTimes] = useState([]);
 
-  // Example: generate 1-hour time slots from 9AM - 10PM
+  /* ==========================================================
+     1. Generate Time Slots (use type.maxBookingDuration if needed)
+  ========================================================== */
   const generateTimeSlots = () => {
     const times = [];
     for (let hour = 9; hour <= 21; hour++) {
-      const start = dayjs().hour(hour).minute(0);
+      const start = dayjs().hour(hour).minute(0).second(0);
       const end = start.add(1, "hour");
       times.push({
         label: `${start.format("h A")} - ${end.format("h A")}`,
@@ -25,28 +42,56 @@ export default function AmenityReservationPage() {
     return times;
   };
 
-  // Simulated backend call
-  const fetchAvailability = async (date) => {
-    // TODO: Replace with real API call:
-    // GET /amenity/:id/availability?date=YYYY-MM-DD
+  /* ==========================================================
+     2. Example backend availability simulation
+  ========================================================== */
+  const fetchAvailability = async (dateString) => {
+    try {
+      // 1. Fetch all bookings for this unit
+      const bookings = await getBookingsForUnit(unit.id);
+      if (!bookings) {
+        console.error("No bookings returned");
+        setAvailableTimes(generateTimeSlots());
+        return;
+      }
 
-    // Example: backend returns booked hours [10, 13, 17]
-    const fakeBooked = [10, 13, 17];
+      // 2. Filter bookings that match the selected date (YYYY-MM-DD)
+      const bookingsForDate = bookings.filter((b) =>
+        b.startTime.startsWith(dateString)
+      );
 
-    const allSlots = generateTimeSlots();
-    const updated = allSlots.map((slot) => {
-      const hour = parseInt(slot.value.split(":")[0]);
-      return {
-        ...slot,
-        booked: fakeBooked.includes(hour),
-      };
-    });
+      // 3. Convert booked time ranges → booked hours (e.g., 10:00–12:00 → [10,11])
+      const bookedHours = new Set();
 
-    setAvailableTimes(updated);
+      bookingsForDate.forEach((b) => {
+        const start = dayjs(b.startTime);
+        const end = dayjs(b.endTime);
+
+        let current = start;
+
+        // Mark each hour as booked
+        while (current.isBefore(end)) {
+          bookedHours.add(current.hour());
+          current = current.add(1, "hour");
+        }
+      });
+
+      // 4. Generate 9AM–9PM slots and tag which are booked
+      const allSlots = generateTimeSlots().map((slot) => {
+        const hour = Number(slot.value.split(":")[0]); // "10:00" → 10
+        return { ...slot, booked: bookedHours.has(hour) };
+      });
+
+      setAvailableTimes(allSlots);
+    } catch (err) {
+      console.error("Failed fetching availability:", err);
+    }
   };
 
+  /* ==========================================================
+     3. Handle date selection
+  ========================================================== */
   const handleDateSelect = (date) => {
-    // block past dates
     if (date.isBefore(dayjs(), "day")) return;
 
     const formatted = date.format("YYYY-MM-DD");
@@ -54,11 +99,13 @@ export default function AmenityReservationPage() {
     setSelectedTime(null);
     setError("");
 
-    // fetch availability
     fetchAvailability(formatted);
   };
 
-  const handleConfirm = () => {
+  /* ==========================================================
+     4. Confirm Reservation
+  ========================================================== */
+  const handleConfirm = async () => {
     if (!selectedDate) {
       setError("Please select a date.");
       return;
@@ -67,13 +114,50 @@ export default function AmenityReservationPage() {
       setError("Please select a time before confirming.");
       return;
     }
-    setError("");
 
-    // TODO: Call backend create reservation API
+    // Find slot from availableTimes using label
+    const slot = availableTimes.find((s) => s.label === selectedTime);
+    if (!slot) {
+      setError("Invalid time selection.");
+      return;
+    }
+
+    const hour = Number(slot.value.split(":")[0]); // e.g. "16:00" → 16
+
+    // Build startTime and endTime strings
+    const start = dayjs(selectedDate).hour(hour).minute(0).second(0);
+
+    const end = start.add(1, "hour");
+
+    const startTimeIso = start.toISOString(); // backend uses Instant
+    const endTimeIso = end.toISOString();
+
+    // DEFAULT guestCount = 1 for now
+    const guestCount = 1;
+
+    const result = await createBooking({
+      unitId: unit.id,
+      guestCount,
+      startTime: startTimeIso,
+      endTime: endTimeIso,
+    });
+
+    if (!result) {
+      setError("Unable to create booking. Please try again.");
+      return;
+    }
+
+    // success → navigate or show message
+    navigate("/amenity/home", {
+      state: { successMessage: "Reservation created successfully!" },
+    });
   };
+  const isDayFullyBooked =
+    selectedDate && availableTimes.every((t) => t.booked);
 
-  const isDayBooked = availableTimes.every((t) => t.booked);
-
+  /* ==========================================================
+     5. Render UI
+  ========================================================== */
   return (
     <div className="reserve-content-wrapper">
       <div className="reserve-container">
@@ -81,17 +165,20 @@ export default function AmenityReservationPage() {
         <div className="reserve-left">
           <Card className="reserve-pic-card">
             <img
-              alt="amenity"
+              alt={type?.name}
               className="reserve-image"
-              src="https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1600"
+              src={type?.imageUrls?.[0] || "/placeholder.jpg"}
             />
           </Card>
 
           <Card className="reserve-info-card">
-            <Title level={5}>Swimming Pool</Title>
-            <Text type="secondary" style={{ fontSize: "14px" }}>
-              Located on Floor 2, East Wing
-            </Text>
+            <Title level={4}>{unit?.label}</Title>
+
+            {unit?.address && (
+              <Text type="secondary" style={{ fontSize: "14px" }}>
+                {`Located at ${unit.address}`}
+              </Text>
+            )}
 
             <div className="reserve-time-box">
               <Text strong>Date Selected:</Text>
@@ -101,9 +188,9 @@ export default function AmenityReservationPage() {
               ) : (
                 <Text type="secondary">No date selected</Text>
               )}
-              <br />
-              <br />
 
+              <br />
+              <br />
               <Text strong>Time Selected:</Text>
               <br />
               {selectedTime ? (
@@ -128,7 +215,7 @@ export default function AmenityReservationPage() {
           </Card>
         </div>
 
-        {/* RIGHT SIDE — CALENDAR + TIMES */}
+        {/* RIGHT SIDE — CALENDAR + TIME SLOTS */}
         <div className="reserve-right">
           <Card className="reserve-calendar-card">
             <Calendar
@@ -138,33 +225,32 @@ export default function AmenityReservationPage() {
             />
           </Card>
 
-          {/* TIME SLOT SECTION */}
           {selectedDate && (
             <Card className="reserve-time-card">
               <Title level={5}>Select a Time</Title>
 
-              {isDayBooked && (
+              {isDayFullyBooked && (
                 <Alert
                   type="error"
                   message="This amenity is fully booked for this day."
-                  style={{ marginBottom: 12 }}
+                  style={{ marginBottom: 10 }}
                 />
               )}
 
               <Space wrap>
-                {availableTimes.map((t) => (
+                {availableTimes.map((slot) => (
                   <Button
-                    key={t.label}
-                    disabled={t.booked}
-                    type={selectedTime === t.label ? "primary" : "default"}
+                    key={slot.label}
+                    disabled={slot.booked}
+                    type={selectedTime === slot.label ? "primary" : "default"}
                     onClick={() => {
-                      if (!t.booked) {
-                        setSelectedTime(t.label);
+                      if (!slot.booked) {
+                        setSelectedTime(slot.label);
                         setError("");
                       }
                     }}
                   >
-                    {t.label}
+                    {slot.label}
                   </Button>
                 ))}
               </Space>

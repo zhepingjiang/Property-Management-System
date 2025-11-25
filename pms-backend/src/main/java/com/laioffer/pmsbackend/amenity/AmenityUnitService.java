@@ -1,9 +1,8 @@
 package com.laioffer.pmsbackend.amenity;
 
 import com.laioffer.pmsbackend.common.ResourceNotFoundException;
-import com.laioffer.pmsbackend.model.AmenityTypeEntity;
-import com.laioffer.pmsbackend.model.AmenityUnitDto;
-import com.laioffer.pmsbackend.model.AmenityUnitEntity;
+import com.laioffer.pmsbackend.model.*;
+import com.laioffer.pmsbackend.repository.AmenityBookingRepository;
 import com.laioffer.pmsbackend.repository.AmenityTypeRepository;
 import com.laioffer.pmsbackend.repository.AmenityUnitRepository;
 import org.springframework.stereotype.Service;
@@ -16,11 +15,13 @@ public class AmenityUnitService {
 
     private final AmenityUnitRepository unitRepository;
     private final AmenityTypeRepository typeRepository;
+    private final AmenityBookingRepository amenityBookingRepository;
 
     public AmenityUnitService(AmenityUnitRepository unitRepository,
-                              AmenityTypeRepository typeRepository) {
+                              AmenityTypeRepository typeRepository, AmenityBookingRepository amenityBookingRepository) {
         this.unitRepository = unitRepository;
         this.typeRepository = typeRepository;
+        this.amenityBookingRepository = amenityBookingRepository;
     }
 
     public List<AmenityUnitDto> getUnitsByType(Long typeId) {
