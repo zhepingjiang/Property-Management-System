@@ -37,7 +37,7 @@ public class PostEntity {
     // ====== Revision 1: changed field name to 'images' for consistency with frontend ======
     @Convert(converter = ListToJsonConverter.class)
     @Column(name = "image_urls")
-    private List<String> images;
+    private List<String> imageUrls;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<ReplyEntity> replies;
@@ -51,17 +51,17 @@ public class PostEntity {
 
     public PostEntity() {}
 
-    public PostEntity(Long id, Long authorId, String content, PostStatus status, List<String> images, Instant createdAt) {
+    public PostEntity(Long id, Long authorId, String content, PostStatus status, List<String> imageUrls, Instant createdAt) {
         this.id = id;
         this.authorId = authorId;
         this.content = content;
         this.status = status;
-        this.images = images;
+        this.imageUrls = imageUrls;
         this.createdAt = createdAt;
     }
 
     // ====== Revision 2: added getImages() for frontend compatibility ======
-    public List<String> getImages() { return images; }
+    public List<String> getImages() { return imageUrls; }
 
     public Long getId() { return id; }
     public Long getAuthorId() { return authorId; }
