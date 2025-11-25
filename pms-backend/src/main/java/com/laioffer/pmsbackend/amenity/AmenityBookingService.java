@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
@@ -63,6 +65,22 @@ public class AmenityBookingService {
     public List<AmenityBookingDto> getAllBookings() {
         return bookingRepository.findAll()
                 .stream()
+                .map(AmenityBookingDto::new)
+                .toList();
+    }
+
+    public List<AmenityBookingDto> getBookingsByUnitAndDate(Long unitId, String dateString) {
+
+        ZoneId zone = ZoneId.systemDefault();  // your building timezone
+        LocalDate date = LocalDate.parse(dateString);
+
+        Instant startOfDay = date.atStartOfDay(zone).toInstant();
+        Instant endOfDay = date.atTime(23, 59, 59).atZone(zone).toInstant();
+
+        List<AmenityBookingEntity> bookings =
+                bookingRepository.findByUnitIdAndStartTimeBetween(unitId, startOfDay, endOfDay);
+
+        return bookings.stream()
                 .map(AmenityBookingDto::new)
                 .toList();
     }

@@ -4,6 +4,7 @@ import com.laioffer.pmsbackend.model.AmenityTypeDto;
 import com.laioffer.pmsbackend.security.annotations.TrusteeOnly;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Duration;
 import java.util.List;
@@ -37,13 +38,14 @@ public class AmenityTypeController {
             @RequestParam String name,
             @RequestParam(required = false) String description,
             @RequestParam(required = false) Long maxBookingDurationMinutes,
+            @RequestParam(required = false) List<MultipartFile> images,
             @RequestParam(required = false) Boolean isActive
     ) {
         Duration maxDuration = null;
         if (maxBookingDurationMinutes != null) {
             maxDuration = Duration.ofMinutes(maxBookingDurationMinutes);
         }
-        return amenityTypeService.createType(name, description, maxDuration, isActive);
+        return amenityTypeService.createType(name, description, maxDuration, images, isActive);
     }
 
     @TrusteeOnly

@@ -72,7 +72,7 @@ export default function DashboardTrendingEvents() {
             hoverable
             key={i}
             className="hotel-card trending-event-card clickable-card"
-            onClick={goTo("/amenity/info")}
+            onClick={goTo("/amenity/home")}
           >
             <div className="event-card-body">
               <Avatar size={52} style={{ backgroundColor: "#e2d5c2" }}>

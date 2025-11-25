@@ -24,7 +24,7 @@ export default function DashboardHeader({ pageTitle, user }) {
   const navItems = [
     { key: "dashboard", label: "Dashboard", path: "/dashboard" },
     { key: "newsletter", label: "Newsletter", path: "/newsletter/1" },
-    { key: "amenities", label: "Amenities", path: "/amenity/info" },
+    { key: "amenities", label: "Amenities", path: "/amenity/home" },
     { key: "policies", label: "Policies", path: "/policy" },
     { key: "discussion", label: "Discussion", path: "/discussion" },
     { key: "maintenance", label: "Maintenance", path: "/maintenance" },
