@@ -11,7 +11,8 @@ public record PostDto(
         String content,
         PostStatus status,
         Instant createdAt,
-        List<ReplyDto> replies
+        List<ReplyDto> replies,
+        List<String> images
 ) {
     public PostDto(PostEntity entity) {
         this(
@@ -22,7 +23,8 @@ public record PostDto(
                 entity.getCreatedAt(),
                 entity.getReplies() == null
                         ? null
-                        : entity.getReplies().stream().map(ReplyDto::new).toList()
+                        : entity.getReplies().stream().map(ReplyDto::new).toList(),
+                entity.getImages() // no need to map, already List<String>
         );
     }
 }

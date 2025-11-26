@@ -1,24 +1,55 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Card, Carousel, Typography, Input, Button } from "antd";
+import {
+  Modal,
+  Card,
+  Carousel,
+  Typography,
+  Input,
+  Button,
+  message,
+} from "antd";
+import { getReplies, createReply } from "./utils";
 import "../../css/discussion/PostDetailModal.css";
 
 const { Title, Paragraph } = Typography;
 const { TextArea } = Input;
 
-const PostDetailModal = ({ post, onClose }) => {
-  const [localReplies, setLocalReplies] = useState(post.replies || []);
+const PostDetailModal = ({ post, onClose, onUpdated }) => {
+  const [localReplies, setLocalReplies] = useState([]);
   const [replyText, setReplyText] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const loadReplies = async () => {
+    try {
+      const replies = await getReplies(post.id);
+      setLocalReplies(replies.map((r) => r.content));
+    } catch (err) {
+      console.error(err);
+      message.error("Failed to load replies");
+    }
+  };
 
   useEffect(() => {
-    setLocalReplies(post.replies || []);
     setReplyText("");
+    loadReplies();
   }, [post]);
 
-  const handleSendReply = () => {
+  const handleSendReply = async () => {
     const trimmed = replyText.trim();
     if (!trimmed) return;
-    setLocalReplies((prev) => [...prev, trimmed]);
-    setReplyText("");
+
+    setLoading(true);
+    try {
+      await createReply({ postId: post.id, content: trimmed });
+      setLocalReplies((prev) => [...prev, trimmed]);
+      setReplyText("");
+      message.success("Reply sent!");
+      onUpdated?.(); // refresh posts
+    } catch (err) {
+      console.error(err);
+      message.error("Failed to send reply");
+    }
+    setLoading(false);
   };
 
   return (
@@ -31,9 +62,8 @@ const PostDetailModal = ({ post, onClose }) => {
       bodyStyle={{ padding: 0 }}
     >
       <div className="post-modal-grid">
-        {/* LEFT: Images + Title + Content */}
         <Card className="post-left-card">
-          {post.images && post.images.length > 0 && (
+          {post.images?.length > 0 && (
             <Carousel className="post-carousel" autoplay>
               {post.images.map((img, idx) => (
                 <div key={idx}>
@@ -46,15 +76,12 @@ const PostDetailModal = ({ post, onClose }) => {
               ))}
             </Carousel>
           )}
-
           <Title level={4} className="post-title">
             {post.title}
           </Title>
-
           <Paragraph className="post-content">{post.content}</Paragraph>
         </Card>
 
-        {/* RIGHT: Replies + Input */}
         <Card className="post-right-card">
           <div className="replies-list">
             {localReplies.length === 0 ? (
@@ -84,6 +111,7 @@ const PostDetailModal = ({ post, onClose }) => {
               className="reply-send-btn"
               onClick={handleSendReply}
               disabled={!replyText.trim()}
+              loading={loading}
             >
               Send Reply
             </Button>
