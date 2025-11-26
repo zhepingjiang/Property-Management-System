@@ -69,7 +69,7 @@
   padding: 10px 14px;
   font-size: 1.1rem;
   font-weight: 700;
-  color: white;
+  color: rgb(255, 255, 255); /* white text */
   background: linear-gradient(
     to top,
     rgba(185, 150, 87, 0.85),
@@ -132,4 +132,88 @@
     bottom: 22px;
     right: 22px;
   }
+}
+
+/* Default no-image card background */
+.discussion-no-image-card {
+  background: linear-gradient(135deg, #f6efe6 0%, #e7d9c8 100%);
+  padding: 20px;
+  border-radius: 14px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  font-family: "Cormorant Garamond", serif;
+  color: #5a4632;
+}
+
+/* Icon for no image */
+.discussion-no-image-icon {
+  margin-bottom: 12px;
+  opacity: 0.7;
+}
+
+/* Title */
+.discussion-no-image-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* Content preview text */
+.discussion-no-image-content {
+  font-size: 15px;
+  opacity: 0.8;
+  padding: 0 10px;
+}
+
+/* =============================== */
+/*  CARD FOOTER (author/date/replies) */
+/* =============================== */
+.discussion-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 14px;
+
+  font-size: 15px;
+  font-weight: 500;
+  color: #5a4632;
+
+  border-top: 1px solid rgba(185, 150, 87, 0.25);
+
+  background: rgba(255, 253, 247, 0.7); /* soft warm beige, matches card bg */
+  backdrop-filter: blur(2px);
+
+  margin-top: 0; /* cleaner transition from card body */
+  font-family: "Cormorant Garamond", serif;
+}
+
+/* Footer item styling (icons + text) */
+.footer-author,
+.footer-date,
+.footer-replies {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  opacity: 0.88;
+  transition: opacity 0.2s ease;
+}
+
+.footer-author:hover,
+.footer-date:hover,
+.footer-replies:hover {
+  opacity: 1;
+}
+
+/* Make icons match your aesthetic */
+.footer-author svg,
+.footer-date svg,
+.footer-replies svg {
+  font-size: 16px;
+  opacity: 0.9;
+  color: #8e6f43; /* warm gold-brown accent */
 }

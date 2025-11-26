@@ -1,59 +1,30 @@
-import React from "react";
-import { Card, Typography, Button, Avatar } from "antd";
+import React, { useEffect, useState } from "react";
+import { Card, Typography, Button, Avatar, message } from "antd";
 import { useNavigate } from "react-router-dom";
-import { FaComments } from "react-icons/fa";
+import { FaComments, FaCamera } from "react-icons/fa";
+import { getAllPosts } from "../discussion/utils";
 import "../../css/dashboard/DashboardDiscussion.css";
 
 const { Title, Text } = Typography;
 
 export default function DashboardDiscussion() {
   const navigate = useNavigate();
-  const goTo = (path) => () => navigate(path);
+  const [posts, setPosts] = useState([]);
 
-  const discussions = [
-    {
-      title: "Pool Updates",
-      lastMsg: "The pool will be closed tomorrow for cleaning.",
-      user: "Aiden Smith",
-      avatar: "https://i.pravatar.cc/40?img=12",
-      path: "/discussion/1",
-    },
-    {
-      title: "Gym Schedule Changes",
-      lastMsg: "Morning yoga moved to 7:30 AM.",
-      user: "Betty Johnson",
-      avatar: "https://i.pravatar.cc/40?img=15",
-      path: "/discussion/2",
-    },
-    {
-      title: "Holiday Decorations Ideas",
-      lastMsg: "Vote for your favorite decorations before Friday!",
-      user: "Cathy Lee",
-      avatar: "https://i.pravatar.cc/40?img=8",
-      path: "/discussion/3",
-    },
-    {
-      title: "Rooftop Party Feedback",
-      lastMsg: "The rooftop event was amazing!",
-      user: "Dylan Brown",
-      avatar: "https://i.pravatar.cc/40?img=32",
-      path: "/discussion/4",
-    },
-    {
-      title: "New Cafe Menu",
-      lastMsg: "Try the new seasonal drinks!",
-      user: "Eva Green",
-      avatar: "https://i.pravatar.cc/40?img=16",
-      path: "/discussion/5",
-    },
-    {
-      title: "Parking Lot Notices",
-      lastMsg: "Maintenance scheduled on Saturday.",
-      user: "Fiona White",
-      avatar: "https://i.pravatar.cc/40?img=21",
-      path: "/discussion/6",
-    },
-  ];
+  const loadPosts = async () => {
+    try {
+      const data = await getAllPosts();
+      const list = data.content ? data.content : data;
+      setPosts(list);
+    } catch (err) {
+      console.error(err);
+      message.error("Failed to load posts");
+    }
+  };
+
+  useEffect(() => {
+    loadPosts();
+  }, []);
 
   return (
     <section className="discussion-section">
@@ -62,29 +33,66 @@ export default function DashboardDiscussion() {
       </Title>
 
       <div className="discussion-row">
-        {discussions.map((d, i) => (
+        {posts.length === 0 && (
+          <div style={{ color: "#5a4632", opacity: 0.6 }}>No posts yet</div>
+        )}
+
+        {posts.map((post) => (
           <Card
-            key={i}
+            key={post.id}
             hoverable
-            className="discussion-card hotel-card clickable-card"
-            onClick={goTo("/discussion")}
+            className="discussion-card clickable-card"
+            onClick={() => navigate(`/discussion`)}
           >
-            <div className="discussion-icon">
-              <FaComments />
+            {/* Image or Placeholder */}
+            <div className="discussion-img-wrapper">
+              {post.images && post.images.length > 0 ? (
+                <img src={post.images[0]} alt="Post" />
+              ) : (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    color: "#b9965b",
+                  }}
+                >
+                  <FaCamera size={32} style={{ marginBottom: 8 }} />
+                  <span style={{ fontSize: 12, opacity: 0.7 }}>No Image</span>
+                </div>
+              )}
             </div>
+
             <div className="discussion-info">
-              <div className="discussion-title-card">{d.title}</div>
-              <div className="discussion-last-msg">{d.lastMsg}</div>
-              <div className="discussion-meta">
-                <Avatar size={28} src={d.avatar} />
-                <Text className="discussion-user">{d.user}</Text>
+              {/* Title */}
+              <div className="discussion-title-card">
+                {post.content?.slice(0, 40) || "Untitled Post"}
               </div>
+
+              {/* Content preview */}
+              <div className="discussion-last-msg">
+                {post.content?.slice(0, 60) || "No content"}
+              </div>
+
+              {/* Author */}
+              <div className="discussion-meta">
+                <Avatar
+                  size={28}
+                  src={post.author?.avatarUrl || "https://i.pravatar.cc/40"}
+                />
+                <Text className="discussion-user">
+                  {post.author?.username || "Unknown"}
+                </Text>
+              </div>
+
+              {/* Button */}
               <Button
                 className="discussion-btn"
                 size="small"
                 onClick={(e) => {
                   e.stopPropagation();
-                  goTo("/discussion")();
+                  navigate(`/discussion`);
                 }}
               >
                 View Discussion
