@@ -31,14 +31,13 @@ export default function AmenityHomePage() {
 
   return (
     <div className="amenity-home-page">
-      {/* Header */}
       <h1 className="amenity-title">Amenities</h1>
       <p className="amenity-subtitle">
         Manage settings for each of the common areas and amenity spaces in your
         building.
       </p>
 
-      {/* ====== PUT IT HERE ====== */}
+      {/* Amenity cards */}
       <div className="amenity-grid">
         {amenities.flatMap((type) =>
           type.units.map((unit) => (
@@ -52,7 +51,7 @@ export default function AmenityHomePage() {
               <div className="amenity-simple-title">{unit.label}</div>
 
               <button
-                className="amenity-simple-link"
+                className="amenity-simple-btn"
                 onClick={() => goToReserve(unit, type)}
               >
                 View Reservations
@@ -61,7 +60,6 @@ export default function AmenityHomePage() {
           ))
         )}
       </div>
-      {/* ====== END amenity-grid ====== */}
     </div>
   );
 }
