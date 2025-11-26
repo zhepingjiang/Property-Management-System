@@ -79,10 +79,10 @@ export default function DashboardHeader({ pageTitle, user }) {
         </div>
         <div className="header-user" onClick={goTo("/profile")}>
           <Text className="hotel-text-secondary">
-            {user?.name || user?.email || "Resident name"}
+            {user?.username || user?.email || "Resident name"}
           </Text>
           <Avatar size={32} className="hotel-avatar">
-            {getInitials(user?.name || user?.email)}
+            {getInitials(user?.username || user?.email)}
           </Avatar>
         </div>
       </div>
