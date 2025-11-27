@@ -1,5 +1,5 @@
 import { Router } from "react-router-dom";
-import "../../css/policies/Policy.css";
+import "../../css/policies&alerts/Policy.css";
 
 function Policy() {
   return (

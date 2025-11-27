@@ -13,7 +13,7 @@ import AmenityInfoPage from "./components/amenity/AmenityInfoPage";
 import AmenityReservationPage from "./components/amenity/AmenityReservationPage";
 import DiscussionPage from "./components/discussion/DiscussionPage";
 import MaintenanceRequestsPage from "./components/maintenance/MaintenanceRequestsPage";
-import Policy from "./components/policies/Policy";
+import Policy from "./components/policies&alerts/Policy";
 import PaymentPage from "./components/payment/PaymentPage";
 import { Spin } from "antd";
 

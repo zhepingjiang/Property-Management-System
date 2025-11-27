@@ -1,13 +1,13 @@
 .useful-links-section {
-  padding: 24px;
+  margin-top: 32px;
+  margin-bottom: 32px;
   font-family: "Cormorant Garamond", serif;
-  color: #5a4632;
 }
 
 .useful-links-title {
-  margin-bottom: 24px;
   color: #5a4632;
   font-weight: 700;
+  margin-bottom: 24px;
 }
 
 /* Links Row */
@@ -15,65 +15,80 @@
   margin-bottom: 24px;
 }
 
-/* Individual Link Card */
-.link-card {
+/* Group Card (Container for each category) */
+.link-group-card {
   background: #fff8f0;
   border-radius: 16px;
   border: 1px solid rgba(185, 150, 87, 0.3);
   box-shadow: 0 6px 16px rgba(185, 150, 87, 0.12);
+  height: 100%; /* Ensure equal height in row */
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.link-group-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(185, 150, 87, 0.2);
+}
+
+/* Override Ant Design Card Header */
+.link-group-card .ant-card-head {
+  border-bottom: 1px solid rgba(185, 150, 87, 0.2);
+  min-height: 48px;
+  padding: 0 20px;
+}
+
+.link-group-title {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #5a4632;
+}
+
+/* Override Ant Design Card Body */
+.link-group-card .ant-card-body {
+  padding: 12px 0; /* Less padding for list items */
+}
+
+/* List Items */
+.link-list-item {
+  padding: 12px 20px !important; /* Ant override */
   cursor: pointer;
-}
-
-.link-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(185, 150, 87, 0.25);
-}
-
-.link-card-body {
+  transition: background-color 0.2s ease;
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(185, 150, 87, 0.1);
 }
 
-.link-card-title {
-  font-weight: 600;
-  font-size: 1rem;
-  color: #5a4632;
+.link-list-item:last-child {
+  border-bottom: none;
 }
 
-.link-card-sub {
-  font-size: 0.875rem;
-  color: #7a6a55;
+.link-list-item:hover {
+  background-color: rgba(185, 150, 87, 0.1);
 }
 
-/* Reserve Card */
-.reserve-card {
-  background: #fbe8d1;
-  border-radius: 16px;
-  border: 1px solid rgba(185, 150, 87, 0.3);
-  box-shadow: 0 6px 16px rgba(185, 150, 87, 0.12);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.reserve-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 28px rgba(185, 150, 87, 0.25);
-}
-
-.reserve-card-body {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.reserve-card-title {
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #5a4632;
-}
-
-.reserve-card-sub {
+.link-item-text {
+  font-family: "Open Sans", sans-serif; /* Cleaner font for lists */
   font-size: 0.95rem;
-  color: #7a6a55;
+  font-weight: 500;
+  color: #5a4632;
+  transition: color 0.2s ease;
+}
+
+.link-list-item:hover .link-item-text {
+  color: #b9965b; /* Gold on hover */
+}
+
+/* Arrow Icon */
+.link-arrow {
+  color: #b9965b;
+  font-size: 0.75rem;
+  opacity: 0.6;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.link-list-item:hover .link-arrow {
+  opacity: 1;
+  transform: translateX(4px); /* Slide arrow on hover */
 }
