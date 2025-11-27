@@ -17,7 +17,6 @@ import MaintenanceRequestDetailModal from "./MaintenanceRequestDetailModal";
 import MaintenanceRequestCreateModal from "./MaintenanceRequestCreateModal";
 
 import "../../css/maintenance/MaintenanceRequestsPage.css";
-import DashboardHeader from "../dashboard/DashboardHeader";
 
 const { Title, Text } = Typography;
 
@@ -142,13 +141,16 @@ const MaintenanceRequestsPage = () => {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
   const openBoard = () => {
+    setHidden(false);
     setViewMode("board");
     setSelectedCategory(null);
   };
 
   const handleAddClick = () => {
+    setHidden(true);
     setViewMode("category");
   };
 
@@ -196,13 +198,16 @@ const MaintenanceRequestsPage = () => {
               Back to Requests
             </Button>
           )}
-          <Button
-            type="primary"
-            className="maintenance-header-btn"
-            onClick={handleAddClick}
-          >
-            Add Maintenance Request
-          </Button>
+
+          {!hidden && (
+            <Button
+              type="primary"
+              className="maintenance-header-btn"
+              onClick={handleAddClick}
+            >
+              Add Maintenance Request
+            </Button>
+          )}
         </div>
       </div>
 
