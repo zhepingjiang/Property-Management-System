@@ -1,0 +1,135 @@
+/* --- ANIMATION KEYFRAMES --- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* --- ROOT CONTAINER --- */
+.policy-container {
+  /* Animation: Smoothly slide up and fade in */
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+
+  width: 100%;
+  margin: 0;
+
+  /* COMFORT: Increased padding for a spacious, luxury feel */
+  padding: 40px 50px;
+
+  /* Limits height but ensures it doesn't touch the very edge of the screen */
+  max-height: 70vh;
+  overflow-y: auto;
+
+  /* Visual Style */
+  background: linear-gradient(to bottom, #fffaf3, #fcf8f2);
+  box-shadow: none;
+
+  /* Typography */
+  font-family: "Cormorant Garamond", serif;
+  color: #5a4632;
+  font-size: 1.15rem;
+  line-height: 1.8;
+}
+
+/* --- SCROLLBAR (Soft & Subtle) --- */
+.policy-container::-webkit-scrollbar {
+  width: 8px;
+}
+.policy-container::-webkit-scrollbar-track {
+  background: transparent;
+  margin-top: 20px; /* Moves scrollbar away from top edge */
+  margin-bottom: 20px;
+}
+.policy-container::-webkit-scrollbar-thumb {
+  background-color: rgba(142, 111, 67, 0.3);
+  border-radius: 10px;
+}
+.policy-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(142, 111, 67, 0.5);
+}
+
+/* --- TYPOGRAPHY --- */
+.policy-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  border-bottom: 1px solid rgba(185, 150, 87, 0.2);
+  padding-bottom: 15px;
+  color: #433222;
+  letter-spacing: 0.02em;
+}
+
+.policy-content h2,
+.policy-content h5 {
+  font-size: 1.4rem;
+  margin-top: 30px; /* More space before headers */
+  margin-bottom: 12px;
+  color: #8e6f43;
+  font-weight: 600;
+}
+
+.policy-content p {
+  margin-bottom: 16px;
+  color: #63513d;
+}
+
+.policy-content ul {
+  margin-left: 20px;
+  margin-bottom: 16px;
+}
+
+.policy-content li {
+  margin-bottom: 8px;
+  padding-left: 5px;
+}
+
+/* --- ALERTS LIST --- */
+.ant-alert {
+  margin-bottom: 16px; /* More space between alerts */
+  border: none;
+  box-shadow: 0 4px 12px rgba(185, 150, 87, 0.1); /* Subtle float effect */
+  background-color: #fff !important; /* Clean white alerts */
+}
+
+/* --- THE NOTICEABLE CLOSE BUTTON --- */
+.close-btn-container {
+  margin-top: 35px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(185, 150, 87, 0.15);
+  display: flex;
+  justify-content: flex-end;
+
+  /* Sticky bottom with a fade effect */
+  position: sticky;
+  bottom: -1px;
+  background: linear-gradient(to top, #fcf8f2 85%, transparent);
+  padding-bottom: 0px;
+  z-index: 10;
+}
+
+.custom-close-btn {
+  height: 48px;
+  padding: 0 45px;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.05em;
+  background-color: #8e6f43;
+  border-color: #8e6f43;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(142, 111, 67, 0.3);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy transition */
+}
+
+.custom-close-btn:hover {
+  background-color: #705531 !important;
+  border-color: #705531 !important;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(142, 111, 67, 0.4);
+}

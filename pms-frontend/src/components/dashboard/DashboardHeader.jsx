@@ -6,7 +6,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 const { Text } = Typography;
 
-export default function DashboardHeader({ pageTitle, user }) {
+export default function DashboardHeader({ pageTitle, user, onPopUpClick }) {
   const navigate = useNavigate();
   const [isSticky, setIsSticky] = useState(false);
 
@@ -25,7 +25,6 @@ export default function DashboardHeader({ pageTitle, user }) {
     { key: "dashboard", label: "Dashboard", path: "/dashboard" },
     { key: "newsletter", label: "Newsletter", path: "/newsletter/1" },
     { key: "amenities", label: "Amenities", path: "/amenity/home" },
-    { key: "policies", label: "Policies", path: "/policy" },
     { key: "discussion", label: "Discussion", path: "/discussion" },
     { key: "maintenance", label: "Maintenance", path: "/maintenance" },
   ];
@@ -68,12 +67,12 @@ export default function DashboardHeader({ pageTitle, user }) {
 
       <div className="header-right">
         <div className="header-notif">
-          <Badge count={999} size="small">
+          <Badge count={0} size="small">
             <Button
               type="link"
               icon={<BellOutlined />}
               className="notif-btn"
-              onClick={goTo("/notifications")}
+              onClick={onPopUpClick}
             />
           </Badge>
         </div>

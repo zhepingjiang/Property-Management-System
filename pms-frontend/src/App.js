@@ -13,7 +13,7 @@ import AmenityInfoPage from "./components/amenity/AmenityInfoPage";
 import AmenityReservationPage from "./components/amenity/AmenityReservationPage";
 import DiscussionPage from "./components/discussion/DiscussionPage";
 import MaintenanceRequestsPage from "./components/maintenance/MaintenanceRequestsPage";
-import Policy from "./components/policies&alerts/Policy";
+import PolicyAlerts from "./components/policies&alerts/PolicyAlerts";
 import PaymentPage from "./components/payment/PaymentPage";
 import { Spin } from "antd";
 
@@ -184,11 +184,11 @@ const App = () => {
 
         {/* Policy Page */}
         <Route
-          path="/policy"
+          path="/policyAlerts"
           element={
             user ? (
               <DashboardLayout user={user}>
-                <Policy />
+                <PolicyAlerts />
               </DashboardLayout>
             ) : (
               <Navigate to="/login" replace />
