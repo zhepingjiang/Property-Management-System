@@ -2,6 +2,7 @@ package com.laioffer.pmsbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.laioffer.pmsbackend.common.ListToJsonConverter;
+import com.laioffer.pmsbackend.model.enums.MaintenanceCategory;
 import com.laioffer.pmsbackend.model.enums.MaintenancePriority;
 import com.laioffer.pmsbackend.model.enums.MaintenanceStatus;
 import jakarta.persistence.*;
@@ -25,11 +26,18 @@ public class MaintenanceRequestEntity {
     @Column(name = "author_id", nullable = false)
     private Long authorId;
 
-    @Column(length = 100, nullable = false)
-    private String facility;
+    @Column(length = 120, nullable = false)
+    private String title;
 
-    @Column(name = "issue_type", length = 50, nullable = false)
-    private String issueType;
+    @Column(length = 100, nullable = false)
+    private String property;
+
+    @Column(length = 50, nullable = false)
+    private String unit;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 40, nullable = false)
+    private MaintenanceCategory category;
 
     @Column(columnDefinition = "text")
     private String description;
@@ -45,7 +53,7 @@ public class MaintenanceRequestEntity {
     @Column(name = "assigned_to")
     private Long assignedTo;
 
-    @Column(name = "image_urls")
+    @Column(name = "image_urls", length = 2000)
     @Convert(converter = ListToJsonConverter.class)
     private List<String> imageUrls;
 
@@ -78,8 +86,10 @@ public class MaintenanceRequestEntity {
     public MaintenanceRequestEntity(
             Long id,
             Long authorId,
-            String facility,
-            String issueType,
+            String title,
+            String property,
+            String unit,
+            MaintenanceCategory category,
             String description,
             MaintenanceStatus status,
             MaintenancePriority priority,
@@ -88,13 +98,34 @@ public class MaintenanceRequestEntity {
     ) {
         this.id = id;
         this.authorId = authorId;
-        this.facility = facility;
-        this.issueType = issueType;
+        this.title = title;
+        this.property = property;
+        this.unit = unit;
+        this.category = category;
         this.description = description;
         this.status = status;
         this.priority = priority;
         this.assignedTo = assignedTo;
         this.imageUrls = imageUrls;
+    }
+
+    public MaintenanceRequestEntity(
+            Long id,
+            Long authorId,
+            String title,
+            String property,
+            String unit,
+            MaintenanceCategory category,
+            String description,
+            MaintenanceStatus status,
+            MaintenancePriority priority,
+            Long assignedTo,
+            List<String> imageUrls,
+            Instant createdAt
+    ) {
+        this(id, authorId, title, property, unit, category,
+                description, status, priority, assignedTo, imageUrls);
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -105,12 +136,20 @@ public class MaintenanceRequestEntity {
         return authorId;
     }
 
-    public String getFacility() {
-        return facility;
+    public String getTitle() {
+        return title;
     }
 
-    public String getIssueType() {
-        return issueType;
+    public String getProperty() {
+        return property;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public MaintenanceCategory getCategory() {
+        return category;
     }
 
     public String getDescription() {
@@ -183,8 +222,10 @@ public class MaintenanceRequestEntity {
         return "MaintenanceRequestEntity{" +
                 "id=" + id +
                 ", authorId=" + authorId +
-                ", facility='" + facility + '\'' +
-                ", issueType='" + issueType + '\'' +
+                ", title='" + title + '\'' +
+                ", property='" + property + '\'' +
+                ", unit='" + unit + '\'' +
+                ", category=" + category +
                 ", description='" + description + '\'' +
                 ", status=" + status +
                 ", priority=" + priority +

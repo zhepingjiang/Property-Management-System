@@ -392,69 +392,92 @@ public class DevRunner implements ApplicationRunner {
         maintenanceRequestRepository.saveAll(List.of(
                 new MaintenanceRequestEntity(
                         null,
-                        1L,
-                        "Gym",
-                        "Equipment",
-                        "The treadmill near the window stops after 5 minutes.",
+                        1L,                                    // authorId
+                        "Treadmill stops after 5 minutes",      // title
+                        "Gym",                                  // property
+                        "Equipment Area",                       // unit / location
+                        MaintenanceCategory.APPLIANCES,         // category
+                        "The treadmill near the window shuts off automatically after ~5 minutes of use.",
                         MaintenanceStatus.SUBMITTED,
                         MaintenancePriority.HIGH,
-                        10L,
-                        List.of("https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg")
+                        10L,                                   // assigned to trustee
+                        List.of("https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg"),
+                        Instant.parse("2025-11-10T10:00:00Z")
                 ),
+
                 new MaintenanceRequestEntity(
                         null,
                         2L,
+                        "No heat in the unit",
+                        "Fairview",
                         "Unit 305",
-                        "Heating",
-                        "No heat since yesterday evening.",
+                        MaintenanceCategory.HOUSEHOLD,
+                        "Heating has not worked since yesterday evening. Thermostat unresponsive.",
                         MaintenanceStatus.IN_PROGRESS,
                         MaintenancePriority.HIGH,
                         9L,
-                        List.of("https://images.pexels.com/photos/19090/pexels-photo.jpg")
+                        List.of("https://images.pexels.com/photos/19090/pexels-photo.jpg"),
+                        Instant.parse("2025-11-11T09:00:00Z")
                 ),
+
                 new MaintenanceRequestEntity(
                         null,
                         3L,
+                        "Leak around washing machine",
+                        "Fairview",
                         "Laundry Room",
-                        "Plumbing",
-                        "Water leaking around machine #3.",
+                        MaintenanceCategory.PLUMBING,
+                        "Water leaking around machine #3, small puddle forms every 20 minutes.",
                         MaintenanceStatus.SUBMITTED,
                         MaintenancePriority.MEDIUM,
                         10L,
-                        null
+                        null,
+                        Instant.parse("2025-11-09T15:30:00Z")
                 ),
+
                 new MaintenanceRequestEntity(
                         null,
                         4L,
-                        "Garage",
-                        "Electrical",
-                        "Sensor not responding. Door won’t close properly.",
+                        "Garage door sensor not responding",
+                        "Maison",
+                        "Parking Level P1",
+                        MaintenanceCategory.ELECTRICAL,
+                        "Garage door sensor is not triggering. Door won't close reliably.",
                         MaintenanceStatus.IN_PROGRESS,
                         MaintenancePriority.HIGH,
                         10L,
-                        null
+                        null,
+                        Instant.parse("2025-11-08T12:45:00Z")
                 ),
+
                 new MaintenanceRequestEntity(
                         null,
                         5L,
+                        "Light flickering near elevator",
+                        "Fairview",
                         "Hallway 5F",
-                        "Lighting",
-                        "Light near elevator flickers constantly.",
+                        MaintenanceCategory.HOUSE_EXTERIOR,
+                        "The light fixture near the elevator flickers constantly, may be a wiring issue.",
                         MaintenanceStatus.SUBMITTED,
                         MaintenancePriority.LOW,
                         null,
-                        null
+                        null,
+                        Instant.parse("2025-11-07T18:20:00Z")
                 ),
+
                 new MaintenanceRequestEntity(
                         null,
                         6L,
+                        "Pool water temperature low",
+                        "Maison",
                         "Swimming Pool",
-                        "Temperature",
-                        "Water temperature feels below normal.",
+                        MaintenanceCategory.OTHER,
+                        "Water temperature seems below normal for the past two days.",
                         MaintenanceStatus.RESOLVED,
                         MaintenancePriority.MEDIUM,
                         10L,
-                        List.of("https://images.pexels.com/photos/261327/pexels-photo-261327.jpeg")
+                        List.of("https://images.pexels.com/photos/261327/pexels-photo-261327.jpeg"),
+                        Instant.parse("2025-11-05T14:10:00Z")
                 )
         ));
 
