@@ -1,6 +1,16 @@
 import React from "react";
-import { Card, Typography, Button, Avatar, Tag } from "antd";
-import { FaTools } from "react-icons/fa";
+import { Card, Typography, Button } from "antd";
+import {
+  FaTools,
+  FaBolt,
+  FaHome,
+  FaCouch,
+  FaTree,
+  FaTint,
+  FaCar,
+  FaVolumeUp,
+  FaQuestionCircle,
+} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../../css/dashboard/DashboardMaintenance.css";
 
@@ -8,83 +18,109 @@ const { Title, Text } = Typography;
 
 export default function DashboardMaintenance() {
   const navigate = useNavigate();
-  const goTo = (path) => () => navigate(path);
 
-  const maintenances = [
+  // 1. Define the categories from Image 1, mapped to colors/icons for Image 2 style
+  const categories = [
     {
-      title: "Elevator Inspection",
-      status: "Scheduled",
-      priority: "High",
-      lastUpdate: "Nov 15, 2:00 PM",
-      iconColor: "#e6b95a",
-      path: "/maintenance/1",
+      key: "Appliances",
+      subtitle: "Stove, dishwasher, fridge, washer / dryer",
+      icon: <FaTools />,
+      color: "#e6b95a", // Gold
     },
     {
-      title: "Pool Cleaning",
-      status: "In Progress",
-      priority: "Medium",
-      lastUpdate: "Nov 16, 10:30 AM",
-      iconColor: "#b9965b",
-      path: "/maintenance/2",
+      key: "Electrical",
+      subtitle: "Lights, outlets, breakers, wiring",
+      icon: <FaBolt />,
+      color: "#b9965b", // Dark Gold
     },
     {
-      title: "Lobby Lighting Fix",
-      status: "Pending",
-      priority: "Low",
-      lastUpdate: "Nov 14, 5:45 PM",
-      iconColor: "#d9a24c",
-      path: "/maintenance/3",
+      key: "House Exterior",
+      subtitle: "Roof, doors, windows, balcony",
+      icon: <FaHome />,
+      color: "#d9a24c", // Orange-Gold
     },
     {
-      title: "Rooftop AC Service",
-      status: "Completed",
-      priority: "Medium",
-      lastUpdate: "Nov 12, 11:20 AM",
-      iconColor: "#cfa052",
-      path: "/maintenance/4",
+      key: "Household",
+      subtitle: "Interior doors, walls, flooring",
+      icon: <FaCouch />,
+      color: "#cfa052", // Light Brown
+    },
+    {
+      key: "Outdoors",
+      subtitle: "Yard, walkways, common outdoor areas",
+      icon: <FaTree />,
+      color: "#81c784", // Muted Green
+    },
+    {
+      key: "Plumbing",
+      subtitle: "Sinks, toilets, showers, leaks",
+      icon: <FaTint />, // Or FaWrench
+      color: "#5a4632", // Dark Brown
+    },
+    {
+      key: "Parking & Garage",
+      subtitle: "Garage door, gate, parking stalls",
+      icon: <FaCar />,
+      color: "#7a6a55", // Greyish Brown
+    },
+    {
+      key: "Noise / Disturbance",
+      subtitle: "Loud neighbors, parties, ongoing noise",
+      icon: <FaVolumeUp />,
+      color: "#e57373", // Muted Red
+    },
+    {
+      key: "Other",
+      subtitle: "Anything not listed above",
+      icon: <FaQuestionCircle />,
+      color: "#a08c6a", // Tan
     },
   ];
+
+  // 2. Navigation Handler
+  const handleCategoryClick = (categoryKey) => () => {
+    // Navigate to the maintenance page and trigger the "Create Modal" for this category
+    navigate("/maintenance", { state: { createCategory: categoryKey } });
+  };
 
   return (
     <section className="maintenance-section">
       <Title level={4} className="maintenance-title">
-        Maintenance Requests
+        Request Maintenance
       </Title>
 
+      {/* Horizontal Scroll Row */}
       <div className="maintenance-row">
-        {maintenances.map((m, i) => (
+        {categories.map((cat, index) => (
           <Card
-            key={i}
+            key={index}
             hoverable
             className="maintenance-card hotel-card clickable-card"
-            onClick={goTo("/maintenance")}
+            onClick={handleCategoryClick(cat.key)}
           >
-            <div
-              className="maintenance-icon"
-              style={{ background: m.iconColor }}
-            >
-              <FaTools />
+            {/* Icon Circle (Style from Image 2) */}
+            <div className="maintenance-icon" style={{ background: cat.color }}>
+              {cat.icon}
             </div>
+
+            {/* Content Body */}
             <div className="maintenance-body">
               <div className="maintenance-header">
-                <div className="maintenance-title-card">{m.title}</div>
-                <Tag className={`priority-tag ${m.priority.toLowerCase()}`}>
-                  {m.priority}
-                </Tag>
+                <div className="maintenance-title-card">{cat.key}</div>
               </div>
-              <Text className="maintenance-status">{m.status}</Text>
-              <Text className="maintenance-update">
-                Last update: {m.lastUpdate}
-              </Text>
+
+              {/* Description (Mapped from Image 1 subtitle) */}
+              <Text className="maintenance-subtitle-card">{cat.subtitle}</Text>
+
               <Button
                 className="maintenance-btn"
                 size="small"
                 onClick={(e) => {
-                  e.stopPropagation();
-                  goTo("/maintenance")();
+                  e.stopPropagation(); // Prevent card click
+                  handleCategoryClick(cat.key)();
                 }}
               >
-                View Details
+                Create Request
               </Button>
             </div>
           </Card>
