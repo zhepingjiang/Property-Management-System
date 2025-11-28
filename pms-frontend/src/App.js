@@ -16,6 +16,7 @@ import MaintenanceRequestsPage from "./components/maintenance/MaintenanceRequest
 import PolicyAlerts from "./components/policies&alerts/PolicyAlerts";
 import PaymentPage from "./components/payment/PaymentPage";
 import { Spin } from "antd";
+import ScrollToTop from "./components/ScrollToTop";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -70,6 +71,8 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
+
       <Routes>
         {/* Login Page - redirect to dashboard automatically if already logged in */}
         <Route
