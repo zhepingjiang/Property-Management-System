@@ -1,36 +1,50 @@
 import React from "react";
-import { Row, Col, Card, Typography } from "antd";
+import { Row, Col, Card, Typography, List } from "antd";
+import { RightOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import "../../css/dashboard/DashboardUsefulLinks.css";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 export default function DashboardUsefulLinks() {
   const navigate = useNavigate();
-  const goTo = (path) => () => navigate(path);
 
-  const links = [
+  // Data Structure: Groups with Sub-links
+  const linkGroups = [
     {
-      title: "Resident Portal",
-      sub: "Account & payments",
-      href: "https://learning.laioffer.com/",
+      title: "Community",
+      links: [
+        { label: "Bylaws & Rules", path: "/policies" }, // Example paths
+        { label: "Amenities", path: "/amenities" },
+        { label: "Parking Policies", path: "/policies/parking" },
+      ],
     },
     {
-      title: "Policies",
-      sub: "Community rules",
-      href: "https://learning.laioffer.com/",
+      title: "Resident Services",
+      links: [
+        { label: "Maintenance Requests", path: "/maintenance" },
+        { label: "Booking Guide", path: "/booking-guide" },
+        { label: "Visitor Registration", path: "/visitors" },
+      ],
     },
     {
-      title: "Local Services",
-      sub: "Recommended vendors",
-      href: "https://learning.laioffer.com/",
-    },
-    {
-      title: "Help Center",
-      sub: "FAQs & support",
-      href: "https://learning.laioffer.com/",
+      title: "Support",
+      links: [
+        { label: "Contact Office", path: "/contact" },
+        { label: "FAQ", path: "/faq" },
+        { label: "Report Website Issue", path: "/report-issue" },
+      ],
     },
   ];
+
+  const handleLinkClick = (path) => {
+    // You can add logic here to check if it's an external link or internal route
+    if (path.startsWith("http")) {
+      window.open(path, "_blank");
+    } else {
+      navigate(path);
+    }
+  };
 
   return (
     <section className="useful-links-section">
@@ -38,18 +52,27 @@ export default function DashboardUsefulLinks() {
         Useful Links
       </Title>
 
-      <Row gutter={[16, 16]} className="links-row">
-        {links.map((link, idx) => (
-          <Col xs={24} sm={12} md={6} key={idx}>
+      <Row gutter={[24, 24]} className="links-row">
+        {linkGroups.map((group, idx) => (
+          <Col xs={24} sm={24} md={8} key={idx}>
             <Card
-              hoverable
-              className="link-card hotel-card"
-              onClick={() => window.open(link.href, "_blank")}
+              className="link-group-card hotel-card"
+              title={<span className="link-group-title">{group.title}</span>}
+              bordered={false}
             >
-              <div className="link-card-body">
-                <div className="link-card-title">{link.title}</div>
-                <div className="link-card-sub">{link.sub}</div>
-              </div>
+              <List
+                dataSource={group.links}
+                split={false}
+                renderItem={(item) => (
+                  <List.Item
+                    className="link-list-item"
+                    onClick={() => handleLinkClick(item.path)}
+                  >
+                    <Text className="link-item-text">{item.label}</Text>
+                    <RightOutlined className="link-arrow" />
+                  </List.Item>
+                )}
+              />
             </Card>
           </Col>
         ))}

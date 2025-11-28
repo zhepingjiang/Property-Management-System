@@ -3,78 +3,95 @@
   font-size: 38px;
   font-weight: 600;
   margin-bottom: 6px;
-  color: #333;
+  color: #5a4632;
 }
 
 .amenity-home-page .amenity-subtitle {
   font-size: 15px;
-  color: #777;
+  color: #7a6a55;
   margin-bottom: 24px;
   max-width: 700px;
   line-height: 1.5;
 }
 
-/* ===== Grid: force 3 cards per row on desktop ===== */
+/* ===== Grid (forces 3 columns on desktop) ===== */
 .amenity-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* ALWAYS 3 columns */
-  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
 }
 
-/* ===== Card ===== */
+/* ===== Card (MATCHED STYLE) ===== */
 .amenity-card-simple {
-  background: #fff;
-  border-radius: 6px;
-  border: 1px solid #e2e2e2;
+  background: #fffaf3; /* soft cream */
+  border-radius: 16px;
+  border: 1px solid rgba(185, 150, 87, 0.3); /* warm gold border */
+  box-shadow: 0 8px 22px rgba(185, 150, 87, 0.18);
   overflow: hidden;
   width: 100%;
-  max-width: 280px; /* Prevent card from becoming huge */
-  margin: 0 auto; /* Center card inside grid cell */
-  transition: box-shadow 0.18s ease;
+  max-width: 300px;
+  margin: 0 auto;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .amenity-card-simple:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 26px rgba(185, 150, 87, 0.25);
+  background: #fff3e0;
 }
 
 /* ===== Image ===== */
 .amenity-simple-img {
   width: 100%;
-  height: 130px; /* MUCH smaller than your current screenshot */
+  height: 150px;
   object-fit: cover;
+  border-bottom: 1px solid rgba(185, 150, 87, 0.25);
 }
 
 /* ===== Title ===== */
 .amenity-simple-title {
-  padding: 10px 12px 4px;
-  font-size: 15px;
+  padding: 12px 15px 4px;
+  font-size: 16px;
   font-weight: 600;
-  color: #444;
+  color: #5a4632;
 }
 
-/* ===== Link (View Reservations) ===== */
-.amenity-simple-link {
-  margin: 0 12px 12px;
-  background: none;
+/* ===== Button (MATCHED STYLE) ===== */
+.amenity-simple-btn {
+  display: block;
+  width: calc(100% - 30px);
+  margin: 12px auto 16px;
+  padding: 8px 0;
+
+  background: #b9965b; /* gold accent */
+  color: white;
   border: none;
-  padding: 0;
-  font-size: 13px;
-  color: #3f78e0;
+  border-radius: 12px;
+
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
+
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.amenity-simple-link:hover {
-  text-decoration: underline;
+.amenity-simple-btn:hover {
+  background: #8e6f43;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(185, 150, 87, 0.35);
 }
 
-/* ===== Responsive: on mobile go to 1 per row ===== */
+.amenity-simple-btn:active {
+  transform: translateY(0);
+}
+
+/* ===== Responsiveness ===== */
 @media (max-width: 768px) {
   .amenity-grid {
     grid-template-columns: repeat(1, 1fr);
   }
 }
 
-/* ===== Responsive: on tablets go to 2 per row ===== */
 @media (max-width: 992px) {
   .amenity-grid {
     grid-template-columns: repeat(2, 1fr);

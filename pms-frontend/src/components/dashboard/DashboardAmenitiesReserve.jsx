@@ -1,41 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Typography, Button } from "antd";
-import { FaSwimmer, FaSun, FaDumbbell, FaSpa } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { getAllAmenityTypes, getUnitsByType } from "../amenity/utils";
 import "../../css/dashboard/DashboardAmenitiesReserve.css";
 
 const { Title } = Typography;
 
 export default function DashboardAmenitiesReserve() {
+  const [amenities, setAmenities] = useState([]);
   const navigate = useNavigate();
-  const goTo = (path) => () => navigate(path);
 
-  const amenities = [
-    {
-      title: "Pool & Rooftop",
-      desc: "Swim, relax, and enjoy city views",
-      icon: <FaSwimmer />,
-      path: "/amenity/pool",
-    },
-    {
-      title: "Sun Lounge",
-      desc: "Soak up the sun in a comfortable lounge",
-      icon: <FaSun />,
-      path: "/amenity/sun-lounge",
-    },
-    {
-      title: "Gym",
-      desc: "Fully equipped gym for all levels",
-      icon: <FaDumbbell />,
-      path: "/amenity/gym",
-    },
-    {
-      title: "Spa & Wellness",
-      desc: "Relax with massages and wellness treatments",
-      icon: <FaSpa />,
-      path: "/amenity/spa",
-    },
-  ];
+  useEffect(() => {
+    loadAmenities();
+  }, []);
+
+  const loadAmenities = async () => {
+    try {
+      const types = await getAllAmenityTypes();
+      if (!types) return;
+
+      const data = await Promise.all(
+        types.map(async (t) => {
+          const units = await getUnitsByType(t.id);
+          return { ...t, units: units || [] };
+        })
+      );
+
+      const flat = data.flatMap((type) =>
+        type.units.map((unit) => ({
+          id: unit.id,
+          label: unit.label,
+          typeName: type.name,
+          image: type.imageUrls?.[0] || "/placeholder-amenity.jpg",
+          fullType: type,
+          fullUnit: unit,
+        }))
+      );
+
+      setAmenities(flat);
+    } catch (err) {
+      console.error("Load amenities failed", err);
+    }
+  };
+
+  const goToReserve = (unit, type) => {
+    navigate(`/amenity/reserve/${unit.id}`, { state: { unit, type } });
+  };
 
   return (
     <section className="amenities-section">
@@ -43,31 +53,35 @@ export default function DashboardAmenitiesReserve() {
         Amenities Reserve
       </Title>
 
-      <div className="amenities-grid">
-        {amenities.map((am, i) => (
-          <Card
-            key={i}
-            hoverable
-            className="amenity-card hotel-card clickable-card"
-            onClick={goTo("/amenity/home")}
-          >
-            <div className="amenity-icon">{am.icon}</div>
-            <div className="amenity-info">
-              <div className="amenity-title">{am.title}</div>
-              <div className="amenity-desc">{am.desc}</div>
-              <Button
-                className="amenity-btn"
-                size="small"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  goTo("/amenity/home")();
-                }}
-              >
-                Reserve
-              </Button>
-            </div>
-          </Card>
-        ))}
+      <div className="amenities-scroll-wrapper">
+        <div className="amenities-scroll-inner">
+          {amenities.map((a) => (
+            <Card
+              key={a.id}
+              hoverable
+              className="amenity-card-scrolling"
+              onClick={() => goToReserve(a.fullUnit, a.fullType)}
+            >
+              <img src={a.image} alt={a.label} className="amenity-scroll-img" />
+
+              <div className="amenity-scroll-info">
+                <div className="amenity-scroll-title">{a.label}</div>
+                <div className="amenity-scroll-type">{a.typeName}</div>
+
+                <Button
+                  className="amenity-scroll-btn"
+                  size="small"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goToReserve(a.fullUnit, a.fullType);
+                  }}
+                >
+                  Reserve
+                </Button>
+              </div>
+            </Card>
+          ))}
+        </div>
       </div>
     </section>
   );

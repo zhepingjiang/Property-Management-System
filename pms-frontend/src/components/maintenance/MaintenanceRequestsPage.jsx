@@ -77,6 +77,7 @@ const MaintenanceRequestsPage = () => {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
   /* ================================
      LOAD REQUESTS FROM BACKEND
@@ -98,11 +99,13 @@ const MaintenanceRequestsPage = () => {
   }, []);
 
   const openBoard = () => {
+    setHidden(false);
     setViewMode("board");
     setSelectedCategory(null);
   };
 
   const handleAddClick = () => {
+    setHidden(true);
     setViewMode("category");
   };
 
@@ -162,13 +165,15 @@ const MaintenanceRequestsPage = () => {
             </Button>
           )}
 
-          <Button
-            type="primary"
-            className="maintenance-header-btn"
-            onClick={handleAddClick}
-          >
-            Add Maintenance Request
-          </Button>
+          {!hidden && (
+            <Button
+              type="primary"
+              className="maintenance-header-btn"
+              onClick={handleAddClick}
+            >
+              Add Maintenance Request
+            </Button>
+          )}
         </div>
       </div>
 
