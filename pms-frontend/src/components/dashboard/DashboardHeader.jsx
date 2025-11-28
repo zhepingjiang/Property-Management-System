@@ -37,6 +37,12 @@ export default function DashboardHeader({ pageTitle, user, onPopUpClick }) {
     },
     { key: "discussion", label: "Discussion", path: "/discussion" },
     { key: "maintenance", label: "Maintenance", path: "/maintenance" },
+    {
+      key: "event",
+      label: "Events",
+      path: "/event",
+      activePrefix: "/event",
+    },
   ];
 
   const getInitials = (nameOrEmail) => {

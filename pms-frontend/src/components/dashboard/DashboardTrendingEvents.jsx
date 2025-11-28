@@ -89,7 +89,7 @@ export default function DashboardTrendingEvents() {
                   type="primary"
                   onClick={(e) => {
                     e.stopPropagation();
-                    goTo("/events")();
+                    goTo("/event")();
                   }}
                   className="event-view-btn"
                 >

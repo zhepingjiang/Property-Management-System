@@ -9,7 +9,7 @@ import DashboardLayout from "./components/dashboard/DashboardLayout";
 
 import NewsletterDetailPage from "./components/newsletter/NewsletterDetailPage";
 import AmenityHomePage from "./components/amenity/AmenityHomePage";
-import AmenityInfoPage from "./components/amenity/AmenityInfoPage";
+import TrendingEventsPage from "./components/event/TrendingEventsPage";
 import AmenityReservationPage from "./components/amenity/AmenityReservationPage";
 import DiscussionPage from "./components/discussion/DiscussionPage";
 import MaintenanceRequestsPage from "./components/maintenance/MaintenanceRequestsPage";
@@ -217,6 +217,20 @@ const App = () => {
             user ? (
               <DashboardLayout user={user}>
                 <PaymentPage />
+              </DashboardLayout>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+
+        {/* Events Page */}
+        <Route
+          path="/event"
+          element={
+            user ? (
+              <DashboardLayout user={user}>
+                <TrendingEventsPage />
               </DashboardLayout>
             ) : (
               <Navigate to="/login" replace />
