@@ -1,94 +1,101 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   CalendarOutlined,
   EnvironmentOutlined,
   UserOutlined,
+  LoadingOutlined,
 } from "@ant-design/icons";
-import "../../css/event/TrendingEventsPage.css";
+import { Spin, message } from "antd";
+import "../../css/event/TrendingEventsPage.css"; // Ensure you have the CSS file from previous step
+import { getAllEvents, getFirstEventImageUrl } from "./utils";
 
 export default function TrendingEventsPage() {
   const [filter, setFilter] = useState("All");
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Mock Data
-  const events = [
-    {
-      id: 1,
-      title: "Wine & Cheese Evening",
-      category: "Social",
-      date: "Nov 28, 6:00 PM",
-      location: "Sky Lounge",
-      attendees: 24,
-      image:
-        "https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg",
-      description:
-        "Join your neighbors for an exquisite selection of wines paired with artisanal cheeses.",
-    },
-    {
-      id: 2,
-      title: "Morning Yoga Flow",
-      category: "Wellness",
-      date: "Nov 29, 7:00 AM",
-      location: "Garden Deck",
-      attendees: 12,
-      image:
-        "https://images.pexels.com/photos/3823039/pexels-photo-3823039.jpeg",
-      description:
-        "Start your day with zen. A beginner-friendly yoga session led by instructor Sarah.",
-    },
-    {
-      id: 3,
-      title: "Annual HOA Meeting",
-      category: "Community",
-      date: "Dec 05, 5:30 PM",
-      location: "Conference Hall B",
-      attendees: 45,
-      image:
-        "https://images.pexels.com/photos/1181396/pexels-photo-1181396.jpeg",
-      description:
-        "Discussing upcoming renovations and community budget. Dinner will be served.",
-    },
-    {
-      id: 4,
-      title: "Holiday Gala 2025",
-      category: "Social",
-      date: "Dec 20, 8:00 PM",
-      location: "Grand Ballroom",
-      attendees: 110,
-      image:
-        "https://images.pexels.com/photos/1684187/pexels-photo-1684187.jpeg",
-      description:
-        "The biggest event of the year! Black tie attire. Live music, dancing, and cocktails.",
-    },
-    {
-      id: 5,
-      title: "Cooking Class: Italian",
-      category: "Lifestyle",
-      date: "Dec 10, 6:00 PM",
-      location: "Community Kitchen",
-      attendees: 8,
-      image:
-        "https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg",
-      description:
-        "Learn to make authentic pasta from scratch with Chef Marco. Ingredients provided.",
-    },
-    {
-      id: 6,
-      title: "Poolside Jazz Night",
-      category: "Social",
-      date: "Dec 12, 7:30 PM",
-      location: "Main Pool Area",
-      attendees: 30,
-      image: "https://images.pexels.com/photos/164938/pexels-photo-164938.jpeg",
-      description:
-        "Smooth jazz under the stars. Refreshments available at the cabana bar.",
-    },
+  // Fallback images if backend event has no photos
+  const placeholderImages = [
+    "https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg",
+    "https://images.pexels.com/photos/1181396/pexels-photo-1181396.jpeg",
+    "https://images.pexels.com/photos/1684187/pexels-photo-1684187.jpeg",
+    "https://images.pexels.com/photos/164938/pexels-photo-164938.jpeg",
   ];
 
-  // Filtering Logic
+  // ==========================================
+  // FETCH EVENTS
+  // ==========================================
+  useEffect(() => {
+    const loadEvents = async () => {
+      setLoading(true);
+      const backendData = await getAllEvents();
+
+      if (backendData) {
+        // Map Backend Data structure to UI Data structure
+        const formattedEvents = backendData.map((e, index) => {
+          // Calculate a readable date (use createdAt if eventDate missing)
+          const dateObj = e.eventDate
+            ? new Date(e.eventDate)
+            : new Date(e.createdAt);
+          const dateString = dateObj.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit",
+          });
+
+          // Get image using your util function
+          const imageUrl =
+            getFirstEventImageUrl(e) ||
+            placeholderImages[index % placeholderImages.length];
+
+          // Since backend createEvent only accepts title/content/images,
+          // we mock these display fields deterministically based on index
+          // so the UI looks complete.
+          const mockCategories = [
+            "Social",
+            "Wellness",
+            "Community",
+            "Lifestyle",
+          ];
+          const assignedCategory =
+            e.category || mockCategories[index % mockCategories.length];
+
+          return {
+            id: e.id,
+            title: e.title,
+            description: e.content,
+            image: imageUrl,
+            date: dateString,
+            category: assignedCategory,
+            location: e.location || "Community Center", // Mock location
+            attendees: e.attendees || 10 + index * 5, // Mock attendee count
+          };
+        });
+
+        setEvents(formattedEvents);
+      }
+      setLoading(false);
+    };
+
+    loadEvents();
+  }, []);
+
+  // ==========================================
+  // FILTER LOGIC
+  // ==========================================
   const categories = ["All", "Social", "Wellness", "Community", "Lifestyle"];
 
   const filteredEvents =
     filter === "All" ? events : events.filter((e) => e.category === filter);
+
+  // ==========================================
+  // RSVP HANDLER
+  // ==========================================
+  const handleRSVP = (title) => {
+    // This is client-side only for now as backend has no RSVP endpoint provided
+    message.success(`You have reserved a spot for: ${title}`);
+  };
 
   return (
     <div className="events-page-wrapper">
@@ -114,48 +121,80 @@ export default function TrendingEventsPage() {
           </div>
         </header>
 
-        {/* EVENTS GRID */}
-        <div className="events-grid">
-          {filteredEvents.map((event) => (
-            <div key={event.id} className="event-card">
-              {/* IMAGE */}
-              <div className="event-image-wrapper">
-                <img
-                  src={event.image}
-                  alt={event.title}
-                  className="event-image"
+        {/* CONTENT */}
+        {loading ? (
+          <div style={{ textAlign: "center", padding: "100px 0" }}>
+            <Spin
+              indicator={
+                <LoadingOutlined
+                  style={{ fontSize: 40, color: "#8e6f43" }}
+                  spin
                 />
-                <span className="event-category-tag">{event.category}</span>
-              </div>
+              }
+            />
+          </div>
+        ) : (
+          <div className="events-grid">
+            {filteredEvents.length > 0 ? (
+              filteredEvents.map((event) => (
+                <div key={event.id} className="event-card">
+                  {/* IMAGE */}
+                  <div className="event-image-wrapper">
+                    <img
+                      src={event.image}
+                      alt={event.title}
+                      className="event-image"
+                      onError={(e) => {
+                        e.target.src = placeholderImages[0];
+                      }}
+                    />
+                    <span className="event-category-tag">{event.category}</span>
+                  </div>
 
-              {/* CONTENT */}
-              <div className="event-content">
-                <div className="event-date-row">
-                  <CalendarOutlined /> {event.date}
+                  {/* CONTENT */}
+                  <div className="event-content">
+                    <div className="event-date-row">
+                      <CalendarOutlined /> {event.date}
+                    </div>
+
+                    <h3 className="event-card-title">{event.title}</h3>
+
+                    <div className="event-details-row">
+                      <EnvironmentOutlined /> {event.location}
+                      <span style={{ margin: "0 8px" }}>|</span>
+                      <UserOutlined /> {event.attendees} Attending
+                    </div>
+
+                    <p className="event-description">
+                      {/* Truncate long descriptions */}
+                      {event.description.length > 100
+                        ? event.description.substring(0, 100) + "..."
+                        : event.description}
+                    </p>
+
+                    <button
+                      className="event-rsvp-btn"
+                      onClick={() => handleRSVP(event.title)}
+                    >
+                      RSVP Now
+                    </button>
+                  </div>
                 </div>
-
-                <h3 className="event-card-title">{event.title}</h3>
-
-                <div className="event-details-row">
-                  <EnvironmentOutlined /> {event.location}
-                  <span style={{ margin: "0 8px" }}>|</span>
-                  <UserOutlined /> {event.attendees} Attending
-                </div>
-
-                <p className="event-description">{event.description}</p>
-
-                <button
-                  className="event-rsvp-btn"
-                  onClick={() =>
-                    alert(`You reserved a spot for: ${event.title}`)
-                  }
-                >
-                  RSVP Now
-                </button>
+              ))
+            ) : (
+              <div
+                style={{
+                  gridColumn: "1 / -1",
+                  textAlign: "center",
+                  padding: "40px",
+                  color: "#8e6f43",
+                }}
+              >
+                <h3>No events found in this category.</h3>
               </div>
-            </div>
-          ))}
-        </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
