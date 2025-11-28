@@ -1,0 +1,124 @@
+/* CreateAccountModal.css */
+
+/* --- MODAL CONTAINER --- */
+.create-account-modal .ant-modal-content {
+  background: linear-gradient(to bottom, #fffaf3, #fcf8f2) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 15px 40px rgba(90, 70, 50, 0.15) !important;
+  padding: 20px 10px;
+}
+
+.create-account-modal .ant-modal-header {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(185, 150, 87, 0.2) !important;
+  margin-bottom: 24px !important;
+  padding-bottom: 10px;
+}
+
+.create-account-modal .ant-modal-title {
+  font-family: "Cormorant Garamond", serif !important;
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  color: #5a4632 !important;
+  text-align: center;
+}
+
+.create-account-modal .ant-modal-close-x {
+  color: #8e6f43; /* Gold color for the close 'X' */
+}
+
+/* --- FORM LABELS --- */
+.create-account-modal .ant-form-item-label label {
+  font-family: "Cormorant Garamond", serif !important;
+  font-size: 1.1rem !important;
+  color: #5a4632 !important;
+  font-weight: 600;
+}
+
+/* --- INPUT FIELDS --- */
+.create-account-modal .ant-input,
+.create-account-modal .ant-input-password,
+.create-account-modal .ant-select-selector {
+  border-radius: 6px !important;
+  border: 1px solid rgba(185, 150, 87, 0.4) !important;
+  padding: 8px 11px !important;
+  background-color: #fff !important;
+  font-family: "Cormorant Garamond", serif; /* Optional: Makes input text serif too */
+  font-size: 1rem;
+}
+
+/* Override Ant Design Blue Focus */
+.create-account-modal .ant-input:focus,
+.create-account-modal .ant-input-focused,
+.create-account-modal .ant-select-focused .ant-select-selector {
+  border-color: #8e6f43 !important;
+  box-shadow: 0 0 0 2px rgba(142, 111, 67, 0.2) !important;
+}
+
+.create-account-modal .ant-input:hover,
+.create-account-modal .ant-select-selector:hover {
+  border-color: #8e6f43 !important;
+}
+
+/* --- BUTTONS --- */
+.create-account-actions {
+  margin-top: 10px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(185, 150, 87, 0.15);
+}
+
+/* Cancel Button */
+.btn-cancel {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 600;
+  color: #5a4632;
+  border: 1px solid #5a4632;
+  height: 40px;
+  padding: 0 25px;
+  border-radius: 6px;
+}
+.btn-cancel:hover {
+  color: #8e6f43 !important;
+  border-color: #8e6f43 !important;
+}
+
+/* Create/Submit Button */
+.btn-create {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 700;
+  background-color: #8e6f43 !important;
+  border-color: #8e6f43 !important;
+  color: white !important;
+  height: 40px;
+  padding: 0 30px;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(142, 111, 67, 0.2);
+  transition: all 0.3s ease;
+}
+
+.btn-create:hover {
+  background-color: #705531 !important;
+  border-color: #705531 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(142, 111, 67, 0.3);
+}
+
+/* Error Message */
+.error-text {
+  color: #d32f2f;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1rem;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+/* Add this to CreateAccountModal.css to fix the Select text alignment */
+.create-account-modal .ant-select-selector {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.create-account-modal .ant-select-selection-item {
+  display: flex !important;
+  align-items: center !important;
+}
