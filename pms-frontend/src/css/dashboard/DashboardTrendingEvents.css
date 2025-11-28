@@ -1,6 +1,11 @@
+/* src/css/dashboard/DashboardTrendingEvents.css */
+
+/* ... (Keep existing header/section styles the same) ... */
+
 .trending-events-section {
   margin-top: 32px;
   margin-bottom: 32px;
+  font-family: "Cormorant Garamond", serif;
 }
 
 .trending-events-header {
@@ -8,6 +13,14 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+.hotel-title {
+  font-family: "Cormorant Garamond", serif !important;
+  color: #5a4632 !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
 }
 
 .trending-learn-more {
@@ -16,6 +29,9 @@
   border: none;
   border-radius: 12px;
   transition: all 0.25s ease;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .trending-learn-more:hover {
@@ -23,11 +39,14 @@
   color: white;
 }
 
+/* --- SCROLL CONTAINER --- */
 .trending-events-scroll {
   display: flex;
   overflow-x: auto;
   gap: 16px;
-  padding-bottom: 8px;
+  padding-bottom: 12px;
+  padding-left: 2px;
+  padding-right: 2px;
   scroll-behavior: smooth;
 }
 
@@ -39,48 +58,144 @@
   background: rgba(185, 150, 87, 0.5);
   border-radius: 4px;
 }
+.trending-events-scroll::-webkit-scrollbar-track {
+  background: rgba(185, 150, 87, 0.1);
+}
+
+/* =========================================
+   NEW CARD STYLES FOR BACKGROUND IMAGES
+========================================= */
 
 .trending-event-card {
-  min-width: 250px;
-  flex: 0 0 auto; /* prevent shrinking */
-  background: #fffaf3;
-  border-radius: 20px;
-  border: 1px solid rgba(185, 150, 87, 0.3);
-  box-shadow: 0 8px 22px rgba(185, 150, 87, 0.18);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  min-width: 280px;
+  max-width: 280px;
+  flex: 0 0 auto;
+  position: relative; /* Needed for absolute children */
+  overflow: hidden; /* Ensures image doesn't spill out */
+  border-radius: 20px !important;
+  border: none !important; /* Remove border, image defines edge */
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3) !important; /* Darker shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  height: 180px; /* Fixed height for consistency */
 }
 
 .trending-event-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 14px 28px rgba(185, 150, 87, 0.25);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4) !important;
 }
 
+/* Ant Design Card Body Override */
+.trending-event-card .ant-card-body {
+  padding: 16px !important;
+  height: 100%;
+  display: flex;
+  align-items: flex-end; /* Align content to bottom */
+}
+
+/* --- BACKGROUND LAYERS --- */
+.card-bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: 0; /* Sits at the back */
+  transition: transform 0.5s ease;
+}
+/* Subtle zoom effect on hover */
+.trending-event-card:hover .card-bg-image {
+  transform: scale(1.05);
+}
+
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Gradient overlay makes text readable */
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 20%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  z-index: 1; /* Sits between image and text */
+}
+
+/* --- CONTENT LAYER --- */
 .event-card-body {
+  position: relative;
+  z-index: 2; /* Sits on top */
   display: flex;
   gap: 12px;
+  align-items: flex-end;
+  width: 100%;
 }
 
 .event-card-content {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
+  width: 100%;
+}
+
+/* Typography Helpers - UPDATED FOR DARK BG */
+.card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ffffff; /* White text */
+  line-height: 1.2;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.card-sub {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #e2d5c2; /* Light gold/cream */
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .card-desc {
-  margin-top: 6px;
-  color: #6b5a45;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+  font-size: 0.95rem;
+  line-height: 1.3;
+
+  /* Text Truncation (2 lines) */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Hide the view button initially to clean up the look */
+.event-view-btn-wrapper {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.3s ease;
+}
+
+.trending-event-card:hover .event-view-btn-wrapper {
+  height: 40px; /* Reveal on hover */
+  margin-top: 10px;
 }
 
 .event-view-btn {
-  margin-top: 8px;
-  background: #b9965b;
-  color: white;
-  border: none;
+  background: #b9965b !important;
+  color: white !important;
+  border: none !important;
   border-radius: 12px;
-  transition: all 0.25s ease;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 600;
+  width: 100%;
 }
 
 .event-view-btn:hover {
-  background: #8e6f43;
-  color: white;
+  background: #8e6f43 !important;
+  color: white !important;
 }
