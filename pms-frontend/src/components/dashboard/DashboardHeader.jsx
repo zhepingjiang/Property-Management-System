@@ -23,10 +23,26 @@ export default function DashboardHeader({ pageTitle, user, onPopUpClick }) {
 
   const navItems = [
     { key: "dashboard", label: "Dashboard", path: "/dashboard" },
-    { key: "newsletter", label: "Newsletter", path: "/newsletter/1" },
-    { key: "amenities", label: "Amenities", path: "/amenity/home" },
+    {
+      key: "newsletter",
+      label: "Newsletter",
+      path: "/newsletter/1",
+      activePrefix: "/newsletter",
+    },
+    {
+      key: "amenities",
+      label: "Amenities",
+      path: "/amenity/home",
+      activePrefix: "/amenity",
+    },
     { key: "discussion", label: "Discussion", path: "/discussion" },
     { key: "maintenance", label: "Maintenance", path: "/maintenance" },
+    {
+      key: "event",
+      label: "Events",
+      path: "/event",
+      activePrefix: "/event",
+    },
   ];
 
   const getInitials = (nameOrEmail) => {
@@ -52,7 +68,9 @@ export default function DashboardHeader({ pageTitle, user, onPopUpClick }) {
           {navItems.map((item) => (
             <Button
               key={item.key}
-              type={currentPath.startsWith(item.path) ? "primary" : "link"}
+              type={
+                currentPath.startsWith(item.activePrefix) ? "primary" : "link"
+              }
               className={
                 "nav-item " +
                 (currentPath.startsWith(item.path) ? "active" : "")

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { validateCreateAccount } from "./validation";
 import { register } from "./utils";
 import { Modal, Form, Row, Col, Input, Select, Button } from "antd";
+import "../../css/login/CreateAccountModal.css";
 
 export default function CreateAccountModal({
   isOpen,
@@ -22,7 +23,10 @@ export default function CreateAccountModal({
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setErrors({});
+    // Optional: Clear error for this field as soon as they type
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: null });
+    }
   };
 
   const handleSubmit = async () => {
@@ -55,11 +59,19 @@ export default function CreateAccountModal({
       footer={null}
       title="Create Account"
       centered
+      className="create-account-modal"
+      width={600}
     >
       <Form layout="vertical" onFinish={handleSubmit}>
         <Row gutter={16}>
           <Col span={12}>
-            <Form.Item label="Username" required>
+            <Form.Item
+              label="Username"
+              required
+              // 👇 ADDED ERROR DISPLAY PROPS
+              validateStatus={errors.username ? "error" : ""}
+              help={errors.username}
+            >
               <Input
                 name="username"
                 value={form.username}
@@ -69,7 +81,13 @@ export default function CreateAccountModal({
           </Col>
 
           <Col span={12}>
-            <Form.Item label="Email" required>
+            <Form.Item
+              label="Email"
+              required
+              // 👇 ADDED ERROR DISPLAY PROPS
+              validateStatus={errors.email ? "error" : ""}
+              help={errors.email}
+            >
               <Input name="email" value={form.email} onChange={handleChange} />
             </Form.Item>
           </Col>
@@ -77,7 +95,13 @@ export default function CreateAccountModal({
 
         <Row gutter={16}>
           <Col span={12}>
-            <Form.Item label="Password" required>
+            <Form.Item
+              label="Password"
+              required
+              // 👇 ADDED ERROR DISPLAY PROPS
+              validateStatus={errors.password ? "error" : ""}
+              help={errors.password}
+            >
               <Input.Password
                 name="password"
                 value={form.password}
@@ -87,7 +111,13 @@ export default function CreateAccountModal({
           </Col>
 
           <Col span={12}>
-            <Form.Item label="Confirm Password" required>
+            <Form.Item
+              label="Confirm Password"
+              required
+              // 👇 ADDED ERROR DISPLAY PROPS
+              validateStatus={errors.confirmPassword ? "error" : ""}
+              help={errors.confirmPassword}
+            >
               <Input.Password
                 name="confirmPassword"
                 value={form.confirmPassword}
@@ -108,13 +138,21 @@ export default function CreateAccountModal({
           </Select>
         </Form.Item>
 
-        {errors.submit && (
-          <div style={{ color: "red", marginBottom: 12 }}>{errors.submit}</div>
-        )}
+        {errors.submit && <div className="error-text">{errors.submit}</div>}
 
-        <div style={{ display: "flex", justifyContent: "flex-end", gap: 12 }}>
-          <Button onClick={onClose}>Cancel</Button>
-          <Button type="primary" htmlType="submit" loading={loading}>
+        <div
+          className="create-account-actions"
+          style={{ display: "flex", justifyContent: "flex-end", gap: 12 }}
+        >
+          <Button onClick={onClose} className="btn-cancel">
+            Cancel
+          </Button>
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={loading}
+            className="btn-create"
+          >
             Create Account
           </Button>
         </div>

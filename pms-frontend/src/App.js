@@ -9,13 +9,14 @@ import DashboardLayout from "./components/dashboard/DashboardLayout";
 
 import NewsletterDetailPage from "./components/newsletter/NewsletterDetailPage";
 import AmenityHomePage from "./components/amenity/AmenityHomePage";
-import AmenityInfoPage from "./components/amenity/AmenityInfoPage";
+import TrendingEventsPage from "./components/event/TrendingEventsPage";
 import AmenityReservationPage from "./components/amenity/AmenityReservationPage";
 import DiscussionPage from "./components/discussion/DiscussionPage";
 import MaintenanceRequestsPage from "./components/maintenance/MaintenanceRequestsPage";
 import PolicyAlerts from "./components/policies&alerts/PolicyAlerts";
 import PaymentPage from "./components/payment/PaymentPage";
 import { Spin } from "antd";
+import ScrollToTop from "./components/ScrollToTop";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -70,6 +71,8 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
+
       <Routes>
         {/* Login Page - redirect to dashboard automatically if already logged in */}
         <Route
@@ -217,6 +220,20 @@ const App = () => {
             user ? (
               <DashboardLayout user={user}>
                 <PaymentPage />
+              </DashboardLayout>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+
+        {/* Events Page */}
+        <Route
+          path="/event"
+          element={
+            user ? (
+              <DashboardLayout user={user}>
+                <TrendingEventsPage />
               </DashboardLayout>
             ) : (
               <Navigate to="/login" replace />

@@ -67,7 +67,7 @@ export default function LoginPage({ onLoginSuccess }) {
           </div>
 
           <div className="result-section">
-            <div className="result-label">Result</div>
+            <div className="result-label">Role</div>
             <div className="role-display">
               {role.charAt(0).toUpperCase() + role.slice(1)}
             </div>

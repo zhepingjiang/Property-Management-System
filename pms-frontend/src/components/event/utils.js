@@ -1,12 +1,9 @@
-javascript
 const domain = "http://localhost:8080";
 
 // ===== optional toast/snackbar helper =====
 const notifyError = (msg) => {
   console.warn(msg);
-  // TODO: replace with:
-  // enqueueSnackbar(msg, { variant: "error" });
-  // or Toast.error(msg)
+  // Optional: Add logic here to show a UI toast
 };
 
 // ================================
@@ -17,9 +14,9 @@ export const getAllEvents = async () => {
 
   try {
     const response = await fetch(`${domain}/api/events`, {
-      headers: { 
+      headers: {
         Authorization: `Bearer ${authToken}`,
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
     });
 
@@ -29,11 +26,11 @@ export const getAllEvents = async () => {
     }
 
     const events = await response.json();
-    
-    // 确保每个事件都有 image_urls 字段
-    return events.map(event => ({
+
+    // Ensure every event has image_urls
+    return events.map((event) => ({
       ...event,
-      image_urls: event.image_urls || []  // 如果没有图片，设置为空数组
+      image_urls: event.image_urls || [],
     }));
   } catch (err) {
     notifyError("Network error while loading events");
@@ -49,9 +46,9 @@ export const getNewestEvent = async () => {
 
   try {
     const response = await fetch(`${domain}/api/events/newest`, {
-      headers: { 
+      headers: {
         Authorization: `Bearer ${authToken}`,
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
     });
 
@@ -61,11 +58,10 @@ export const getNewestEvent = async () => {
     }
 
     const event = await response.json();
-    
-    // 确保事件有 image_urls 字段
+
     return {
       ...event,
-      image_urls: event.image_urls || []  // 如果没有图片，设置为空数组
+      image_urls: event.image_urls || [],
     };
   } catch (err) {
     notifyError("Network error while loading newest event");
@@ -81,9 +77,9 @@ export const getEventById = async (id) => {
 
   try {
     const response = await fetch(`${domain}/api/events/${id}`, {
-      headers: { 
+      headers: {
         Authorization: `Bearer ${authToken}`,
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
     });
 
@@ -93,11 +89,10 @@ export const getEventById = async (id) => {
     }
 
     const event = await response.json();
-    
-    // 确保事件有 image_urls 字段
+
     return {
       ...event,
-      image_urls: event.image_urls || []  // 如果没有图片，设置为空数组
+      image_urls: event.image_urls || [],
     };
   } catch (err) {
     notifyError("Network error while loading event");
@@ -106,14 +101,9 @@ export const getEventById = async (id) => {
 };
 
 // ================================
-// CREATE EVENT (multipart/form-data)
+// CREATE EVENT
 // ================================
-export const createEvent = async ({
-  title,
-  content,
-  images,
-  createdBy,
-}) => {
+export const createEvent = async ({ title, content, images, createdBy }) => {
   const authToken = localStorage.getItem("authToken");
   const url = `${domain}/api/events`;
 
@@ -129,9 +119,9 @@ export const createEvent = async ({
   try {
     const response = await fetch(url, {
       method: "POST",
-      headers: { 
+      headers: {
         Authorization: `Bearer ${authToken}`,
-        // 注意：不要设置 Content-Type，浏览器会自动设置 multipart/form-data 的边界
+        // Note: Do not set Content-Type manually for FormData
       },
       body: formData,
     });
@@ -143,11 +133,10 @@ export const createEvent = async ({
     }
 
     const createdEvent = await response.json();
-    
-    // 确保返回的事件有 image_urls 字段
+
     return {
       ...createdEvent,
-      image_urls: createdEvent.image_urls || []
+      image_urls: createdEvent.image_urls || [],
     };
   } catch (err) {
     notifyError("Network error while creating event");
@@ -164,9 +153,9 @@ export const deleteEvent = async (id) => {
   try {
     const response = await fetch(`${domain}/api/events/${id}`, {
       method: "DELETE",
-      headers: { 
+      headers: {
         Authorization: `Bearer ${authToken}`,
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
     });
 
@@ -183,26 +172,18 @@ export const deleteEvent = async (id) => {
 };
 
 // ================================
-// HELPER FUNCTION TO GET IMAGE URLS
+// HELPERS
 // ================================
 export const getEventImageUrls = (event) => {
-  // 如果事件已经有 image_urls，直接返回
   if (event.image_urls && event.image_urls.length > 0) {
     return event.image_urls;
   }
-  
-  // 如果后端返回的是其他字段名，可以在这里添加映射
   if (event.images && event.images.length > 0) {
     return event.images;
   }
-  
-  // 如果没有图片，返回空数组
   return [];
 };
 
-// ================================
-// HELPER FUNCTION TO GET FIRST IMAGE URL
-// ================================
 export const getFirstEventImageUrl = (event) => {
   const imageUrls = getEventImageUrls(event);
   return imageUrls.length > 0 ? imageUrls[0] : null;
