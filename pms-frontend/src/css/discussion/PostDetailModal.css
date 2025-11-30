@@ -20,18 +20,32 @@
   padding: 16px;
   flex: 1;
   min-width: 300px;
+  border: none;
 }
 
+/* CAROUSEL IMAGE STYLES */
 .post-carousel-img {
   width: 100%;
   height: 240px;
   object-fit: cover;
   border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(185, 150, 87, 0.3);
+  box-shadow: 0 4px 12px rgba(185, 150, 87, 0.1);
+}
+
+.post-carousel-img:hover {
+  opacity: 0.95;
+  transform: scale(1.02);
+  border-color: rgba(185, 150, 87, 0.6);
+  box-shadow: 0 8px 20px rgba(185, 150, 87, 0.2);
 }
 
 .post-title {
   margin-top: 16px;
   color: #5a4632;
+  font-weight: 700;
 }
 
 .post-content {
@@ -40,10 +54,20 @@
   line-height: 1.6;
 }
 
+/* REPLIES SECTION */
 .replies-list {
   max-height: 400px;
   overflow-y: auto;
   margin-bottom: 16px;
+  padding-right: 4px;
+}
+
+.replies-list::-webkit-scrollbar {
+  width: 6px;
+}
+.replies-list::-webkit-scrollbar-thumb {
+  background-color: rgba(185, 150, 87, 0.3);
+  border-radius: 4px;
 }
 
 .reply-item {
@@ -51,6 +75,15 @@
   padding: 10px 12px;
   border-radius: 12px;
   margin-bottom: 8px;
+  border: 1px solid rgba(185, 150, 87, 0.15);
+}
+
+.no-replies-text {
+  text-align: center;
+  color: #8e6f43;
+  opacity: 0.7;
+  padding: 20px 0;
+  font-style: italic;
 }
 
 .reply-editor {
@@ -64,6 +97,8 @@
   border: 1px solid #d2bfa5;
   font-family: "Cormorant Garamond", serif;
   color: #5a4632;
+  padding: 10px;
+  resize: none;
 }
 
 .reply-textarea:focus,
@@ -78,9 +113,82 @@
   border-radius: 12px;
   color: #fff;
   font-weight: 700;
+  height: 40px;
   transition: all 0.2s ease;
 }
 
 .reply-send-btn:hover:not(:disabled) {
   background: #c28c52;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(185, 150, 87, 0.25);
+}
+
+.reply-send-btn:disabled {
+  background: #e0d0bc;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Image Preview Modal Specifics */
+.image-preview-modal .ant-modal-content {
+  background: transparent;
+  box-shadow: none;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.preview-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview-image-content {
+  max-width: 75vw;
+  max-height: 75vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+
+  /* Elegant Gold Border */
+  border: 8px solid rgba(185, 150, 87, 0.8);
+
+  /* Transparent Background - Matting removed */
+  background-color: transparent;
+  padding: 0;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15); /* Softer shadow */
+  transition: transform 0.3s ease;
+}
+
+/* Updated Close Button for Visibility */
+.preview-close-btn {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  z-index: 1000;
+
+  /* Changed to Gold Theme colors for visibility on transparency */
+  background: #8e6f43 !important;
+  border: 1px solid #705531 !important;
+  color: #fff !important;
+
+  font-weight: 600;
+  font-family: "Cormorant Garamond", serif;
+  border-radius: 20px;
+  padding: 0 24px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(142, 111, 67, 0.3);
+}
+
+.preview-close-btn:hover {
+  background: #705531 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(142, 111, 67, 0.4);
 }
