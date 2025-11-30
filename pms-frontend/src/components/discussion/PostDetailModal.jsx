@@ -8,7 +8,7 @@ import {
   Button,
   message,
 } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
+import { CloseOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { getReplies, createReply } from "./utils";
 import "../../css/discussion/PostDetailModal.css";
 
@@ -20,7 +20,8 @@ const PostDetailModal = ({ post, onClose, onUpdated }) => {
   const [replyText, setReplyText] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const [previewImage, setPreviewImage] = useState(null);
+  // Track INDEX for navigation support
+  const [previewIndex, setPreviewIndex] = useState(null);
 
   const loadReplies = async () => {
     try {
@@ -55,6 +56,24 @@ const PostDetailModal = ({ post, onClose, onUpdated }) => {
     setLoading(false);
   };
 
+  // --- NAVIGATION HANDLERS ---
+  const handlePrev = (e) => {
+    e.stopPropagation();
+    if (previewIndex !== null && post.images) {
+      const newIndex =
+        (previewIndex - 1 + post.images.length) % post.images.length;
+      setPreviewIndex(newIndex);
+    }
+  };
+
+  const handleNext = (e) => {
+    e.stopPropagation();
+    if (previewIndex !== null && post.images) {
+      const newIndex = (previewIndex + 1) % post.images.length;
+      setPreviewIndex(newIndex);
+    }
+  };
+
   return (
     <>
       {/* 1. MAIN POST DETAIL MODAL */}
@@ -77,7 +96,8 @@ const PostDetailModal = ({ post, onClose, onUpdated }) => {
                       src={img}
                       alt={`post-${idx}`}
                       className="post-carousel-img"
-                      onClick={() => setPreviewImage(img)}
+                      // Set Index on Click
+                      onClick={() => setPreviewIndex(idx)}
                     />
                   </div>
                 ))}
@@ -129,14 +149,13 @@ const PostDetailModal = ({ post, onClose, onUpdated }) => {
 
       {/* 2. IMAGE PREVIEW MODAL (LIGHTBOX) */}
       <Modal
-        open={!!previewImage}
+        open={previewIndex !== null}
         footer={null}
-        onCancel={() => setPreviewImage(null)}
+        onCancel={() => setPreviewIndex(null)}
         centered
         closable={false}
-        width="100%" // Full width to prevent horizontal scroll bars
+        width="100%"
         className="image-preview-modal"
-        // CHANGE: Use a light transparent blur instead of dark black
         maskStyle={{
           backgroundColor: "rgba(0, 0, 0, 0.2)",
           backdropFilter: "blur(8px)",
@@ -149,24 +168,40 @@ const PostDetailModal = ({ post, onClose, onUpdated }) => {
           overflow: "hidden",
         }}
       >
-        <div className="preview-wrapper" onClick={() => setPreviewImage(null)}>
+        <div className="preview-wrapper" onClick={() => setPreviewIndex(null)}>
           {/* Close Button */}
           <Button
             className="preview-close-btn"
             icon={<CloseOutlined />}
             onClick={(e) => {
               e.stopPropagation();
-              setPreviewImage(null);
+              setPreviewIndex(null);
             }}
           >
             Close Preview
           </Button>
 
+          {/* Navigation Arrows (Only if > 1 image) */}
+          {post.images?.length > 1 && (
+            <>
+              <Button
+                className="preview-nav-btn preview-nav-left"
+                icon={<LeftOutlined />}
+                onClick={handlePrev}
+              />
+              <Button
+                className="preview-nav-btn preview-nav-right"
+                icon={<RightOutlined />}
+                onClick={handleNext}
+              />
+            </>
+          )}
+
           {/* Image */}
-          {previewImage && (
+          {previewIndex !== null && post.images && (
             <img
-              src={previewImage}
-              alt="Preview"
+              src={post.images[previewIndex]}
+              alt={`Preview ${previewIndex}`}
               className="preview-image-content"
               onClick={(e) => e.stopPropagation()}
             />
