@@ -1,128 +1,253 @@
-/* Wrapper */
+/* src/css/amenity/AmenityReservationPage.css */
+
+/* --- WRAPPER --- */
 .reserve-content-wrapper {
-  padding: 24px;
+  padding: 40px 24px;
   display: flex;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f3ece2 0%, #e2d5c2 100%);
+  /* Warm luxury background */
+  background: linear-gradient(to bottom, #fffaf3, #fcf8f2);
   font-family: "Cormorant Garamond", serif;
   color: #5a4632;
 }
 
-/* Container */
+/* --- CONTAINER GRID --- */
 .reserve-container {
   width: 100%;
-  max-width: 1400px;
+  max-width: 1200px;
   display: grid;
-  grid-template-columns: 350px 1fr;
-  gap: 24px;
+  grid-template-columns: 380px 1fr;
+  gap: 32px;
 }
 
-/* LEFT SIDE */
+/* --- CARDS (Base Style) --- */
+.reserve-pic-card,
+.reserve-info-card,
+.reserve-calendar-card,
+.reserve-time-card {
+  border-radius: 16px !important;
+  border: 1px solid rgba(185, 150, 87, 0.2) !important;
+  background: #ffffff !important;
+  box-shadow: 0 10px 30px rgba(90, 70, 50, 0.05) !important;
+  overflow: hidden;
+}
+
+.reserve-pic-card .ant-card-body,
+.reserve-info-card .ant-card-body,
+.reserve-calendar-card .ant-card-body,
+.reserve-time-card .ant-card-body {
+  padding: 24px !important;
+}
+
+/* --- LEFT SIDE --- */
 .reserve-left {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
 }
 
-/* Image card */
 .reserve-pic-card {
-  padding: 0;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 0 !important;
+}
+
+.reserve-pic-card .ant-card-body {
+  padding: 0 !important;
 }
 
 .reserve-image {
   width: 100%;
-  height: 200px;
+  height: 240px;
   object-fit: cover;
-  border-radius: 12px 12px 0 0;
+  display: block;
 }
 
-/* Info card */
-.reserve-info-card {
-  padding: 16px;
-  background: #fff8f0;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+/* Info Text */
+.reserve-info-card h4.ant-typography {
+  font-family: "Cormorant Garamond", serif;
+  color: #5a4632;
+  font-size: 1.8rem;
+  margin-bottom: 8px;
 }
 
 .reserve-time-box {
-  margin: 12px 0;
+  margin: 20px 0;
+  padding: 16px;
+  background: #fffaf3;
+  border: 1px dashed rgba(185, 150, 87, 0.4);
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.reserve-error {
-  margin: 12px 0;
-  color: #b22222;
-  font-weight: 500;
-}
-
+/* Confirm Button */
 .reserve-confirm-btn {
   width: 100%;
-  margin-top: 12px;
-  background: #d9a066;
-  border: none;
-  color: #fff;
-  font-weight: 600;
+  margin-top: 10px;
+  height: 48px;
+  background: linear-gradient(135deg, #b9965b 0%, #8e6f43 100%) !important;
+  border: none !important;
+  color: #fff !important;
+  font-weight: 700;
+  font-size: 1.1rem;
   border-radius: 8px;
-  padding: 12px 0;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  box-shadow: 0 8px 20px rgba(185, 150, 87, 0.25);
+  transition: all 0.3s ease;
+  font-family: "Cormorant Garamond", serif;
 }
 
 .reserve-confirm-btn:hover {
-  background: #c28c52;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(185, 150, 87, 0.35);
 }
 
-/* RIGHT SIDE */
+/* --- RIGHT SIDE --- */
 .reserve-right {
-  width: 100%;
-}
-
-/* Calendar card */
-.reserve-calendar-card {
-  padding: 16px;
-  background: #fff8f0;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-/* Time slots card */
-.reserve-time-card {
-  margin-top: 16px;
-  padding: 16px;
-  background: #fff8f0;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.reserve-time-card button {
-  width: 160px;
-  text-align: center;
-  background: #e2d5c2;
-  border: 1px solid #d2bfa5;
-  color: #5a4632;
-  border-radius: 8px;
-  padding: 8px 0;
-  cursor: pointer;
+/* =========================================================
+   CALENDAR OVERRIDES (FIXED)
+   These selectors target the internal structure of AntD Calendar
+   to remove the default Blue color.
+   ========================================================= */
+
+/* 1. Selected Date Background (The blue box in your image) */
+.reserve-calendar-card .ant-picker-cell-selected .ant-picker-cell-inner {
+  background-color: #8e6f43 !important; /* Gold background */
+  color: #fff !important;
+  border-color: #8e6f43 !important;
+  font-weight: bold;
+}
+
+/* 2. Today's Date Border (Usually a blue ring) */
+.reserve-calendar-card .ant-picker-cell-today .ant-picker-cell-inner::before {
+  border-color: #8e6f43 !important;
+}
+
+/* 3. Hover Effect on Dates */
+.reserve-calendar-card .ant-picker-cell:hover .ant-picker-cell-inner {
+  background: #fcf8f2 !important; /* Light cream hover */
+}
+
+/* 4. Month/Year Select Dropdowns (Header controls) */
+.reserve-calendar-card .ant-select-selector:hover,
+.reserve-calendar-card .ant-select-focused .ant-select-selector {
+  border-color: #8e6f43 !important;
+}
+
+.reserve-calendar-card .ant-radio-button-wrapper-checked {
+  border-color: #8e6f43 !important;
+  color: #8e6f43 !important;
+}
+.reserve-calendar-card
+  .ant-radio-button-wrapper-checked:not(
+    .ant-radio-button-wrapper-disabled
+  )::before {
+  background-color: #8e6f43 !important;
+}
+
+/* --- TIME SLOTS --- */
+.reserve-time-card h5.ant-typography {
   font-family: "Cormorant Garamond", serif;
+  color: #5a4632;
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(185, 150, 87, 0.2);
+  padding-bottom: 10px;
+}
+
+.time-slot-btn {
+  width: 140px;
+  height: 45px;
+  border-radius: 8px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1rem;
+  font-weight: 600;
   transition: all 0.2s ease;
 }
 
-.reserve-time-card button:hover:not([disabled]) {
-  background: #d9c4a6;
+/* Default State */
+.time-slot-btn.default {
+  background: #fff;
+  border: 1px solid rgba(185, 150, 87, 0.4);
+  color: #5a4632;
+}
+.time-slot-btn.default:hover {
+  border-color: #8e6f43;
+  color: #8e6f43;
+  background: #fffaf3;
 }
 
-.reserve-time-card button[disabled] {
-  background: #f0f0f0 !important;
-  color: #999 !important;
-  border-color: #d9d9d9 !important;
+/* Selected State */
+.time-slot-btn.selected {
+  background: #8e6f43 !important;
+  border-color: #8e6f43 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(142, 111, 67, 0.3);
+}
+
+/* Disabled State */
+.time-slot-btn:disabled {
+  background: #f5f5f5 !important;
+  border-color: #e0e0e0 !important;
+  color: #bbb !important;
   cursor: not-allowed;
+}
+
+/* ... (Keep all your existing CSS from the previous step) ... */
+
+/* =========================================================
+   SUCCESS MODAL STYLES
+   ========================================================= */
+.reserve-success-modal .ant-modal-content {
+  background: #fffaf3;
+  border-radius: 16px;
+  text-align: center;
+  font-family: "Cormorant Garamond", serif;
+  color: #5a4632;
+  padding: 40px 24px;
+}
+
+.reserve-success-icon {
+  font-size: 64px;
+  color: #8e6f43; /* Gold */
+  margin-bottom: 20px;
+  display: block;
+}
+
+.reserve-success-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #5a4632;
+  margin-bottom: 12px;
+}
+
+.reserve-success-desc {
+  font-size: 1.1rem;
+  color: #7a6a55;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.reserve-success-btn {
+  background: #8e6f43 !important;
+  border-color: #8e6f43 !important;
+  color: white !important;
+  height: 44px;
+  padding: 0 40px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  font-family: "Cormorant Garamond", serif;
+}
+
+.reserve-success-btn:hover {
+  background: #705531 !important;
+  border-color: #705531 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(142, 111, 67, 0.25);
 }
