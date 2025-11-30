@@ -1,10 +1,33 @@
-/* Footer */
+/* src/css/dashboard/DashboardFooter.css */
+
 .dashboard-footer {
   text-align: center;
   margin-top: 60px;
+
+  /* OVERRIDE DEFAULT ANT DESIGN GRAY BACKGROUND */
+  background: #fffaf3 !important;
+
+  /* Add a subtle gold divider on top */
+  border-top: 1px solid rgba(185, 150, 87, 0.2);
+
+  padding: 40px 0 60px 0 !important;
+  font-family: "Cormorant Garamond", serif;
 }
+
 .info-text {
   font-weight: 600;
-  color: #7a6a55;
-  margin: 4px 0;
+  color: #7a6a55; /* Your requested color */
+  margin: 8px 0; /* Slightly more breathing room */
+  display: block; /* Ensures each text block sits on its own line */
+  font-size: 1.1rem;
+}
+
+/* Optional: Link style if you add links later */
+.dashboard-footer a {
+  color: #8e6f43;
+  transition: color 0.3s;
+}
+
+.dashboard-footer a:hover {
+  color: #5a4632;
 }
