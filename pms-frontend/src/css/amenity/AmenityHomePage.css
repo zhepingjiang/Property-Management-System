@@ -1,12 +1,18 @@
 /* src/css/amenity/AmenityHomePage.css */
 
 .amenity-home-page {
-  padding: 0px; /* Reduced top padding to move everything up */
+  /* FIX: Reset margin to 0 to stop the scroll bouncing/resistance */
+  margin: 0 auto;
+
+  /* Reduced top padding to keep it as high as possible safely */
+  padding: 0 20px 40px;
+
   max-width: 1200px;
-  /* KEY CHANGE: Increase this negative number to pull it up further */
-  /* Was -30px, now -80px */
-  margin: -50px auto 0;
   font-family: "Cormorant Garamond", serif;
+
+  /* Remove position/z-index if not strictly needed for layering */
+  position: relative;
+  z-index: 10;
 }
 
 /* ===== Header ===== */
@@ -14,7 +20,7 @@
   font-size: 38px;
   font-weight: 600;
   color: #5a4632;
-  margin-top: 0; /* FIX: Removes default browser/AntD top margin */
+  margin-top: 0;
   margin-bottom: 8px;
   line-height: 1.2;
 }
@@ -56,7 +62,7 @@
 /* ===== Image ===== */
 .amenity-simple-img {
   width: 100%;
-  height: 180px; /* Increased slightly for better visual */
+  height: 180px;
   object-fit: cover;
   border-bottom: 1px solid rgba(185, 150, 87, 0.15);
 }

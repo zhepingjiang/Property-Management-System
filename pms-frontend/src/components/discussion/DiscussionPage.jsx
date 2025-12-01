@@ -6,7 +6,6 @@ import {
   FileTextOutlined,
   MessageOutlined,
   UserOutlined,
-  ClockCircleOutlined,
 } from "@ant-design/icons";
 
 import PostDetailModal from "./PostDetailModal";
@@ -14,12 +13,12 @@ import CreatePostModal from "./CreatePostModal";
 import { getAllPosts } from "./utils";
 import "../../css/discussion/DiscussionPage.css";
 
-// HELPER: Resize images to prevent lag
+// HELPER: Resize images to prevent lag (width = 500px for discussion cards)
 const optimizeUrl = (url) => {
   if (!url) return null;
-  // If it's a Pexels image, resize it to 500px width
   if (url.includes("images.pexels.com")) {
-    return `${url}?auto=compress&cs=tinysrgb&w=500`;
+    // Avoid double parameters if they already exist
+    return url.includes("?") ? url : `${url}?auto=compress&cs=tinysrgb&w=500`;
   }
   return url;
 };
@@ -77,12 +76,12 @@ export default function DiscussionPage() {
                 {hasImage ? (
                   /* --- IMAGE CARD --- */
                   <div className="discussion-img-wrapper">
-                    {/* Use optimized image URL */}
+                    {/* Use optimized image URL & Lazy Loading */}
                     <img
                       src={optimizeUrl(post.images[0])}
                       alt=""
                       className="discussion-img"
-                      loading="lazy" /* Lazy load images off-screen */
+                      loading="lazy"
                     />
                     <div className="discussion-title-overlay">
                       {post.content?.slice(0, 40) || "Untitled Post"}
@@ -107,7 +106,7 @@ export default function DiscussionPage() {
                   </div>
                 )}
 
-                {/* --- NEW CARD FOOTER STRUCTURE --- */}
+                {/* --- CARD FOOTER STRUCTURE --- */}
                 <div className="discussion-card-footer">
                   <div className="footer-left">
                     <span className="footer-author">
