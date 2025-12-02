@@ -12,6 +12,15 @@ import ErrorState from "../error/ErrorState";
 
 const { Title, Paragraph } = Typography;
 
+// HELPER: Optimize images to prevent lag
+const optimizeUrl = (url) => {
+  if (!url) return null;
+  if (url.includes("images.pexels.com")) {
+    return url.includes("?") ? url : `${url}?auto=compress&cs=tinysrgb&w=800`; // w=800 for detail view
+  }
+  return url;
+};
+
 export default function NewsletterDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -22,9 +31,9 @@ export default function NewsletterDetailPage() {
 
   // fallback if BE has no images
   const placeholderImages = [
-    "https://images.pexels.com/photos/5472533/pexels-photo-5472533.jpeg",
-    "https://images.pexels.com/photos/31656146/pexels-photo-31656146.jpeg",
-    "https://images.pexels.com/photos/34450811/pexels-photo-34450811.jpeg",
+    "https://images.pexels.com/photos/5472533/pexels-photo-5472533.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/31656146/pexels-photo-31656146.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/34450811/pexels-photo-34450811.jpeg?auto=compress&cs=tinysrgb&w=800",
   ];
 
   // ============================
@@ -106,9 +115,13 @@ export default function NewsletterDetailPage() {
                 >
                   <div className="newsletter-list-item">
                     <img
-                      src={item.imageUrls?.[0] || placeholderImages[0]}
+                      // Optimize Sidebar Thumbnails
+                      src={
+                        optimizeUrl(item.imageUrls?.[0]) || placeholderImages[0]
+                      }
                       alt="thumb"
                       className="newsletter-list-thumb"
+                      loading="lazy"
                     />
                     <div className="newsletter-list-meta">
                       <div className="newsletter-list-title">{item.title}</div>
@@ -129,9 +142,11 @@ export default function NewsletterDetailPage() {
                 {images.map((url, index) => (
                   <div key={index} className="newsletter-image-wrapper">
                     <img
-                      src={url}
+                      // Optimize Main Images
+                      src={optimizeUrl(url)}
                       alt={`img-${index}`}
                       className="newsletter-image"
+                      loading="lazy"
                       onError={(e) => {
                         e.target.src = placeholderImages[0];
                       }}

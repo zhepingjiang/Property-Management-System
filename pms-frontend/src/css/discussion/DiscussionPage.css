@@ -1,5 +1,5 @@
 /* =============================== */
-/*  DISCUSSION PAGE WRAPPER        */
+/* DISCUSSION PAGE WRAPPER        */
 /* =============================== */
 .discussion-page-wrapper {
   min-height: 100vh;
@@ -40,11 +40,18 @@
   padding: 0;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 20px; /* Spacing for masonry items */
+
+  /* --- PERFORMANCE OPTIMIZATIONS --- */
+  transform: translateZ(0); /* Force GPU acceleration */
+  backface-visibility: hidden; /* Prevents flickering on some screens */
+  will-change: transform, box-shadow; /* Hints browser to optimize for changes */
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .discussion-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-6px) translateZ(0);
   box-shadow: 0 14px 30px rgba(185, 150, 87, 0.25);
 }
 
@@ -53,13 +60,18 @@
   width: 100%;
   max-height: 240px;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 16px 16px 0 0; /* Only top rounded in card view logic */
+
+  /* Prevent content reflow */
+  aspect-ratio: 16/9; /* Optional: adjust if you want fixed aspect ratios */
+  background-color: #e2d5c2; /* Placeholder color while loading */
 }
 
 .discussion-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block; /* Removes bottom space */
 }
 
 .discussion-title-overlay {
@@ -69,28 +81,46 @@
   padding: 10px 14px;
   font-size: 1.1rem;
   font-weight: 700;
-  color: rgb(255, 255, 255); /* white text */
+  color: rgb(255, 255, 255);
   background: linear-gradient(
     to top,
     rgba(185, 150, 87, 0.85),
     rgba(185, 150, 87, 0)
   );
+  pointer-events: none; /* Allows clicks to pass through to card */
 }
 
+/* Default no-image card */
 .discussion-no-image-card {
-  height: 140px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #e2d5c2 0%, #f3ece2 100%);
+  background: linear-gradient(135deg, #f6efe6 0%, #e7d9c8 100%);
+  padding: 24px 20px 20px; /* More top padding */
+  border-radius: 16px 16px 0 0;
+  min-height: 180px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  padding: 20px;
+  text-align: center;
+  font-family: "Cormorant Garamond", serif;
+  color: #5a4632;
 }
 
-.discussion-title-text {
-  font-size: 1.2rem;
+.discussion-no-image-icon {
+  margin-bottom: 12px;
+  opacity: 0.6;
+  color: #b9965b;
+}
+
+.discussion-no-image-title {
+  font-size: 1.3rem;
   font-weight: 700;
-  text-align: center;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.discussion-no-image-content {
+  font-size: 1rem;
+  opacity: 0.85;
+  line-height: 1.4;
 }
 
 /* Floating + button */
@@ -110,6 +140,8 @@
   color: white;
   font-size: 2rem;
   transition: transform 0.18s ease, box-shadow 0.18s ease;
+  z-index: 100;
+  will-change: transform; /* Performance fix */
 }
 
 .discussion-create-btn:hover {
@@ -122,98 +154,77 @@
   .discussion-header {
     font-size: 1.6rem;
   }
-  .discussion-no-image-card {
-    height: 120px;
-  }
-  .discussion-title-overlay {
-    font-size: 1rem;
-  }
   .discussion-create-btn {
     bottom: 22px;
     right: 22px;
   }
 }
 
-/* Default no-image card background */
-.discussion-no-image-card {
-  background: linear-gradient(135deg, #f6efe6 0%, #e7d9c8 100%);
-  padding: 20px;
-  border-radius: 14px;
-  min-height: 220px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  font-family: "Cormorant Garamond", serif;
-  color: #5a4632;
-}
-
-/* Icon for no image */
-.discussion-no-image-icon {
-  margin-bottom: 12px;
-  opacity: 0.7;
-}
-
-/* Title */
-.discussion-no-image-title {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-/* Content preview text */
-.discussion-no-image-content {
-  font-size: 15px;
-  opacity: 0.8;
-  padding: 0 10px;
-}
-
-/* =============================== */
-/*  CARD FOOTER (author/date/replies) */
-/* =============================== */
+/* =========================================================
+   NEW FOOTER STRUCTURE (Separated & Clean)
+   ========================================================= */
 .discussion-card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  padding: 12px 14px;
-
-  font-size: 15px;
-  font-weight: 500;
-  color: #5a4632;
-
-  border-top: 1px solid rgba(185, 150, 87, 0.25);
-
-  background: rgba(255, 253, 247, 0.7); /* soft warm beige, matches card bg */
-  backdrop-filter: blur(2px);
-
-  margin-top: 0; /* cleaner transition from card body */
+  padding: 12px 16px;
+  background: #fffcf7; /* Slightly lighter than card */
+  border-top: 1px solid rgba(185, 150, 87, 0.15);
   font-family: "Cormorant Garamond", serif;
 }
 
-/* Footer item styling (icons + text) */
-.footer-author,
-.footer-date,
+/* LEFT SIDE: Stacked Info */
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.footer-author {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #5a4632;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer-icon-small {
+  color: #b9965b;
+  font-size: 0.9rem;
+}
+
+.footer-date {
+  font-size: 0.85rem;
+  color: #9c8c74; /* Muted brown/gray */
+  font-weight: 500;
+  padding-left: 2px;
+}
+
+/* RIGHT SIDE: Replies Badge */
+.footer-right {
+  display: flex;
+  align-items: center;
+}
+
 .footer-replies {
   display: flex;
   align-items: center;
   gap: 6px;
-
-  opacity: 0.88;
-  transition: opacity 0.2s ease;
+  background: rgba(185, 150, 87, 0.1); /* Subtle gold background */
+  color: #8e6f43;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
-.footer-author:hover,
-.footer-date:hover,
-.footer-replies:hover {
-  opacity: 1;
+.discussion-card:hover .footer-replies {
+  background: #8e6f43;
+  color: white;
 }
 
-/* Make icons match your aesthetic */
-.footer-author svg,
-.footer-date svg,
-.footer-replies svg {
-  font-size: 16px;
-  opacity: 0.9;
-  color: #8e6f43; /* warm gold-brown accent */
+.footer-icon-replies {
+  font-size: 14px;
 }

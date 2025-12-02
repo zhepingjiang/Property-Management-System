@@ -3,6 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { getAllAmenityTypes, getUnitsByType } from "./utils";
 import "../../css/amenity/AmenityHomePage.css";
 
+// HELPER: Optimize images to prevent lag
+const optimizeUrl = (url) => {
+  if (!url) return null;
+  if (url.includes("images.pexels.com")) {
+    return url.includes("?") ? url : `${url}?auto=compress&cs=tinysrgb&w=600`;
+  }
+  return url;
+};
+
 export default function AmenityHomePage() {
   const [amenities, setAmenities] = useState([]);
   const navigate = useNavigate();
@@ -12,17 +21,21 @@ export default function AmenityHomePage() {
   }, []);
 
   const load = async () => {
-    const types = await getAllAmenityTypes();
-    if (!types) return;
+    try {
+      const types = await getAllAmenityTypes();
+      if (!types) return;
 
-    const data = await Promise.all(
-      types.map(async (t) => {
-        const units = await getUnitsByType(t.id);
-        return { ...t, units: units || [] };
-      })
-    );
+      const data = await Promise.all(
+        types.map(async (t) => {
+          const units = await getUnitsByType(t.id);
+          return { ...t, units: units || [] };
+        })
+      );
 
-    setAmenities(data);
+      setAmenities(data);
+    } catch (error) {
+      console.error("Failed to load amenities", error);
+    }
   };
 
   const goToReserve = (unit, type) => {
@@ -40,24 +53,33 @@ export default function AmenityHomePage() {
       {/* Amenity cards */}
       <div className="amenity-grid">
         {amenities.flatMap((type) =>
-          type.units.map((unit) => (
-            <div className="amenity-card-simple" key={unit.id}>
-              <img
-                className="amenity-simple-img"
-                src={type.imageUrls?.[0] || "/placeholder.jpg"}
-                alt={unit.label}
-              />
+          type.units.map((unit) => {
+            // Determine image source
+            const rawImage =
+              type.imageUrls?.[0] ||
+              "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg";
+            const optimizedImage = optimizeUrl(rawImage);
 
-              <div className="amenity-simple-title">{unit.label}</div>
+            return (
+              <div className="amenity-card-simple" key={unit.id}>
+                <img
+                  className="amenity-simple-img"
+                  src={optimizedImage}
+                  alt={unit.label}
+                  loading="lazy" // Lazy load for performance
+                />
 
-              <button
-                className="amenity-simple-btn"
-                onClick={() => goToReserve(unit, type)}
-              >
-                View Reservations
-              </button>
-            </div>
-          ))
+                <div className="amenity-simple-title">{unit.label}</div>
+
+                <button
+                  className="amenity-simple-btn"
+                  onClick={() => goToReserve(unit, type)}
+                >
+                  View Reservations
+                </button>
+              </div>
+            );
+          })
         )}
       </div>
     </div>

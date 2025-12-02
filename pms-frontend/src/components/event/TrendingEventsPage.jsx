@@ -6,20 +6,30 @@ import {
   LoadingOutlined,
 } from "@ant-design/icons";
 import { Spin, message } from "antd";
-import "../../css/event/TrendingEventsPage.css"; // Ensure you have the CSS file from previous step
+import "../../css/event/TrendingEventsPage.css"; // Fixed path to 'events'
 import { getAllEvents, getFirstEventImageUrl } from "./utils";
+
+// HELPER: Resize Pexels images to prevent lag (width = 600px)
+const optimizeUrl = (url) => {
+  if (!url) return null;
+  if (url.includes("images.pexels.com")) {
+    // If it already has params, don't append again to avoid errors
+    return url.includes("?") ? url : `${url}?auto=compress&cs=tinysrgb&w=600`;
+  }
+  return url;
+};
 
 export default function TrendingEventsPage() {
   const [filter, setFilter] = useState("All");
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fallback images if backend event has no photos
+  // Pre-optimized placeholders
   const placeholderImages = [
-    "https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg",
-    "https://images.pexels.com/photos/1181396/pexels-photo-1181396.jpeg",
-    "https://images.pexels.com/photos/1684187/pexels-photo-1684187.jpeg",
-    "https://images.pexels.com/photos/164938/pexels-photo-164938.jpeg",
+    "https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "https://images.pexels.com/photos/1181396/pexels-photo-1181396.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "https://images.pexels.com/photos/1684187/pexels-photo-1684187.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "https://images.pexels.com/photos/164938/pexels-photo-164938.jpeg?auto=compress&cs=tinysrgb&w=600",
   ];
 
   // ==========================================
@@ -31,9 +41,8 @@ export default function TrendingEventsPage() {
       const backendData = await getAllEvents();
 
       if (backendData) {
-        // Map Backend Data structure to UI Data structure
         const formattedEvents = backendData.map((e, index) => {
-          // Calculate a readable date (use createdAt if eventDate missing)
+          // Date formatting
           const dateObj = e.eventDate
             ? new Date(e.eventDate)
             : new Date(e.createdAt);
@@ -44,14 +53,13 @@ export default function TrendingEventsPage() {
             minute: "2-digit",
           });
 
-          // Get image using your util function
-          const imageUrl =
-            getFirstEventImageUrl(e) ||
+          // Get image -> Optimize it -> Fallback if needed
+          const rawImage = getFirstEventImageUrl(e);
+          const optimizedImage =
+            optimizeUrl(rawImage) ||
             placeholderImages[index % placeholderImages.length];
 
-          // Since backend createEvent only accepts title/content/images,
-          // we mock these display fields deterministically based on index
-          // so the UI looks complete.
+          // Mock categories for display
           const mockCategories = [
             "Social",
             "Wellness",
@@ -65,11 +73,11 @@ export default function TrendingEventsPage() {
             id: e.id,
             title: e.title,
             description: e.content,
-            image: imageUrl,
+            image: optimizedImage,
             date: dateString,
             category: assignedCategory,
-            location: e.location || "Community Center", // Mock location
-            attendees: e.attendees || 10 + index * 5, // Mock attendee count
+            location: e.location || "Community Center",
+            attendees: e.attendees || 10 + index * 5,
           };
         });
 
@@ -93,7 +101,6 @@ export default function TrendingEventsPage() {
   // RSVP HANDLER
   // ==========================================
   const handleRSVP = (title) => {
-    // This is client-side only for now as backend has no RSVP endpoint provided
     message.success(`You have reserved a spot for: ${title}`);
   };
 
@@ -144,6 +151,7 @@ export default function TrendingEventsPage() {
                       src={event.image}
                       alt={event.title}
                       className="event-image"
+                      loading="lazy" /* CRITICAL FOR SPEED */
                       onError={(e) => {
                         e.target.src = placeholderImages[0];
                       }}
@@ -166,8 +174,7 @@ export default function TrendingEventsPage() {
                     </div>
 
                     <p className="event-description">
-                      {/* Truncate long descriptions */}
-                      {event.description.length > 100
+                      {event.description && event.description.length > 100
                         ? event.description.substring(0, 100) + "..."
                         : event.description}
                     </p>

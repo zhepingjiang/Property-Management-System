@@ -6,6 +6,7 @@
   min-height: 100vh;
   padding: 40px 20px;
   font-family: "Cormorant Garamond", serif;
+  margin: -40px auto 0; /* Pull page up to align with header */
 }
 
 .events-container {
@@ -16,14 +17,14 @@
 /* --- HERO SECTION --- */
 .events-header {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 0px;
 }
 
 .events-title {
   font-size: 3rem;
   font-weight: 700;
   color: #5a4632;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   letter-spacing: 0.02em;
 }
 
@@ -31,7 +32,7 @@
   font-size: 1.2rem;
   color: #8e6f43;
   font-style: italic;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 /* --- FILTER BAR --- */

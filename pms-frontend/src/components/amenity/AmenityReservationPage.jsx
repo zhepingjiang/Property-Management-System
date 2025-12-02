@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Card, Typography, Button, Calendar, Alert, Space, Tag } from "antd";
+import {
+  Card,
+  Typography,
+  Button,
+  Calendar,
+  Alert,
+  Space,
+  Tag,
+  Modal,
+} from "antd"; // Import Modal
+import { CheckCircleFilled } from "@ant-design/icons"; // Import Icon
 import "../../css/amenity/AmenityReservationPage.css";
 import dayjs from "dayjs";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -10,11 +20,8 @@ const { Title, Text } = Typography;
 export default function AmenityReservationPage() {
   const location = useLocation();
   const navigate = useNavigate();
-
-  // Extract unit + type passed from AmenityHomePage
   const { unit, type } = location.state || {};
 
-  // If user goes directly without selecting
   useEffect(() => {
     if (!unit || !type) {
       navigate("/amenity/home");
@@ -26,9 +33,10 @@ export default function AmenityReservationPage() {
   const [error, setError] = useState("");
   const [availableTimes, setAvailableTimes] = useState([]);
 
-  /* ==========================================================
-     1. Generate Time Slots (use type.maxBookingDuration if needed)
-  ========================================================== */
+  // NEW: State for Success Modal
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  // 1. Generate Time Slots
   const generateTimeSlots = () => {
     const times = [];
     for (let hour = 9; hour <= 21; hour++) {
@@ -42,43 +50,31 @@ export default function AmenityReservationPage() {
     return times;
   };
 
-  /* ==========================================================
-     2. Example backend availability simulation
-  ========================================================== */
+  // 2. Fetch Availability
   const fetchAvailability = async (dateString) => {
     try {
-      // 1. Fetch all bookings for this unit
       const bookings = await getBookingsForUnit(unit.id);
       if (!bookings) {
-        console.error("No bookings returned");
         setAvailableTimes(generateTimeSlots());
         return;
       }
 
-      // 2. Filter bookings that match the selected date (YYYY-MM-DD)
       const bookingsForDate = bookings.filter((b) =>
         b.startTime.startsWith(dateString)
       );
 
-      // 3. Convert booked time ranges → booked hours (e.g., 10:00–12:00 → [10,11])
       const bookedHours = new Set();
-
       bookingsForDate.forEach((b) => {
-        const start = dayjs(b.startTime);
+        let current = dayjs(b.startTime);
         const end = dayjs(b.endTime);
-
-        let current = start;
-
-        // Mark each hour as booked
         while (current.isBefore(end)) {
           bookedHours.add(current.hour());
           current = current.add(1, "hour");
         }
       });
 
-      // 4. Generate 9AM–9PM slots and tag which are booked
       const allSlots = generateTimeSlots().map((slot) => {
-        const hour = Number(slot.value.split(":")[0]); // "10:00" → 10
+        const hour = Number(slot.value.split(":")[0]);
         return { ...slot, booked: bookedHours.has(hour) };
       });
 
@@ -88,76 +84,48 @@ export default function AmenityReservationPage() {
     }
   };
 
-  /* ==========================================================
-     3. Handle date selection
-  ========================================================== */
   const handleDateSelect = (date) => {
     if (date.isBefore(dayjs(), "day")) return;
-
     const formatted = date.format("YYYY-MM-DD");
     setSelectedDate(formatted);
     setSelectedTime(null);
     setError("");
-
     fetchAvailability(formatted);
   };
 
-  /* ==========================================================
-     4. Confirm Reservation
-  ========================================================== */
   const handleConfirm = async () => {
-    if (!selectedDate) {
-      setError("Please select a date.");
-      return;
-    }
-    if (!selectedTime) {
-      setError("Please select a time before confirming.");
-      return;
-    }
+    if (!selectedDate) return setError("Please select a date.");
+    if (!selectedTime) return setError("Please select a time.");
 
-    // Find slot from availableTimes using label
     const slot = availableTimes.find((s) => s.label === selectedTime);
-    if (!slot) {
-      setError("Invalid time selection.");
-      return;
-    }
+    if (!slot) return setError("Invalid time.");
 
-    const hour = Number(slot.value.split(":")[0]); // e.g. "16:00" → 16
-
-    // Build startTime and endTime strings
+    const hour = Number(slot.value.split(":")[0]);
     const start = dayjs(selectedDate).hour(hour).minute(0).second(0);
-
     const end = start.add(1, "hour");
-
-    const startTimeIso = start.toISOString(); // backend uses Instant
-    const endTimeIso = end.toISOString();
-
-    // DEFAULT guestCount = 1 for now
-    const guestCount = 1;
 
     const result = await createBooking({
       unitId: unit.id,
-      guestCount,
-      startTime: startTimeIso,
-      endTime: endTimeIso,
+      guestCount: 1,
+      startTime: start.toISOString(),
+      endTime: end.toISOString(),
     });
 
-    if (!result) {
-      setError("Unable to create booking. Please try again.");
-      return;
-    }
+    if (!result) return setError("Unable to create booking.");
 
-    // success → navigate or show message
-    navigate("/amenity/home", {
-      state: { successMessage: "Reservation created successfully!" },
-    });
+    // SUCCESS: Instead of navigating immediately, show the Modal
+    setShowSuccess(true);
   };
+
+  // Handle closing the modal -> go to home
+  const handleSuccessClose = () => {
+    setShowSuccess(false);
+    navigate("/amenity/home");
+  };
+
   const isDayFullyBooked =
     selectedDate && availableTimes.every((t) => t.booked);
 
-  /* ==========================================================
-     5. Render UI
-  ========================================================== */
   return (
     <div className="reserve-content-wrapper">
       <div className="reserve-container">
@@ -173,49 +141,66 @@ export default function AmenityReservationPage() {
 
           <Card className="reserve-info-card">
             <Title level={4}>{unit?.label}</Title>
-
             {unit?.address && (
-              <Text type="secondary" style={{ fontSize: "14px" }}>
-                {`Located at ${unit.address}`}
+              <Text type="secondary" style={{ fontSize: "1rem" }}>
+                {unit.address}
               </Text>
             )}
 
             <div className="reserve-time-box">
-              <Text strong>Date Selected:</Text>
-              <br />
-              {selectedDate ? (
-                <Text>{selectedDate}</Text>
-              ) : (
-                <Text type="secondary">No date selected</Text>
-              )}
+              <div>
+                <Text strong>Date:</Text>{" "}
+                {selectedDate ? (
+                  <Tag
+                    color="#8e6f43"
+                    style={{
+                      border: "none",
+                      fontSize: "1rem",
+                      padding: "2px 10px",
+                    }}
+                  >
+                    {dayjs(selectedDate).format("MMMM D, YYYY")}
+                  </Tag>
+                ) : (
+                  <Text type="secondary">Select a date</Text>
+                )}
+              </div>
 
-              <br />
-              <br />
-              <Text strong>Time Selected:</Text>
-              <br />
-              {selectedTime ? (
-                <Tag color="blue">{selectedTime}</Tag>
-              ) : (
-                <Text type="secondary">No time selected</Text>
-              )}
+              <div>
+                <Text strong>Time:</Text>{" "}
+                {selectedTime ? (
+                  <Tag
+                    color="#8e6f43"
+                    style={{
+                      border: "none",
+                      fontSize: "1rem",
+                      padding: "2px 10px",
+                    }}
+                  >
+                    {selectedTime}
+                  </Tag>
+                ) : (
+                  <Text type="secondary">Select a time</Text>
+                )}
+              </div>
             </div>
 
             {error && (
-              <Alert type="error" message={error} className="reserve-error" />
+              <Alert
+                type="error"
+                message={error}
+                style={{ marginBottom: 12 }}
+                showIcon
+              />
             )}
 
-            <Button
-              type="primary"
-              size="large"
-              onClick={handleConfirm}
-              className="reserve-confirm-btn"
-            >
+            <Button className="reserve-confirm-btn" onClick={handleConfirm}>
               Confirm Reservation
             </Button>
           </Card>
         </div>
 
-        {/* RIGHT SIDE — CALENDAR + TIME SLOTS */}
+        {/* RIGHT SIDE */}
         <div className="reserve-right">
           <Card className="reserve-calendar-card">
             <Calendar
@@ -227,22 +212,26 @@ export default function AmenityReservationPage() {
 
           {selectedDate && (
             <Card className="reserve-time-card">
-              <Title level={5}>Select a Time</Title>
+              <Title level={5}>Available Time Slots</Title>
 
               {isDayFullyBooked && (
                 <Alert
-                  type="error"
-                  message="This amenity is fully booked for this day."
-                  style={{ marginBottom: 10 }}
+                  type="warning"
+                  message="Fully Booked"
+                  description="There are no available slots for this date."
+                  showIcon
+                  style={{ marginBottom: 16 }}
                 />
               )}
 
-              <Space wrap>
+              <Space wrap size={[12, 12]}>
                 {availableTimes.map((slot) => (
                   <Button
                     key={slot.label}
                     disabled={slot.booked}
-                    type={selectedTime === slot.label ? "primary" : "default"}
+                    className={`time-slot-btn ${
+                      selectedTime === slot.label ? "selected" : "default"
+                    }`}
                     onClick={() => {
                       if (!slot.booked) {
                         setSelectedTime(slot.label);
@@ -258,6 +247,28 @@ export default function AmenityReservationPage() {
           )}
         </div>
       </div>
+
+      {/* --- SUCCESS MODAL --- */}
+      <Modal
+        open={showSuccess}
+        footer={null}
+        closable={false}
+        centered
+        className="reserve-success-modal"
+        onCancel={handleSuccessClose}
+      >
+        <CheckCircleFilled className="reserve-success-icon" />
+        <div className="reserve-success-title">Reservation Confirmed!</div>
+        <p className="reserve-success-desc">
+          You have successfully booked <strong>{unit?.label}</strong> for
+          <br />
+          {selectedDate && dayjs(selectedDate).format("MMMM D, YYYY")} at{" "}
+          {selectedTime}.
+        </p>
+        <Button className="reserve-success-btn" onClick={handleSuccessClose}>
+          Back to Amenities
+        </Button>
+      </Modal>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 /* =============================== */
-/*  Create Request Modal Card */
+/* Create Request Modal Card */
 /* =============================== */
 .maintenance-create-modal .ant-modal-content {
   border-radius: 18px;
@@ -32,6 +32,29 @@
 
 .maintenance-create-uploader {
   margin-bottom: 12px;
+}
+
+/* FIX: Target the specific Ant Design icon class to override the default blue */
+.maintenance-create-uploader .ant-upload-drag-icon,
+.maintenance-create-uploader .ant-upload-drag-icon .anticon {
+  color: #8e6f43 !important;
+  transition: color 0.3s;
+}
+
+.maintenance-create-uploader:hover .ant-upload-drag-icon,
+.maintenance-create-uploader:hover .ant-upload-drag-icon .anticon {
+  color: #b9965b !important;
+}
+
+/* Override the border of the drag area to match theme */
+.maintenance-create-uploader .ant-upload.ant-upload-drag {
+  border: 1px dashed #d4c5b0 !important;
+  background: #fffaf3 !important;
+  border-radius: 12px;
+}
+
+.maintenance-create-uploader .ant-upload.ant-upload-drag:hover {
+  border-color: #8e6f43 !important;
 }
 
 .maintenance-uploaded-files {

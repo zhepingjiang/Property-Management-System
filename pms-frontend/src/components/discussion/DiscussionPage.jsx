@@ -13,6 +13,16 @@ import CreatePostModal from "./CreatePostModal";
 import { getAllPosts } from "./utils";
 import "../../css/discussion/DiscussionPage.css";
 
+// HELPER: Resize images to prevent lag (width = 500px for discussion cards)
+const optimizeUrl = (url) => {
+  if (!url) return null;
+  if (url.includes("images.pexels.com")) {
+    // Avoid double parameters if they already exist
+    return url.includes("?") ? url : `${url}?auto=compress&cs=tinysrgb&w=500`;
+  }
+  return url;
+};
+
 export default function DiscussionPage() {
   const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
@@ -66,10 +76,12 @@ export default function DiscussionPage() {
                 {hasImage ? (
                   /* --- IMAGE CARD --- */
                   <div className="discussion-img-wrapper">
+                    {/* Use optimized image URL & Lazy Loading */}
                     <img
-                      src={post.images[0]}
+                      src={optimizeUrl(post.images[0])}
                       alt=""
                       className="discussion-img"
+                      loading="lazy"
                     />
                     <div className="discussion-title-overlay">
                       {post.content?.slice(0, 40) || "Untitled Post"}
@@ -94,19 +106,24 @@ export default function DiscussionPage() {
                   </div>
                 )}
 
-                {/* --- CARD FOOTER METADATA --- */}
+                {/* --- CARD FOOTER STRUCTURE --- */}
                 <div className="discussion-card-footer">
-                  <span className="footer-author">
-                    <UserOutlined /> {post.author?.username || "Unknown"}
-                  </span>
+                  <div className="footer-left">
+                    <span className="footer-author">
+                      <UserOutlined className="footer-icon-small" />
+                      {post.author?.username || "Resident"}
+                    </span>
+                    <span className="footer-date">
+                      {post.createdAt ? formatDate(post.createdAt) : ""}
+                    </span>
+                  </div>
 
-                  <span className="footer-date">
-                    {post.createdAt ? formatDate(post.createdAt) : ""}
-                  </span>
-
-                  <span className="footer-replies">
-                    <MessageOutlined /> {post.replies?.length || 0}
-                  </span>
+                  <div className="footer-right">
+                    <span className="footer-replies">
+                      <MessageOutlined className="footer-icon-replies" />
+                      {post.replies?.length || 0}
+                    </span>
+                  </div>
                 </div>
               </Card>
             );

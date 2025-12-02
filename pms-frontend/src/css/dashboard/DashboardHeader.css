@@ -1,31 +1,53 @@
 /* Header styling separated from DashboardLayout.css */
 .dashboard-header {
+  /* 1. MAKE IT STICKY BY DEFAULT */
+  position: sticky;
+  top: 0;
+  z-index: 1200; /* Ensure it stays above content always */
+
   background: rgba(255, 253, 247, 0.95);
   border-radius: 18px;
+
+  /* 2. STABLE SPACING */
+  /* Remove margin-bottom from here to prevent layout shifts. */
+  /* Instead, apply padding-bottom to the header or padding-top to the content */
+  margin-bottom: 0;
   padding: 1rem 2rem;
-  margin-bottom: 2rem;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
   border: 1px solid rgba(185, 150, 87, 0.4);
-  box-shadow: 0 10px 25px rgba(185, 150, 87, 0.2);
+
+  /* Smooth transition for when it shrinks */
+  transition: all 0.3s ease;
+
+  /* Initial Shadow */
+  box-shadow: 0 4px 15px rgba(185, 150, 87, 0.1);
 }
 
+/* The JS "is-sticky" class should ONLY change visuals (size/shadow),
+   NOT layout properties like position or margin.
+*/
 .dashboard-header.is-sticky {
-  position: sticky;
-  top: 0;
-  z-index: 1200;
-  margin-bottom: 0;
+  /* Shrink padding for a sleek look */
   padding: 0.6rem 1.2rem;
-  border-radius: 0 0 12px 12px;
-  box-shadow: 0 8px 22px rgba(142, 111, 67, 0.22);
-  transition: padding 180ms ease, box-shadow 180ms ease, background 180ms ease;
+
+  /* Square off top corners when stuck to top */
+  border-radius: 0 0 16px 16px;
+
+  /* Stronger shadow when scrolling */
+  box-shadow: 0 8px 22px rgba(142, 111, 67, 0.25);
+  background: rgba(255, 253, 247, 0.98);
+  border-bottom: 1px solid rgba(185, 150, 87, 0.6);
 }
 
+/* Text resizing on scroll */
 .dashboard-header.is-sticky .header-title .hotel-page-title {
   font-size: 1rem;
 }
 
+/* --- INNER ELEMENTS (Kept mostly same) --- */
 .header-left {
   display: flex;
   gap: 32px;
@@ -52,6 +74,7 @@
 .notif-btn:hover {
   color: #8e6f43;
 }
+
 .header-avatar {
   background-color: #e2d5c2;
   font-weight: bold;
@@ -60,14 +83,13 @@
   padding: 6px;
 }
 
-/* legacy class used by some components */
+/* Legacy class used by some components */
 .hotel-avatar {
   background-color: #e2d5c2;
   font-weight: bold;
   cursor: pointer;
   border-radius: 50%;
   padding: 6px;
-  /* center text inside */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -95,6 +117,7 @@
   font-size: 1.15rem;
   color: #5a4632;
   font-weight: 700;
+  transition: font-size 0.3s ease;
 }
 
 .home-btn {

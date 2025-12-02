@@ -35,17 +35,34 @@
 }
 
 .create-post-uploader {
-  border: 2px dashed rgba(185, 150, 87, 0.3);
-  border-radius: 12px;
   margin-bottom: 16px;
   font-family: "Cormorant Garamond", serif;
   color: #5a4632;
   background: #fff8f0;
 }
 
-.create-post-uploader .ant-upload-drag-icon {
-  color: #b9965b;
+/* FIX: Override the default blue border on the drag area */
+.create-post-uploader .ant-upload.ant-upload-drag {
+  border: 2px dashed rgba(185, 150, 87, 0.5) !important;
+  background: #fff8f0 !important;
+  border-radius: 12px;
+  transition: border-color 0.3s;
+}
+
+.create-post-uploader .ant-upload.ant-upload-drag:hover {
+  border-color: #b9965b !important;
+}
+
+/* FIX: Force the icon to be Gold */
+.create-post-uploader .ant-upload-drag-icon,
+.create-post-uploader .ant-upload-drag-icon .anticon {
+  color: #b9965b !important;
   font-size: 32px;
+  transition: color 0.3s;
+}
+
+.create-post-uploader:hover .ant-upload-drag-icon .anticon {
+  color: #8e6f43 !important;
 }
 
 .uploaded-file-row {
