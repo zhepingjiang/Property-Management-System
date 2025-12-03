@@ -26,7 +26,7 @@ export default function PaymentPage() {
   const [method, setMethod] = useState("Credit Card");
   const [loading, setLoading] = useState(false);
 
-  const currentBalance = 1250;
+  const currentBalance = 550;
 
   const [recentPayments, setRecentPayments] = useState([
     { id: 1, amount: 200, method: "Credit Card", status: "Paid" },

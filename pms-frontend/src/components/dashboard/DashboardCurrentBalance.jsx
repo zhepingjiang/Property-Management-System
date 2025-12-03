@@ -11,7 +11,7 @@ export default function DashboardCurrentBalance() {
 
   // Animated balance state
   const [balance, setBalance] = useState(0);
-  const targetBalance = 999999;
+  const targetBalance = 550;
 
   useEffect(() => {
     let start = null;
@@ -49,7 +49,7 @@ export default function DashboardCurrentBalance() {
             <div className="balance-card-body">
               <div className="balance-amount">${balance.toLocaleString()}</div>
               <div className="balance-meta">
-                <Tag color="#b9965b">Due Dec 05</Tag>
+                <Tag color="#b9965b">Due Dec 07</Tag>
                 <span className="balance-invoice">1 invoice pending</span>
               </div>
             </div>
