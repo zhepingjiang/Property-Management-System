@@ -214,6 +214,7 @@ const MaintenanceRequestDetailModal = ({ request, onClose }) => {
               block
               onClick={handleSendReply}
               disabled={!replyText.trim()}
+              className="maintenance-send-reply"
             >
               Send Reply
             </Button>
