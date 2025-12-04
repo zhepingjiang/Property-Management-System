@@ -75,7 +75,7 @@ export default function AmenityHomePage() {
                   className="amenity-simple-btn"
                   onClick={() => goToReserve(unit, type)}
                 >
-                  View Reservations
+                  Reserve Now
                 </button>
               </div>
             );
