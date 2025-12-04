@@ -192,7 +192,6 @@ export default function DashboardAmenitiesReserve() {
                     size="small"
                     onClick={(e) => {
                       e.stopPropagation();
-                      goToBookingDetail(b);
                     }}
                   >
                     View

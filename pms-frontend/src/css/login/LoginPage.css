@@ -7,11 +7,23 @@
   align-items: center;
 
   /* Match dashboard background for a consistent app look */
-  background: linear-gradient(135deg, #f3ece2 0%, #e2d5c2 100%);
-  font-family: "Cormorant Garamond", serif;
-  padding: 1rem;
-  transition: background 420ms ease, opacity 380ms ease;
-  will-change: background, opacity;
+  background-image: url("https://s.yimg.com/ny/api/res/1.2/0mbBB3o47MDF8Fel6uL6XQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyNDI7aD02OTk7Y2Y9d2VicA--/https://media.zenfs.com/en/robb_report_967/295871e0fa02341015d30daea71aa22c");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.login-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.12); /* adjust darkness if needed */
+  /* backdrop-filter: blur(1px); */
+  z-index: 0;
 }
 
 /* Card */
@@ -28,6 +40,16 @@
 
   width: 100%;
   max-width: 480px;
+
+  position: relative;
+  z-index: 1;
+  background: rgba(
+    255,
+    253,
+    247,
+    0.9
+  ); /* semi-transparent to let slight background peek through */
+  backdrop-filter: blur(4px);
 }
 
 /* Header */
