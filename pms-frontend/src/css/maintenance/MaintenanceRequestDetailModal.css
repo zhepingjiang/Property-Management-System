@@ -144,3 +144,36 @@
   border-color: #b9965b;
   box-shadow: 0 6px 16px rgba(185, 150, 87, 0.2);
 }
+
+/* Activated / normal state */
+.maintenance-send-reply {
+  background: #b9965b !important; /* golden beige */
+  color: white !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 10px 16px !important;
+  font-weight: 600 !important;
+  transition: all 0.25s ease !important;
+
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+/* Hover */
+.maintenance-send-reply:hover:not(:disabled) {
+  background: #8e6f43 !important; /* darker gold-brown */
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(185, 150, 87, 0.35);
+}
+
+/* Disabled state */
+.maintenance-send-reply:disabled {
+  background: rgba(185, 150, 87, 0.35) !important; /* faded beige */
+  color: #fdf7ef !important;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
