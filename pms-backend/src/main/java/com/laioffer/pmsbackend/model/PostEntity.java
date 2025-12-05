@@ -36,7 +36,7 @@ public class PostEntity {
 
     // ====== Revision 1: changed field name to 'images' for consistency with frontend ======
     @Convert(converter = ListToJsonConverter.class)
-    @Column(name = "image_urls")
+    @Column(name = "image_urls", length = 2000)
     private List<String> imageUrls;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)

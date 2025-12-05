@@ -211,7 +211,7 @@ public class DevRunner implements ApplicationRunner {
                         4L,
                         "Found a key near elevator B. Message me if it’s yours.",
                         PostStatus.ACTIVE,
-                        null,
+                        List.of("https://images.unsplash.com/flagged/photo-1564767609342-620cb19b2357?q=80&w=1373&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
                         null
                 ),
                 new PostEntity(
@@ -219,7 +219,7 @@ public class DevRunner implements ApplicationRunner {
                         5L,
                         "Anyone interested in forming a morning running group?",
                         PostStatus.ACTIVE,
-                        null,
+                        List.of("https://images.unsplash.com/photo-1607962837359-5e7e89f86776?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
                         null
                 ),
                 new PostEntity(
@@ -243,7 +243,7 @@ public class DevRunner implements ApplicationRunner {
                         8L,
                         "Organizing a board game night this Saturday. All welcome!",
                         PostStatus.ACTIVE,
-                        List.of("https://images.pexels.com/photos/411207/pexels-photo-411207.jpeg"),
+                        List.of("https://plus.unsplash.com/premium_photo-1663100219417-eabaefc03fcb?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
                         null
                 ),
                 new PostEntity(
@@ -251,15 +251,23 @@ public class DevRunner implements ApplicationRunner {
                         9L,
                         "Looking for recommendations for a cleaning service.",
                         PostStatus.ACTIVE,
-                        null,
+                        List.of("https://images.unsplash.com/photo-1686178827149-6d55c72d81df?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
                         null
                 ),
                 new PostEntity(
                         null,
                         10L,
-                        "Lost a small black umbrella in the lobby. Please let me know if found.",
+                        "Lost a small umbrella in the lobby. Please let me know if found.",
                         PostStatus.ACTIVE,
+                        List.of("https://plus.unsplash.com/premium_photo-1694425775016-f23a228b72fa?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
+                        null
+                ),
+                new PostEntity(
                         null,
+                        1L,
+                        "Looking for a dog walker this weekend",
+                        PostStatus.ACTIVE,
+                        List.of("https://images.pexels.com/photos/4587993/pexels-photo-4587993.jpeg?auto=compress&cs=tinysrgb&w=800"),
                         null
                 )
         ));
@@ -272,7 +280,7 @@ public class DevRunner implements ApplicationRunner {
 
                 new ReplyEntity(null, 1L, "Interested! Can you share dimensions?", 3L, null),
 
-                new ReplyEntity(null, 5L, "Might be mine! Is it a grey metal key with a blue tag?", 4L, null),
+                new ReplyEntity(null, 5L, "Might be mine! Can I DM you?", 4L, null),
 
                 new ReplyEntity(null, 2L, "Count me in! Early mornings work great.", 5L, null),
                 new ReplyEntity(null, 6L, "Would love to join—what time are you planning?", 5L, null),
@@ -287,8 +295,12 @@ public class DevRunner implements ApplicationRunner {
 
                 new ReplyEntity(null, 3L, "We used SparkClean last month — very good.", 9L, null),
 
-                new ReplyEntity(null, 6L, "Saw one near the mailboxes earlier today.", 10L, null)
-        ));
+                new ReplyEntity(null, 6L, "Saw one near the mailboxes earlier today.", 10L, null),
+
+                new ReplyEntity(null, 1L, "I can help!", 11L, null),
+                new ReplyEntity(null, 7L, "Omg she is so cute!!", 11L, null)
+
+                ));
 
         newsletterRepository.saveAll(List.of(
                 new NewsletterEntity(
